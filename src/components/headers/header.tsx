@@ -9,7 +9,7 @@ export function Header(){
     return(
         <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 bg-white border-b-2 border-slate-300">
             <div className='container px-4 mx-auto flex flex-wrap items-center justify-between mx-auto '>
-              <ul className="bg-indigo-900 flex flex-row divide-x divide-indigo-900 gap-6 items-center justify-center ">
+              <ul className= "flex flex-row divide-x divide-indigo-900 gap-6 items-center justify-center ">
                 <NavLink className="italic gap-4 flex items-center" to="/home">
                     <img src={logo} width="50" height="50">
                     </img>
