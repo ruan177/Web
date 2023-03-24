@@ -1,23 +1,18 @@
-import { FormEvent, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { FormEvent, useContext, useState } from "react";
+import { NavLink ,useLocation, useNavigate } from "react-router-dom";
+import { LoginContext } from "../../App";
 import { baseUrl } from "../../lib/baseUrl";
 import { Header } from "../headers/headerForm";
 
 
-interface ResponseTokens {
-    token: string,
-    refresh: {
-        id: string,
-        expiresIn: number,
-        user_id: string
-    }
-}
+
 
 export function Login (){
-
+    const {loggedIn, changeLoggedIn} = useContext(LoginContext)
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [erro, setErro]= useState('')
+    const [error, setError]= useState('')
 
     const handleSubmit = async function(event: FormEvent) {
         event.preventDefault();
@@ -34,14 +29,22 @@ export function Login (){
             })
         })
         .then((response)=>{
+            if(response.status === 422){
+                throw new Error("Email or Password Incorrect")
+            }
             return response.json();
         })
-        .then((data: ResponseTokens)=>{
-            localStorage.setItem('token', JSON.stringify(data.token) )
-            localStorage.setItem('refresh', JSON.stringify(data.refresh) )
+        .then((data)=>{
+            localStorage.setItem('access', data.access)
+            localStorage.setItem('refresh', data.refresh.id)
+            localStorage.setItem('user', data.refresh.user_id)
+            changeLoggedIn(true)
+                //navigate('/')
+           
+
         })
-        .catch(error=>{
-            setErro(error.message)
+        .catch((error)=>{
+            setError(error.message)
         }) 
     }
    
@@ -72,7 +75,7 @@ export function Login (){
                         placeholder="**********"
                         onChange={event => setPassword(event.target.value)} 
                         required></input>
-                    <p className="text-red-500 text-xs italic"></p>
+                    <p className="text-red-500 text-xs italic">{error}</p>
                 </div>
                 <div className="flex items-center justify-around">
                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
