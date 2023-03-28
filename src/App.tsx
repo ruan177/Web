@@ -1,11 +1,12 @@
 
 import Header from './components/headers/header'
 import { useEffect,useState, createContext, useContext } from 'react';
-import {Routes, Route, Navigate, RouteProps, BrowserRouter } from "react-router-dom";
+import {Routes, Route, useNavigate, RouteProps, BrowserRouter } from "react-router-dom";
 import { Login } from './components/pages/login';
 import { Home } from './components/pages/home';
 import { Register } from './components/pages/register';
 import { Courses } from './components/pages/curso';
+import axios from 'axios';
 
 import React from 'react';
 import '../src/styles/global.css'
@@ -13,6 +14,10 @@ import { baseUrl } from './lib/baseUrl';
 
 interface ILayoutProps {
   children: RouteProps["children"];
+}
+
+interface dataSchema{
+  acess: String
 }
 
 
@@ -24,27 +29,25 @@ export default function App() {
       function refreshTokens(){
         if(localStorage.refresh){
           const url = baseUrl + '/refresh';
-          fetch(url,{
-            method: 'POST',
-            headers: {
-              'Content-type': "application/json",
-            },
-            body: JSON.stringify({
-              refresh: localStorage.refresh,
-            }),
-          })
-          .then((response)=>{
-            response.json()
-          })
-          .then((data: any)=>{
-            localStorage.access = data.access;
+          const refresh = localStorage.getItem('refresh')
+          const navigate = useNavigate();
+          axios.post(url,{
+            data: {
+              refresh: refresh
+            }
+          }).then((response)=>{
+            if(response.status === 401){
+              changeLoggedIn(false)
+              navigate('/');
+            }
+            localStorage.access = response.data.access
             changeLoggedIn(true)
           })
         }
       }
       const minute = 1000*60;
       refreshTokens();
-      //setInterval(//refreshTokens, minute*3);
+      setInterval(refreshTokens, minute*3);
     }, []);
 
 

@@ -16,10 +16,9 @@ export function Courses() {
 
     /*useEffect(()=>{
         const url = baseUrl + '/courses'
-        fetch(url, {
+        axios.post(url, {
             headers: {
-                'Content-type': "application/json",
-                 Authorization: 'Bearer'+ localStorage.getItem('access')
+                'Authorization': 'Bearer'+ localStorage.getItem('access')
             }
         })
         .then(response=>{
@@ -27,9 +26,9 @@ export function Courses() {
                 setLoggedIn(false);
                 navigate('/login')
             }
-            return response.json()
+
         })
-        .then()
+        .catch()
     }, [])*/
 
     return(

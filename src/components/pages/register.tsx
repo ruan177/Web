@@ -1,3 +1,4 @@
+import axios from "axios";
 import { FormEvent, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { baseUrl } from "../../lib/baseUrl";
@@ -15,20 +16,14 @@ export function Register(){
 
         const url = baseUrl+"/register"
 
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-type': "application/json"
-            },
-            body: JSON.stringify({
+        axios.post(url, {
+            data:{
                 username,
                 email, 
                 password
-            })
-
+            }
         })
         .then((response)=>{
-            return response.json();
         })
         .catch(error=>{
             setErro(error.message)

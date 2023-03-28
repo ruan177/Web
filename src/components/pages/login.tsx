@@ -1,3 +1,4 @@
+import axios from "axios";
 import { FormEvent, useContext, useState } from "react";
 import { NavLink ,useLocation, useNavigate } from "react-router-dom";
 import { LoginContext } from "../../App";
@@ -18,12 +19,8 @@ export function Login (){
         event.preventDefault();
         const url = baseUrl+"/login"
 
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-type': "application/json"
-            },
-            body: JSON.stringify({
+        axios.post(url, {
+            data: ({
                 email, 
                 password
             })
@@ -32,16 +29,13 @@ export function Login (){
             if(response.status === 422){
                 throw new Error("Email or Password Incorrect")
             }
-            return response.json();
-        })
-        .then((data)=>{
-            localStorage.setItem('access', data.access)
-            localStorage.setItem('refresh', data.refresh.id)
-            localStorage.setItem('user', data.refresh.user_id)
+            
+            localStorage.setItem('access', response.data.access)
+            localStorage.setItem('refresh', response.data.refresh.id)
+            localStorage.setItem('user', response.data.refresh.user_id)
+            
             changeLoggedIn(true)
-                //navigate('/')
-           
-
+            navigate('/')
         })
         .catch((error)=>{
             setError(error.message)
