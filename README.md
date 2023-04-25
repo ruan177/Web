@@ -1,4 +1,4 @@
-# Web
+# Project: Web
 To run the example locally you need to:
 
 1. Clone this repository git clone https://github.com/ruan177/Web
