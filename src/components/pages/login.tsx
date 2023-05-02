@@ -48,10 +48,13 @@ export function Login (){
     
         <div className="w-screen h-screen flex justify-center items-center bg-gradient-to-r from-indigo-900 via-purple-500 to-rose-500">
         
-            <div className="w-full max-w-md flex flex-row gap-16 justify-center ">
+            <div className="w-full max-w-md flex flex-row gap-18 justify-center ">
                 <form onSubmit={handleSubmit} className="w-full shadow-md rounded px-8 pt-8 pb-10 mb-6 bg-white">
+                
+                <h1 className="mb-10 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Log-in</h1>
+                
                 <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2">Email</label>
+                    <label className="block text-gray-700 text-sm font-bold mb-2">Email </label>
                     <input 
                         type="email" 
                         id="email" 
@@ -71,13 +74,14 @@ export function Login (){
                         required></input>
                     <p className="text-red-500 text-xs italic">{error}</p>
                 </div>
-                <div className="flex items-center justify-around">
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-                        Login
+                <div className="grid justify-items-center gap-6">
+                    <NavLink className="inline-block align-baseline font-bold text-sm text-violet-500 hover:text-violet-800" to="/register">
+                            Sign up
+                        </NavLink>
+                    <button className="bg-violet-500 hover:bg-violet-700 text-white font-bold py-2 px-20 rounded-full focus:outline-none focus:shadow-outline" type="submit">
+                        Log in
                     </button>
-                    <NavLink className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" to="/register">
-                        Cadastre-se
-                    </NavLink>
+                    
                 </div>
                 
                 </form>

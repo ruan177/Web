@@ -1,7 +1,7 @@
 
 import Header from './components/headers/header'
 import { useEffect,useState, createContext, useContext } from 'react';
-import {Routes, Route, useNavigate, RouteProps, BrowserRouter } from "react-router-dom";
+import {Routes, Route, Navigate, useNavigate, RouteProps, BrowserRouter } from "react-router-dom";
 import { Login } from './components/pages/login';
 import { Home } from './components/pages/home';
 import { Register } from './components/pages/register';
@@ -15,11 +15,6 @@ import { baseUrl } from './lib/baseUrl';
 interface ILayoutProps {
   children: RouteProps["children"];
 }
-
-interface dataSchema{
-  acess: String
-}
-
 
 
 export const LoginContext = createContext({ loggedIn: false, changeLoggedIn: (value: true | false) => {} });
@@ -66,13 +61,9 @@ export default function App() {
               <Route  path ="/login"   element ={<Login />}/>,
               <Route  path ="/register"   element ={ <Register />}/>,
               <Route  path ="/"   element ={ <Home />}/>,
-              <Route
-                path="/courses"
-                element={
-                  <RequireAuth>
-                    <Courses />
-                  </RequireAuth>
-                }/>
+              
+               
+                <Route path ="/courses" element ={<Courses />}/>,
             </Routes>
           </BrowserRouter>
       </LoginContext.Provider>
@@ -81,10 +72,10 @@ export default function App() {
 }
 
  function RequireAuth({ children }: { children: JSX.Element }) {
-    const {loggedIn} = useContext(LoginContext)
+    const {loggedIn} = useContext(LoginContext);
     if (!loggedIn) {
         return <Navigate to="/login"/>
-  };
-  return children;
+    };
+    return children;
 }
 

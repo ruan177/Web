@@ -14,9 +14,10 @@ export function Register(){
     const handleSubmit = async function(event: FormEvent ){
         event.preventDefault();
 
-        const url = baseUrl+"/register"
+        const url = "/register"
 
         axios.post(url, {
+            baseURL: baseUrl,
             data:{
                 username,
                 email, 
@@ -38,6 +39,7 @@ export function Register(){
             
             
             <form  className="w-full shadow-md rounded px-8 pt-8 pb-10 mb-6 bg-white">
+            <h1 className="mb-10 text-2xl font-bold tracking-tight text-gray-900 dark:text-white ">Sign-up</h1>
             <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2">Username</label>
                 <input 
@@ -69,15 +71,15 @@ export function Register(){
                     required></input>
                 <p className="text-red-500 text-xs italic"></p>
             </div>
-            <div className="flex items-center justify-around">
-                <button className=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-                    Cadastrar-se
-                </button>
-                <NavLink className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"  to="/login">
-                    Logar
-                </NavLink>
-            
-            </div>
+            <div className="grid justify-items-center gap-6">
+                    <NavLink className="underline-offset-1 inline-block align-baseline font-bold text-sm text-violet-500 hover:text-violet-800" to="/login">
+                            Log in
+                        </NavLink>
+                    <button className="bg-violet-500 hover:bg-violet-700 text-white font-bold py-2 px-20 rounded-full focus:outline-none focus:shadow-outline" type="submit">
+                        Sign up
+                    </button>
+                    
+                </div>
             
             </form>
             
