@@ -1,6 +1,6 @@
 import axios from "axios";
 import { FormEvent, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { baseUrl } from "../../lib/baseUrl";
 import { Header } from "../headers/headerForm";
 
@@ -11,24 +11,25 @@ export function Register(){
     const [password, setPassword] = useState('');
     const [erro, setErro]= useState('')
 
+    const navigate = useNavigate();
+
     const handleSubmit = async function(event: FormEvent ){
         event.preventDefault();
 
         const url = "/register"
 
-        axios.post(url, {
-            baseURL: baseUrl,
-            data:{
-                username,
-                email, 
-                password
-            }
-        })
-        .then((response)=>{
-        })
-        .catch(error=>{
-            setErro(error.message)
-        })
+        try{
+            const response = await axios.post(baseUrl+"/register", {
+                    username,
+                    email, 
+                    password
+                }
+            )
+            navigate('/login')
+
+        }catch(error: any){
+            setErro(error.response.data.error)
+        }
     }
 
     return(
@@ -39,7 +40,7 @@ export function Register(){
             
             
             <form  className="w-full shadow-md rounded px-8 pt-8 pb-10 mb-6 bg-white">
-            <h1 className="mb-10 text-2xl font-bold tracking-tight text-gray-900 dark:text-white ">Sign-up</h1>
+            <h1 className="mb-10 text-2xl font-bold tracking-tight text-gray-900">Sign-up</h1>
             <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2">Username</label>
                 <input 
@@ -69,7 +70,7 @@ export function Register(){
                     placeholder="**********"
                     onChange={event => setPassword(event.target.value)} 
                     required></input>
-                <p className="text-red-500 text-xs italic"></p>
+                <p className="text-red-500 text-xs italic">{erro}</p>
             </div>
             <div className="grid justify-items-center gap-6">
                     <NavLink className="underline-offset-1 inline-block align-baseline font-bold text-sm text-violet-500 hover:text-violet-800" to="/login">
