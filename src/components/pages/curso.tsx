@@ -1,9 +1,10 @@
 import { useEffect, useState, useContext } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { LoginContext } from "../../App";
-import axios from "axios";
-import { baseUrl } from "../../lib/baseUrl";
+import { axios } from "../../lib/axios";
 import '../../styles/global.css';
+import { Link } from "react-router-dom";
+import Header from "../headers/header";
 
 
 interface Course {
@@ -15,53 +16,57 @@ export function Courses() {
     const navigate = useNavigate();
     const location = useLocation();
     const [courses, setCourses] = useState<Course[]>([])
-    const {loggedIn, changeLoggedIn} = useContext(LoginContext);
+    const { loggedIn, changeLoggedIn } = useContext(LoginContext);
     const [search, setSearch] = useState('')
+    const [error, setError] = useState('')
 
-    useEffect(()=>{
-        const url = '/courses'
-        axios.get(url, {
-            /*headers: {
-                'Authorization': 'Bearer'+ localStorage.getItem('access')
-            },*/
-            baseURL: baseUrl
-        })
-        .then(response=>{
-            if(response.status === 401){
-                //changeLoggedIn(false);
-                navigate('/login')
+    useEffect(() => {
+
+        const getCoursers = async function () {
+            try {
+                const response = await axios.get('/courses',)
+                setCourses(response.data.courses)
+
+            } catch (error: any) {
+                setError(error.response.data.error)
             }
-            setCourses(response.data.courses)
 
-        })
-        .catch()
-    }, [])
+        }
+        getCoursers();
+    }
 
-    return(
-        <div>
-            <input 
-            name="search" 
-            type="text" 
-            placeholder="Buscar..."
-            onChange={e => setSearch(e.target.value)}
-            value={search}>
 
-            </input>
 
-            <ul>
-            {courses.map(course=>{
-                    return (
-                        <li key={course.name}
-                        >{course.name}
-                        </li>
-                    )
-                })}
-            </ul>
-        </div>
     )
 
+    return (
+        <div>
+            <div className="flex flex-col gap-8 ">
+                <Header />
+                <div className="items-center">
+                    <input
+                        name="search"
+                        type="text"
+                        placeholder="Buscar..."
+                        onChange={e => setSearch(e.target.value)}
+                        value={search}>
+
+                    </input>
+
+                    <ul>
+                        {courses.map(course => {
+                            return (
+                                <li className="underline" key={course.name}>
+                                    <Link to={`${course.id}`}>
+                                        {course.name}
+                                    </Link>
+                                </li>
+                            )
+                        })}
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    )
 }
-
-
-
-

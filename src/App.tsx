@@ -6,11 +6,10 @@ import { Login } from './components/pages/login';
 import { Home } from './components/pages/home';
 import { Register } from './components/pages/register';
 import { Courses } from './components/pages/curso';
-import axios from 'axios';
-
 import React from 'react';
 import '../src/styles/global.css'
-import { baseUrl } from './lib/baseUrl';
+import { axios } from './lib/axios';
+import { Course } from './components/pages/course';
 
 interface ILayoutProps {
   children: RouteProps["children"];
@@ -21,23 +20,29 @@ export const LoginContext = createContext({ loggedIn: false, changeLoggedIn: (va
 
 export default function App() {
     useEffect(()=>{
-      function refreshTokens(){
+      async function refreshTokens(){
         if(localStorage.refresh){
-          const url = baseUrl + '/refresh';
           const refresh = localStorage.getItem('refresh')
           const navigate = useNavigate();
-          axios.post(url,{
-            data: {
-              refresh: refresh
-            }
-          }).then((response)=>{
-            if(response.status === 401){
+
+          try{
+            const response = await axios.post("/refresh",{
+              data: {
+                refresh: refresh
+              }
+            })
+            if(response.status != 200){
               changeLoggedIn(false)
               navigate('/');
             }
             localStorage.access = response.data.access
             changeLoggedIn(true)
-          })
+
+
+          }catch(error: any){
+            changeLoggedIn(false)
+            navigate('/');
+          }                   
         }
       }
       const minute = 1000*60;
@@ -60,10 +65,9 @@ export default function App() {
           <Routes>
               <Route  path ="/login"   element ={<Login />}/>,
               <Route  path ="/register"   element ={ <Register />}/>,
-              <Route  path ="/"   element ={ <Home />}/>,
-              
-               
-                <Route path ="/courses" element ={<Courses />}/>,
+              <Route  path ="/"   element ={ <Home />}/>,                
+              <Route path ="/courses" element ={<Courses />}/>,
+              <Route path ="/courses/:uuid" element ={<Course />}/>,
             </Routes>
           </BrowserRouter>
       </LoginContext.Provider>

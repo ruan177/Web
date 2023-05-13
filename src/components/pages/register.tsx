@@ -1,7 +1,7 @@
 
 import { FormEvent, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { axios } from "../../lib/baseUrl";
+import { axios } from "../../lib/axios";
 import { Header } from "../headers/headerForm";
 
 export function Register() {

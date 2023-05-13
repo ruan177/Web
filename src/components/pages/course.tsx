@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import MarkdownPreview from "../MarkDownPreview"
-import { axios } from "../../lib/baseUrl";
+import { axios } from "../../lib/axios";
 import { useParams } from "react-router-dom"
 import Header from "../headers/header";
 
