@@ -12,15 +12,15 @@ const UserProfile = () => {
   const { loggedIn, changeLoggedIn } = useContext(LoginContext)
   const userUuid =localStorage.getItem('user')
   const [error, setError] = useState('')
-  const [user, setUser] = useState<>()
+  const [user, setUser] = useState<User>()
 
   useEffect(()=>{
     
         const getUserInfo = async function () {
             try {
                 const response = await axios.get(`/courses/${userUuid}`,)
-                setUser(response.data.course)
-                console.log(response.data.course)
+                setUser(response.data.user)
+                console.log(response.data.user)
 
             } catch (error: any) {
                 setError(error.response.data.error)

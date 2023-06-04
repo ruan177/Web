@@ -19,6 +19,8 @@ export function Courses() {
     const { loggedIn, changeLoggedIn } = useContext(LoginContext);
     const [search, setSearch] = useState('')
     const [error, setError] = useState('')
+    
+    
 
     useEffect(() => {
 
@@ -33,11 +35,13 @@ export function Courses() {
 
         }
         getCoursers();
-    }
+    })
 
+    const filteredCourses = search.length > 0
+        ?courses.filter(course => course.name.includes(search))
+        : [];
 
-
-    )
+    
 
     return (
         <div>

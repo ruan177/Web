@@ -4,6 +4,7 @@ import logo from '../../assets/logos/coffe.png'
 import { HomeButton } from '../buttons/button'
 import { LoginContext } from '../../App'
 import { useContext } from 'react'
+import UserProfile from '../otherComponents/profile'
 
 export default function Header(props: any) {
     const { loggedIn, changeLoggedIn } = useContext(LoginContext)
@@ -33,9 +34,11 @@ export default function Header(props: any) {
 
                         :
                         <div>
-                            <HomeButton name={'Sign-in'} route={'/login'} bgColor={'text-violet-900 hover:border-indigo-900 '} />
+                            <UserProfile />
+                            {/*<HomeButton name={'Sign-in'} route={'/login'} bgColor={'text-violet-900 hover:border-indigo-900 '} />
                             <HomeButton name={'Sign-up'} route={'/register'} bgColor={'bg-indigo-900 hover:bg-indigo-300'} />
-                        </div>
+                    */}
+                            </div>
 
 
 

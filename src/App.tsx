@@ -5,11 +5,13 @@ import {Routes, Route, Navigate, useNavigate, RouteProps, BrowserRouter } from "
 import { Login } from './components/pages/login';
 import { Home } from './components/pages/home';
 import { Register } from './components/pages/register';
-import { Courses } from './components/pages/curso';
+import { Courses } from './components/pages/courses';
 import React from 'react';
 import '../src/styles/global.css'
 import { axios } from './lib/axios';
 import { Course } from './components/pages/course';
+import { CreateCourse } from './components/pages/createCourse';
+import UserProfile from './components/otherComponents/profile';
 
 interface ILayoutProps {
   children: RouteProps["children"];
@@ -68,6 +70,9 @@ export default function App() {
               <Route  path ="/"   element ={ <Home />}/>,                
               <Route path ="/courses" element ={<Courses />}/>,
               <Route path ="/courses/:uuid" element ={<Course />}/>,
+              <Route path ="/admin/course" element ={<CreateCourse />}/>,
+              <Route path ="/admin/course/:uuid" element ={<CreateCourse />}/>,
+              <Route path ="/profile" element ={<UserProfile />}/>,
             </Routes>
           </BrowserRouter>
       </LoginContext.Provider>
