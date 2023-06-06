@@ -18,7 +18,7 @@ const UserProfile = () => {
     
         const getUserInfo = async function () {
             try {
-                const response = await axios.get(`/courses/${userUuid}`,)
+                const response = await axios.get(`/users/${userUuid}`,)
                 setUser(response.data.user)
                 console.log(response.data.user)
 
