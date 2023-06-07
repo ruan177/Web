@@ -4,6 +4,7 @@ import { axios } from "../../lib/axios";
 import { useParams } from "react-router-dom"
 import Header from "../headers/header";
 import '../../styles/global.css';
+//import MDEditor from '@uiw/react-md-editor';
 
 export function CreateCourse() {
   const [preview, setPreview] = useState(false)
@@ -65,6 +66,14 @@ export function CreateCourse() {
           </ReactMarkdown>
         </div>
       </div>
+      
+      {*/ soluçao para o erro do md editor <div className="container">
+      <MDEditor
+        value={BodyCourseContent}
+        onChange={(value) => setBodyCourseContent(value || '')}
+      />
+      <MDEditor.Markdown source={BodyCourseContent} style={{ whiteSpace: 'pre-wrap' }} />
+    </div> */}
 
 
 
