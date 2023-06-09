@@ -10,7 +10,6 @@ interface User{
 const UserProfile = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { loggedIn, changeLoggedIn } = useContext(LoginContext)
-  const userUuid =localStorage.getItem('user')
   const [error, setError] = useState('')
   const [user, setUser] = useState<User>()
 
@@ -18,9 +17,11 @@ const UserProfile = () => {
     
         const getUserInfo = async function () {
             try {
-                const response = await axios.get(`/users/${userUuid}`,)
+                const userUuid = localStorage.getItem('user')            
+                const response = await axios.get(`/users/:${userUuid}`,)
                 setUser(response.data.user)
-                console.log(response.data.user)
+                console.log(user)
+                console.log(userUuid)
 
             } catch (error: any) {
                 setError(error.response.data.error)
@@ -57,7 +58,8 @@ const UserProfile = () => {
           {isOpen && (
               <ul className="absolute right-0 z-10 w-48 py-2 mt-2 bg-white rounded-md shadow-xl">
                 <li className="px-4 py-2 hover:bg-gray-100 items-center ml-2 text-sm font-medium">
-                <span >Nome do Usuário</span>
+                <span ></span>
+                <span >{error}</span>
                 </li>
                 
 

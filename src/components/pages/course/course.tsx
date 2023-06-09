@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react"
-import { axios } from "../../lib/axios";
+import { axios } from "../../../lib/axios";
 import { useParams } from "react-router-dom"
-import Header from "../headers/header";
-import ReactMarkdown from "react-markdown";
+import Header from "../../headers/header";
+import MarkdownPreview from '@uiw/react-markdown-preview';
+import '../../../styles/global.css'
 
 interface Course {
     uuid: string,
@@ -43,7 +44,9 @@ export function Course() {
                 <div className="px-64 space-y-4">
                     <h2 className="text-center ">{course?.name}</h2>
                     <hr />
-                    <ReactMarkdown>{course?.body}</ReactMarkdown> 
+                    <div data-color-mode="light">
+                        <MarkdownPreview source={course?.body} />
+                    </div>
                 </div>
 
             </div>

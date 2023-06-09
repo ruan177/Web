@@ -1,7 +1,7 @@
 import logo from '../../assets/logos/coffe.png'
 import '../../styles/global.css'
 import { NavLink } from 'react-router-dom'
-import UserProfile from '../otherComponents/profile'
+import UserProfile from '../profile/profile'
 
 export function Header(){
 

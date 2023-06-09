@@ -4,7 +4,7 @@ import logo from '../../assets/logos/coffe.png'
 import { HomeButton } from '../buttons/button'
 import { LoginContext } from '../../App'
 import { useContext } from 'react'
-import UserProfile from '../otherComponents/profile'
+import UserProfile from '../profile/profile'
 
 export default function Header(props: any) {
     const { loggedIn, changeLoggedIn } = useContext(LoginContext)
@@ -28,17 +28,12 @@ export default function Header(props: any) {
 
                 <div className="flex md:order-2">
                     {loggedIn ?
-                        <NavLink to="/login" className="bg-indigo-900 hover:bg-indigo-300 text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 rounded-full" onClick={() => { changeLoggedIn(false); localStorage.clear() }}>
-                            Logout
-                        </NavLink>
-
+                        <UserProfile />
                         :
                         <div>
-                            <UserProfile />
-                            {/*<HomeButton name={'Sign-in'} route={'/login'} bgColor={'text-violet-900 hover:border-indigo-900 '} />
+                            <HomeButton name={'Sign-in'} route={'/login'} bgColor={'text-violet-900 hover:border-indigo-900 '} />
                             <HomeButton name={'Sign-up'} route={'/register'} bgColor={'bg-indigo-900 hover:bg-indigo-300'} />
-                    */}
-                            </div>
+                        </div>
 
 
 
