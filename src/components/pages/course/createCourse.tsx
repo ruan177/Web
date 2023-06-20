@@ -32,10 +32,16 @@ export function CreateCourse() {
       </div>
   
 
-      <div className="container px-28 gap-4 grid py-16">
-      <h1 className="text-center text-2xl font-bold tracking-tight text-gray-900">Create New Course</h1>
+      <div className="container mx-auto px-4 py-16 max-w-4xl">
+        
+      <h1 className="text-center text-2xl font-bold tracking-tight text-gray-900">Create Course</h1>
       
-      <input className=" border border-gray-300" placeholder="Title" ></input>
+      <input 
+        className="position-center border border-gray-300 px-4 py-2 mb-4 w-full sm:max-w-md"
+        placeholder="Titulo" 
+        defaultValue={CourseName}  
+        onChange={event => setCourseName(event.target.value)}
+      />
               
       <div data-color-mode="light">
       <MDEditor 
@@ -45,6 +51,12 @@ export function CreateCourse() {
         onChange={(value) => setBodyCourseContent(value || '')}
       />
       </div>
+     
+
+      
+     
+
+      
       
       
     </div> 

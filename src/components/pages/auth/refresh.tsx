@@ -6,27 +6,27 @@ import { axios } from "../../../lib/axios";
 const { loggedIn, changeLoggedIn } = useContext(LoginContext)
 
 export async function refreshTokens(){
-    if(localStorage.refresh){
-      const refresh = localStorage.getItem('refresh')
-      const navigate = useNavigate();
+  if(localStorage.refresh){
+    const refresh = localStorage.getItem('refresh')
+    const navigate = useNavigate();
 
-      try{
-        const response = await axios.post("/refresh",{
-          data: {
-            refresh: refresh
-          }
-        })
-        if(response.status != 200){
-          changeLoggedIn(false)
-          navigate('/');
+    try{
+      const response = await axios.post("/refresh",{
+        data: {
+          refresh: refresh
         }
-        localStorage.access = response.data.access
-        changeLoggedIn(true)
-
-
-      }catch(error: any){
+      })
+      if(response.status != 200){
         changeLoggedIn(false)
         navigate('/');
-      }                   
-    }
+      }
+      localStorage.access = response.data.access
+      changeLoggedIn(true)
+
+
+    }catch(error: any){
+      changeLoggedIn(false)
+      navigate('/');
+    }                   
   }
+}

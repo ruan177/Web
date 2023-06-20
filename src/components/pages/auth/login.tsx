@@ -4,7 +4,7 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { LoginContext } from "../../../App";
 import { axios } from "../../../lib/axios";
 import { Header } from "../../headers/headerForm";
-
+//import axios from 'axios'
 
 
 
@@ -34,7 +34,7 @@ export function Login() {
             localStorage.setItem('user', response.data.refresh.user_id)
 
             changeLoggedIn(true)
-            //navigate('/')
+            navigate('/')
 
         } catch (error: any) {
             setError(error.response.data.error)

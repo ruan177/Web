@@ -11,6 +11,7 @@ import { Course } from './components/pages/course/course';
 import { CreateCourse } from './components/pages/course/createCourse';
 import UserProfile from './components/profile/profile';
 import { refreshTokens } from './components/pages/auth/refresh';
+import { UpdateCourse } from './components/pages/course/updateCourse';
 
 interface ILayoutProps {
   children: RouteProps["children"];
@@ -22,6 +23,31 @@ export const LoginContext = createContext({ loggedIn: false, changeLoggedIn: (va
 export default function App() {
     useEffect(()=>{
       const minute = 1000*60;
+      async function refreshTokens(){
+        if(localStorage.refresh){
+          const refresh = localStorage.getItem('refresh')
+          const navigate = useNavigate();
+      
+          try{
+            const response = await axios.post("/refresh",{
+              data: {
+                refresh: refresh
+              }
+            })
+            if(response.status != 200){
+              changeLoggedIn(false)
+              navigate('/');
+            }
+            localStorage.access = response.data.access
+            changeLoggedIn(true)
+      
+      
+          }catch(error: any){
+            changeLoggedIn(false)
+            navigate('/');
+          }                   
+        }
+      }
       refreshTokens();
       setInterval(refreshTokens, minute*3);
     }, []);
@@ -31,7 +57,7 @@ export default function App() {
 
     function changeLoggedIn(value: boolean){
       setLoggedIn(value);
-      if(value === false){
+      if(!value){
         localStorage.clear();
       }
     }
@@ -44,8 +70,8 @@ export default function App() {
               <Route  path ="/"   element ={ <Home />}/>,                
               <Route path ="/courses" element ={<Courses />}/>,
               <Route path ="/courses/:uuid" element ={<Course />}/>,
-              <Route path ="/admin/course" element ={<CreateCourse />}/>,
-              <Route path ="/admin/course/:uuid" element ={<CreateCourse />}/>,
+              <Route path ="/course/create" element ={<CreateCourse />}/>,
+              <Route path ="/course/:uuid/update" element ={<UpdateCourse />}/>,
               <Route path ="/profile" element ={<UserProfile />}/>,
             </Routes>
           </BrowserRouter>

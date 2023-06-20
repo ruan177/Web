@@ -6,7 +6,7 @@ import Header from "../../headers/header";
 import '../../../styles/global.css'
 import MDEditor from '@uiw/react-md-editor'
 
-export function CreateCourse() {
+export function UpdateCourse() {
   const [preview, setPreview] = useState(false)
   const [CourseName, setCourseName] = useState('');
   const [BodyCourseContent, setBodyCourseContent] = useState('');
