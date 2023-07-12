@@ -1,41 +1,30 @@
 import React, { useContext, useEffect, useState } from 'react';
 import avatar from '../../assets/logos/avatar.jpg'
-import { NavLink } from 'react-router-dom';
+import { NavLink, Navigate, useNavigate } from 'react-router-dom';
 import { LoginContext } from '../../App';
 import { axios } from '../../lib/axios';
-
+import { useQuery } from 'react-query';
 
 interface User{
-    username: string
-    email: string 
-    isAdmin: boolean
+  username: string
+  email: string 
+  isAdmin: boolean
 }
 const UserProfile = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { loggedIn, changeLoggedIn } = useContext(LoginContext)
-  const [error, setError] = useState('')
-  const [user, setUser] = useState<User>()
-  const userUuid = localStorage.getItem('user')
+  const { loggedIn, changeLoggedIn } = useContext(LoginContext);
+  const [deleteError, setDeleteError] = useState('');
+  const userUuid = localStorage.getItem('user');
 
- const getUserInfo = async function () {
-        try {
-            
-            const response = await axios.get(`/users/${userUuid}`,)
-            setUser(response.data)
-            
+  
 
-        } catch (error: any) {
-            setError(error.response.data.error)
-        }
+  const { data, isFetching ,isError, error} = useQuery('userInfo', async () => {
+    const response = await axios.get<User>(`/users/${userUuid}`);
+    return response.data
+});
 
-    }
-
-  useEffect(()=>{
-         getUserInfo();
-         setInterval(getUserInfo, 1000*60*5);
-  })
- 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
@@ -48,44 +37,54 @@ const UserProfile = () => {
     setIsModalOpen(false);
   };
 
-  const handleOptionClick = (option: string) => {
-    if(option === 'Yes'){
+  const handleOptionClick = async (option: string) => {
+    if (option === 'Yes') {
+      try {
+        const response = await axios.delete(`/users/${userUuid}`);
+        if(response.status === 200){
+          changeLoggedIn(false);
+          localStorage.clear();
+          console.log(response);
+        }
         
-        axios.delete(`/users/${userUuid}`)
-        changeLoggedIn(false)
-
-    }else{
-        closeModal();
+      } catch (error: any) {
+        setDeleteError(error.response.data.error);
+      }
+    } else {
+      closeModal();
     }
-    
-
-    
   };
+
+  if (isFetching) {
+    return <p>Carregando informações do usuário...</p>;
+  }
+ 
+
   return (
     <>
       <div className="flex items-center relative inline-block gap-2">
+        <a className="font-medium rounded-lg text-sm text-black">Olá, {data?.username}</a>
         <button
           type="button"
           className="flex items-center justify-center w-10 h-10 bg-gray-200 rounded-full focus:outline-none"
           onClick={toggleDropdown}
         >
-          <img className="w-6 h-6 rounded-full" src={avatar} alt="User Avatar" />
+          <img className="w-10 h-10 rounded-full" src={avatar} alt="User Avatar" />
         </button>
-  
+
         {isOpen && (
           <ul className="absolute right-0 z-10 w-48 py-2 mt-2 bg-white rounded-md shadow-xl dropdown-menu top-10 right-4">
-            <li className="px-4 py-2 hover:bg-gray-100 items-center ml-2 text-sm font-medium">
-              Olá <span>{user?.username}</span>
-            </li>
-  
             <li className="px-4 py-2 hover:bg-gray-100">
               <NavLink to="/login">Settings</NavLink>
             </li>
-  
+
             <li className="px-4 py-2 hover:bg-gray-100">
               <NavLink to="/course/create">Create Course</NavLink>
             </li>
-  
+            <li className="px-4 py-2 hover:bg-gray-100" onClick={openModal}>
+              Delete Account
+            </li>
+
             <li className="px-4 py-2 hover:bg-gray-100">
               <NavLink
                 to="/login"
@@ -97,14 +96,10 @@ const UserProfile = () => {
                 Logout
               </NavLink>
             </li>
-  
-            <li className="px-4 py-2 hover:bg-gray-100" onClick={openModal}>
-              Delete Account
-            </li>
           </ul>
         )}
       </div>
-  
+
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-4 rounded-md shadow-lg">
@@ -128,6 +123,6 @@ const UserProfile = () => {
       )}
     </>
   );
-}
+};
 
 export default UserProfile;

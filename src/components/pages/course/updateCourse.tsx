@@ -6,6 +6,13 @@ import Header from "../../headers/header";
 import '../../../styles/global.css'
 import MDEditor from '@uiw/react-md-editor'
 
+interface Course {
+  uuid: string,
+  name: string,
+  author: string,
+  body: string,
+}
+
 export function UpdateCourse() {
   const [preview, setPreview] = useState(false)
   const [CourseName, setCourseName] = useState('');
