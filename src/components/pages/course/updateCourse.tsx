@@ -1,10 +1,11 @@
 import { FormEvent, useEffect, useState } from "react"
 import ReactMarkdown from "react-markdown"
-import { axios } from "../../../lib/axios";
+import { axios } from '../../../lib/axios';
 import { useParams } from "react-router-dom"
 import Header from "../../headers/header";
 import '../../../styles/global.css'
 import MDEditor from '@uiw/react-md-editor'
+import { useQuery } from "react-query";
 
 interface Course {
   uuid: string,
@@ -14,56 +15,90 @@ interface Course {
 }
 
 export function UpdateCourse() {
-  const [preview, setPreview] = useState(false)
-  const [CourseName, setCourseName] = useState('');
-  const [BodyCourseContent, setBodyCourseContent] = useState('');
+  const [preview, setPreview] = useState(false);
+  const [courseName, setCourseName] = useState('');
+  const [bodyCourseContent, setBodyCourseContent] = useState('');
+  const [courseDescription, setCourseDescription] = useState('');
+  const [error, setError] = useState('');
+  const { uuid } = useParams();
 
+  const { data, isLoading, isError } = useQuery(['course', uuid], async () => {
+    const response = await axios.get(`/courses/${uuid}`);
+    return response.data;
+  });
 
   const handleSubmit = async function (event: FormEvent) {
     event.preventDefault();
+    const userId = localStorage.getItem('user');
 
     try {
-      await axios.get("", {
-
-      })
+      await axios.patch(`/courses/${uuid}/update`, {
+        name: courseName,
+        description: courseDescription,
+        author_id: userId,
+        body: bodyCourseContent
+      });
+      // Redirect or show success message
     } catch (error: any) {
-
+      setError(error.response.data.error)
+      // Handle error
     }
+  };
 
+  useEffect(() => {
+    if (data) {
+      setCourseName(data.course.name);
+      setCourseDescription(data.course.description);
+      setBodyCourseContent(data.course.body);
+    }
+  }, [data]);
+
+  if (isLoading) {
+    return <p>Carregando curso...</p>;
   }
+
+  if (isError) {
+    return <p>Ocorreu um erro ao carregar o curso.</p>;
+  }
+
   return (
     <>
+        <div className="flex-grow">
+    <Header />
+  </div>
 
+  <div className="container px-28 gap-4 grid grid-cols-1 py-16">
+    <h1 className="text-center text-2xl font-bold tracking-tight text-gray-900">Update Course</h1>
 
-<div className="container px-28 gap-4 grid py-16">
-      <h1 className="text-center text-2xl font-bold tracking-tight text-gray-900">Update Course</h1>
-      
-      <input 
-      className=" border border-gray-300" 
-      placeholder="Titulo" 
-      defaultValue={CourseName}  
-      onChange={event => setCourseName(event.target.value)}
-      ></input>
-              
-      <div data-color-mode="light">
-      <MDEditor 
+    <div className="mb-4">
+      <input
+        className="border border-gray-300 p-2 w-full"
+        placeholder="Título"
+        defaultValue={courseName}
+        onChange={(event) => setCourseName(event.target.value)}
+      />
+    </div>
 
+    <div className="mb-4">
+      <input
+        className="border border-gray-300 p-2 w-full"
+        placeholder="Description"
+        defaultValue={courseDescription}
+        onChange={(event) => setCourseDescription(event.target.value)}
+      />
+    </div>
+
+    <div data-color-mode="light">
+      <MDEditor
         height={400}
-        value={BodyCourseContent}
+        value={bodyCourseContent}
         onChange={(value) => setBodyCourseContent(value || '')}
       />
-      </div>
-      
-      
-    </div> 
+    </div>
 
-
-
-
-
-
-    </>
+    <button className="bg-violet-500 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline" type="submit" onClick={handleSubmit}>Atualizar Curso</button>
+  </div>
+</>
+   
   );
-
-
 }

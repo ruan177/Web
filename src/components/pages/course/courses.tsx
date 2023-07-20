@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { LoginContext } from "../../../App";
-import { axios } from "../../../lib/axios";
+import  { axios }  from "../../../lib/axios";
 import '../../../styles/global.css'
 import { Link } from "react-router-dom";
 import Header from "../../headers/header";

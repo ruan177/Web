@@ -6,7 +6,7 @@ import { axios } from "../../../lib/axios";
 import { Header } from "../../headers/headerForm";
 //import axios from 'axios'
 
-interface
+
 
 export function Login() {
     const { loggedIn, changeLoggedIn } = useContext(LoginContext)
