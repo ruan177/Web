@@ -1,5 +1,5 @@
-import { useState, createContext } from 'react';
-import {Routes, Route, RouteProps, BrowserRouter } from "react-router-dom";
+import { useState, createContext, useEffect } from 'react';
+import {Routes, Route, RouteProps, BrowserRouter, Navigate } from "react-router-dom";
 import { Login } from './components/pages/auth/login';
 import { Home } from './components/pages/home';
 import { Register } from './components/pages/auth/register';
@@ -14,13 +14,16 @@ import { QueryClientProvider } from 'react-query';
 import { MyCourses } from './components/pages/course/myCourses';
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import {Settings} from './components/pages/user/settings';
+import { Admin } from './components/pages/admin/adminpanel';
+import {ChangeAccount} from './components/pages/user/changeAccount';
+import ResetPasswordForm from './components/pages/user/resetPassword';
 
 export const LoginContext = createContext({ loggedIn: false, changeLoggedIn: (value: true | false) => {} });
 
 export default function App() {
  
     const [loggedIn, setLoggedIn] = useState<boolean>(localStorage.access? true: false);
+    
 
     function changeLoggedIn(value: boolean){
       setLoggedIn(value);
@@ -28,6 +31,11 @@ export default function App() {
         localStorage.clear();
       }
     }
+
+    useEffect(() => {
+      // When the loggedIn state is updated, force a re-render to show/hide <UserProfile />
+    }, [loggedIn])
+    
     return (
       <LoginContext.Provider value={{loggedIn, changeLoggedIn}}>
      
@@ -42,7 +50,10 @@ export default function App() {
               <Route path ="/course/create" element ={<CreateCourse />}/>,
               <Route path ="/course/:uuid/update" element ={<UpdateCourse />}/>,
               <Route path ="/mycourses/:userId" element ={<MyCourses />}/>,
-              <Route path ="/settings" element ={<Settings />}/>,
+              
+              <Route path ="/account/update" element ={<ChangeAccount />}/>,
+              <Route path ="/admin" element ={<Admin />}/>,
+              <Route path ="/reset" element ={<ResetPasswordForm />}/>,
             </Routes>
             </BrowserRouter>
             </QueryClientProvider>

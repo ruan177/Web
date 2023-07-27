@@ -5,9 +5,12 @@ import  {axios}  from "../../../lib/axios";
 import '../../../styles/global.css'
 import { Link } from "react-router-dom";
 import Header from "../../headers/header";
-import { useQuery } from 'react-query'
-import { AxiosError } from 'axios'
+import { useMutation, useQuery } from 'react-query'
+
+import type { AxiosRequestConfig} from 'axios'
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
+import { ToastContainer, toast } from "react-toastify";
+import { queryClient } from "../../../lib/queryClient";
 
 
 interface Course {
@@ -19,6 +22,7 @@ export function MyCourses() {
 const { loggedIn, changeLoggedIn } = useContext(LoginContext);
 const [search, setSearch] = useState('');
 const userUuid = localStorage.getItem('user');
+const [deleteError, setDeleteError] = useState('');
 
 const { data, isFetching, isError, error } = useQuery<Course[]>('MyCourses', async () => {
   const response = await axios.get(`/mycourses/${userUuid}`);
@@ -28,6 +32,19 @@ const { data, isFetching, isError, error } = useQuery<Course[]>('MyCourses', asy
 const filteredCourses = search.length > 0
   ? data?.filter(course => course.name.includes(search))
   : data?.courses || [];
+
+  const deleteCourseMutation = useMutation((id: string) => axios.delete(`/courses/${id}/delete`
+  ), {
+    onSuccess: () => {
+      queryClient.invalidateQueries('MyCourses'); // Invalidate the cache for 'MyCourses' after successful deletion
+    },
+  });
+
+  function handleDeleteCourse(id: string): void {
+    if (window.confirm('Are you sure you want to delete this course?')) {
+      deleteCourseMutation.mutate(id);
+    }
+  }
 
 return (
   <div>
@@ -73,7 +90,7 @@ return (
             ) : (
               <>
                 {isError ? (
-                  <p className="text-red-500">{error?.message || 'Erro ao carregar cursos.'}</p>
+                  <p className="text-red-500">{error?.message || deleteError?.message  || 'Erro ao carregar cursos.'}</p>
                 ) : (
                   <p className="text-gray-600 text-center">
                     Nenhum curso criado.
@@ -85,6 +102,18 @@ return (
         )}
       </div>
     </div>
+    <ToastContainer
+      position="bottom-center"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="light" />
+
   </div>
 );
 }

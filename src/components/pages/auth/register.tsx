@@ -23,8 +23,10 @@ export function Register() {
                 email,
                 password
             })
-            if(response.status === 200)
-                navigate('/login')
+            if(response.status === 200){
+                navigate('/login');
+            }
+              
 
         } catch (error: any) {
             setError(error.response.data.error)

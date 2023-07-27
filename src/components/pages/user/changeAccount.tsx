@@ -1,27 +1,73 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { MdSave, MdDelete } from "react-icons/md";
 import { Header } from "../../headers/headerForm";
+import { useMutation, useQueries, useQuery } from "react-query";
+import { axios } from "../../../lib/axios";
+import { queryClient } from "../../../lib/queryClient";
+import { LoginContext } from "../../../App";
+import { redirect } from "react-router-dom";
 
 export const ChangeAccount = () => {
-  const [newPassword, setNewPassword] = useState("");
-  const [newUsername, setNewUsername] = useState("");
-  const [oldPassword, setOldPassword] = useState("");
+  const [newpassword, setNewPassword] = useState("");
+  const [newusername, setNewUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const userId = localStorage.getItem('user');
+  const {loggedIn, changeLoggedIn} = useContext(LoginContext);
+  
+  
+  const updateProfileMutation = useMutation(
+    async () => {
+      const response = await axios.patch(`/users/${userId}/update`, {
+        username,
+        newusername
+      });
+      return response.data;
+    },
+    {
+      onSuccess: () => {
+        setShowSuccessMessage(true);
+        queryClient.invalidateQueries(['userInfo']);
+      }
+    }
+  );
+  const handleChangePasswordMutation = useMutation(
+    async () => {
+      const response = await axios.patch(`/users/${userId}/update`, {
+        password,
+        newpassword
+      });
+      return response.data;
+    },
+    {
+      onSuccess: () => {
+        setShowSuccessMessage(true);
+      
+          changeLoggedIn(false);
+          
+        // Logout the user after 5 seconds
+      }
+    }
+  );
 
   const handleProfileSave = () => {
-    // Put your logic here to save the profile changes
-    setShowSuccessMessage(true);
+    updateProfileMutation.mutate();
+  
   };
 
   const handleChangePassword = () => {
-    // Put your logic here to change the password
-    setShowSuccessMessage(true);
+    handleChangePasswordMutation.mutate();
   };
 
   const handleDeleteAccount = () => {
-    // Put your logic here to delete the account
-    setShowSuccessMessage(true);
+    try {
+
+      setShowSuccessMessage(true);
+    } catch (error) {
+
+    }
+
   };
 
   return (
@@ -46,13 +92,13 @@ export const ChangeAccount = () => {
               </div>
               <div>
                 <label htmlFor="changePassword" className="block italic font-medium text-sm text-indigo-900 mb-2">
-                New Username:
+                  New Username:
                 </label>
                 <input
                   type="text"
                   id="newUsername"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={newUsername}
+                  value={newusername}
                   onChange={(e) => setNewUsername(e.target.value)}
                 />
               </div>
@@ -81,8 +127,8 @@ export const ChangeAccount = () => {
                   type="password"
                   id="oldPassword"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={oldPassword}
-                  onChange={(e) => setOldPassword(e.target.value)}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
               <div>
@@ -93,21 +139,12 @@ export const ChangeAccount = () => {
                   type="password"
                   id="newPassword"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={newPassword}
+                  value={newpassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                 />
               </div>
             </div>
-            <div className="mb-4">
-              <label htmlFor="confirmNewPassword" className="block italic font-medium text-sm text-indigo-900 mb-2">
-                Confirm New Password:
-              </label>
-              <input
-                type="password"
-                id="confirmNewPassword"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              />
-            </div>
+       
             {/* Add other fields for changing password */}
             <div className="flex justify-end">
               <button

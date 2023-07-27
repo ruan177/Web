@@ -7,7 +7,7 @@ export function Header(){
 
     return(
            
-            <NavLink className="italic flex items-center text-white " to="/">
+            <NavLink className="italic flex items-center text-purple-600 " to="/">
                 <img src={logo} width="50" height="50">
                 </img>
                 HackTheLearn

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQuery } from "react-query";
 import { AxiosError } from "axios";
 import { axios } from "../../../lib/axios";
+import { NavLink } from "react-router-dom";
 
 interface User {
   id: number;
@@ -12,7 +13,7 @@ interface User {
 
 interface Course {
   id: number;
-  title: string;
+  name: string;
   description: string;
   isApproved: boolean;
 }
@@ -22,14 +23,14 @@ export const Admin = () => {
 
   const { data: users, isLoading: isLoadingUsers, isError: isErrorUsers } =
     useQuery<User[], AxiosError>("users", async () => {
-      const response = await axios.get('/user')
+      const response = await axios.get('/users')
       return response.data;
     });
 
   const { data: courses, isLoading: isLoadingCourses, isError: isErrorCourses } =
     useQuery<Course[], AxiosError>("courses", async () => {
       const response = await axios.get('/courses');
-      return response.data;
+      return response.data.courses;
     });
 
   return (
@@ -53,6 +54,12 @@ export const Admin = () => {
             onClick={() => setActiveTab("courses")}
           >
             Courses
+          </li>
+          <li
+            className="cursor-pointer py-2 border-b border-gray-300"
+            
+          >
+            <NavLink to="/">Back to Home</NavLink>
           </li>
         </ul>
       </div>
@@ -108,7 +115,7 @@ export const Admin = () => {
                 <tbody>
                   {courses?.map((course) => (
                     <tr key={course.id}>
-                      <td className="border px-4 py-2">{course.title}</td>
+                      <td className="border px-4 py-2">{course.name}</td>
                       <td className="border px-4 py-2">{course.description}</td>
                       <td className="border px-4 py-2">
                         {course.isApproved ? "Yes" : "No"}

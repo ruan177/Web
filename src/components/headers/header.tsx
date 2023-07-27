@@ -51,16 +51,7 @@ export default function Header(props: any) {
           <NavLink className="flex font-medium rounded-lg text-sm text-black" to="/">
             About Us
           </NavLink>
-          {!loggedIn && (
-            <>
-              <NavLink className="flex font-medium rounded-lg text-sm text-black" to="/login">
-                Sign-in
-              </NavLink>
-              <NavLink className="flex font-medium rounded-lg text-sm text-black" to="/register">
-                Sign-up
-              </NavLink>
-            </>
-          )}
+        
         </div>
 
         {/* Avatar */}

@@ -67,8 +67,8 @@ export function UpdateCourse() {
     <Header />
   </div>
 
-  <div className="container px-28 gap-4 grid grid-cols-1 py-16">
-    <h1 className="text-center text-2xl font-bold tracking-tight text-gray-900">Update Course</h1>
+  <div className="container mx-auto px-4 py-16 max-w-4xl">
+    <h1 className="text-center text-2xl font-bold tracking-tight text-gray-900 mb-8">Update Course</h1>
 
     <div className="mb-4">
       <input
@@ -88,7 +88,7 @@ export function UpdateCourse() {
       />
     </div>
 
-    <div data-color-mode="light">
+    <div data-color-mode="light" className="mb-8">
       <MDEditor
         height={400}
         value={bodyCourseContent}
@@ -96,7 +96,11 @@ export function UpdateCourse() {
       />
     </div>
 
-    <button className="bg-violet-500 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline" type="submit" onClick={handleSubmit}>Atualizar Curso</button>
+    <div className="flex justify-end">
+      <button className="bg-violet-500 hover:bg-violet-700 text-white font-bold py-2 px-20 rounded-full focus:outline-none focus:shadow-outline" type="submit" onClick={handleSubmit}>
+        Atualizar Curso
+      </button>
+    </div>
   </div>
 </>
    

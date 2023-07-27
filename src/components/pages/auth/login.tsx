@@ -9,7 +9,7 @@ import { Header } from "../../headers/headerForm";
 
 
 export function Login() {
-    const { loggedIn, changeLoggedIn } = useContext(LoginContext)
+    let { loggedIn ,changeLoggedIn } = useContext(LoginContext)
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -24,18 +24,16 @@ export function Login() {
             const response = await axios.post("/login", {
                 email,
                 password
-            }, {
-                headers: {
-                    "Content-Type": "application/json"
-                }
             })
-
-            localStorage.setItem('access', response.data.access)
-            localStorage.setItem('refresh', response.data.refresh.id)
-            localStorage.setItem('user', response.data.refresh.user_id)
-
-            changeLoggedIn(true)
-            navigate('/')
+            if(response.status === 200){
+                localStorage.setItem('access', response.data.access)
+                localStorage.setItem('refresh', response.data.refresh.id)
+                localStorage.setItem('user', response.data.refresh.user_id)
+    
+                changeLoggedIn(true);
+                navigate('/')
+            }
+            
 
         } catch (error: any) {
             setError(error.response.data.error)

@@ -5,9 +5,9 @@ import { LoginContext } from '../../App';
 import { axios } from '../../lib/axios';
 import { useQuery } from 'react-query';
 
-interface User{
+interface User {
   username: string
-  email: string 
+  email: string
   isAdmin: boolean
 }
 const UserProfile = () => {
@@ -16,12 +16,14 @@ const UserProfile = () => {
   const { loggedIn, changeLoggedIn } = useContext(LoginContext);
   const userUuid = localStorage.getItem('user');
 
-  
 
-  const { data, isFetching ,isError, error} = useQuery('userInfo', async () => {
+
+  const { data, isFetching, isError, error } = useQuery('userInfo', async () => {
     const response = await axios.get<User>(`/users/${userUuid}`);
     return response.data
-});
+  }, {
+    enabled: loggedIn
+  });
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -31,7 +33,7 @@ const UserProfile = () => {
   if (isFetching) {
     return <p>Carregando informações do usuário...</p>;
   }
- 
+
 
   return (
     <>
@@ -47,7 +49,7 @@ const UserProfile = () => {
 
         {isOpen && (
           <ul className="absolute right-0 z-10 w-48 py-2 mt-2 bg-white rounded-md shadow-xl dropdown-menu top-10 right-4">
-            
+
             <li className="px-4 py-2 hover:bg-gray-100">
               <NavLink to={`/mycourses/${userUuid}`}>My Courses</NavLink>
             </li>
@@ -56,7 +58,7 @@ const UserProfile = () => {
               <NavLink to="/course/create">Create Course</NavLink>
             </li>
             <li className="px-4 py-2 hover:bg-gray-100">
-               <NavLink to="/settings">Settings</NavLink>
+              <NavLink to="/account/update">Update Account</NavLink>
             </li>
 
             <li className="px-4 py-2 hover:bg-gray-100">
@@ -74,7 +76,7 @@ const UserProfile = () => {
         )}
       </div>
 
-     
+
 
     </>
   );

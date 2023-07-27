@@ -7,7 +7,10 @@ const useAxios = () => {
 
   const axiosInstance = Axios.create({
     baseURL: "http://localhost:80",
-    headers: { Authorization: `Bearer ${accessToken}` },
+    headers:{
+      'Content-Type': 'application/json',
+       Authorization: `Bearer ${accessToken}` },
+    
   });
 
   axiosInstance.interceptors.response.use(
