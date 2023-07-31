@@ -1,37 +1,67 @@
 // ResetPasswordForm.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useQuery } from 'react-query';
 import { FiMail, FiCheckCircle } from 'react-icons/fi';
 
 const ResetPasswordForm = () => {
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
+  const [inputCode, setInputCode] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
   const [step, setStep] = useState(1);
+  const [attempts, setAttempts] = useState(0);
+  const [isInputDisabled, setIsInputDisabled] = useState(false);
+  const [isResendButtonDisabled, setIsResendButtonDisabled] = useState(false);
+
+  const navigate = useNavigate();
+
+  const sendCodeQuery = useQuery('sendCode', async () => {
+    const response = await axios.post('/send-code', { email });
+    return response.data.code;
+  });
 
   const handleSendCode = async () => {
     try {
-      const response = await axios.post('/send-code', { email });
-      setMessage(response.data.message);
+      const {data} = await sendCodeQuery.refetch();
+      setCode(data); // Salvamos o código retornado pelo backend
       setStep(2); // Avança para a etapa de digitar o código
+      setAttempts(1); // Inicia a contagem de tentativas de envio
+      setIsInputDisabled(false); // Habilita o input para digitar o código
+      setIsResendButtonDisabled(true); // Desabilita o botão de reenvio por 1 minuto
+      setTimeout(() => {
+        setIsResendButtonDisabled(false); // Habilita o botão de reenvio após 1 minuto
+      }, 60000); // 1 minuto em milissegundos
     } catch (error) {
       setMessage('Ocorreu um erro ao enviar o código de redefinição de senha.');
     }
   };
 
-  const handleVerifyCode = async () => {
-    try {
-      const response = await axios.post('/verify-code', { email, code });
-      if (response.data.valid) {
-        setMessage('Código válido! Digite a nova senha:');
-        setStep(3); // Avança para a etapa de redefinir a senha
-      } else {
-        setMessage('Código inválido. Tente novamente.');
+  const handleVerifyCode = () => {
+    if (code === '') {
+      setMessage('Você precisa enviar o código primeiro.');
+      return;
+    }
+
+    if (code === inputCode) {
+      setMessage('Código válido! Digite a nova senha:');
+      setStep(3); // Avança para a etapa de redefinir a senha
+      setIsInputDisabled(false); // Habilita o input para digitar a nova senha
+    } else {
+      setMessage('Código inválido. Tente novamente.');
+      setAttempts(attempts + 1); // Incrementa o número de tentativas
+      if (attempts >= 5) {
+        // Redireciona para a página de login após 5 tentativas inválidas
+        setIsInputDisabled(true);
+        setIsResendButtonDisabled(true);
+        setMessage('Número máximo de tentativas excedido. Você será redirecionado para a página de login.');
+        setTimeout(() => {
+          navigate('/login');
+        }, 4000); // Redireciona após 5 segundos
       }
-    } catch (error) {
-      setMessage('Ocorreu um erro ao verificar o código.');
     }
   };
 
@@ -44,7 +74,7 @@ const ResetPasswordForm = () => {
       setMessage('Ocorreu um erro ao redefinir a senha.');
     }
   };
-  
+
   const handleCancelOption = () => {
     setMessage(''); // Limpa a mensagem de erro
     if (step === 3) {
@@ -54,6 +84,20 @@ const ResetPasswordForm = () => {
     setStep(step - 1); // Volta para a etapa anterior
   };
 
+  useEffect(() => {
+    if (attempts <= 4) {
+      setIsInputDisabled(true);
+      setIsResendButtonDisabled(true);
+      setMessage('Número máximo de tentativas excedido. Aguarde 1 minuto para tentar novamente.');
+      setTimeout(() => {
+        setIsInputDisabled(false);
+        setIsResendButtonDisabled(false);
+        setMessage('');
+        setAttempts(0);
+      }, 60000); // 1 minuto em milissegundos
+    }
+  }, [attempts]);
+  
   return (
     <div className="flex items-center justify-center h-screen">
       <div className="p-8 bg-white shadow-lg rounded-lg">
@@ -94,8 +138,8 @@ const ResetPasswordForm = () => {
                   type="text"
                   id="code"
                   className="flex-grow px-4 py-2 focus:outline-none"
-                  value={code}
-                  onChange={(e) => setCode(e.target.value)}
+                  value={inputCode}
+                  onChange={(e) => setInputCode(e.target.value)}
                 />
                 <button
                   className="px-4 py-2 bg-blue-500 text-white"
