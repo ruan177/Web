@@ -42,7 +42,7 @@ export function Register() {
 
 
                     <form onSubmit={handleSubmit} className="w-full shadow-md rounded px-8 pt-8 pb-10 mb-6 bg-white">
-                        <h1 className="mb-10 text-2xl font-bold tracking-tight text-gray-900 ">Sign-up</h1>
+                        <h1 className="mb-10 text-2xl font-bold tracking-tight text-center text-gray-900 ">Sign-up</h1>
                         <div className="mb-4">
                             <label className="block text-gray-700 text-sm font-bold mb-2">Username</label>
                             <input
@@ -81,6 +81,7 @@ export function Register() {
                             <button className="bg-violet-500 hover:bg-violet-700 text-white font-bold py-2 px-20 rounded-full focus:outline-none focus:shadow-outline" type="submit">
                                 Sign up
                             </button>
+                            
 
                         </div>
 

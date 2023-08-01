@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { FiMail, FiCheckCircle } from 'react-icons/fi';
+import { Header } from '../../headers/headerForm';
 
 const ResetPasswordForm = () => {
   const [email, setEmail] = useState('');
@@ -99,7 +100,7 @@ const ResetPasswordForm = () => {
   }, [attempts]);
   
   return (
-    <div className="flex items-center justify-center h-screen">
+    <><Header /><div className="flex items-center justify-center h-screen">
       <div className="p-8 bg-white shadow-lg rounded-lg">
         {step === 1 ? (
           <>
@@ -114,8 +115,7 @@ const ResetPasswordForm = () => {
                   id="email"
                   className="flex-grow px-4 py-2 focus:outline-none"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
+                  onChange={(e) => setEmail(e.target.value)} />
                 <button
                   className="px-4 py-2 bg-blue-500 text-white"
                   onClick={handleSendCode}
@@ -139,8 +139,7 @@ const ResetPasswordForm = () => {
                   id="code"
                   className="flex-grow px-4 py-2 focus:outline-none"
                   value={inputCode}
-                  onChange={(e) => setInputCode(e.target.value)}
-                />
+                  onChange={(e) => setInputCode(e.target.value)} />
                 <button
                   className="px-4 py-2 bg-blue-500 text-white"
                   onClick={handleVerifyCode}
@@ -163,8 +162,7 @@ const ResetPasswordForm = () => {
                 id="newPassword"
                 className="border rounded px-4 py-2 focus:outline-none w-full"
                 value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-              />
+                onChange={(e) => setNewPassword(e.target.value)} />
             </div>
             <div className="mb-4">
               <label htmlFor="confirmPassword" className="block mb-2">
@@ -175,8 +173,7 @@ const ResetPasswordForm = () => {
                 id="confirmPassword"
                 className="border rounded px-4 py-2 focus:outline-none w-full"
                 value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
+                onChange={(e) => setConfirmPassword(e.target.value)} />
             </div>
             <div className="flex justify-end">
               <button
@@ -196,7 +193,7 @@ const ResetPasswordForm = () => {
           </>
         )}
       </div>
-    </div>
+    </div></>
   );
 };
 

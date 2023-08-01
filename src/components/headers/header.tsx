@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import '../../styles/global.css'
-import logo from '../../assets/logos/Sparkle.png'
+import logo from '../../assets/logos/coffe.png'
 import { HomeButton } from '../buttons/button'
 import { LoginContext } from '../../App'
 import { useContext, useState } from 'react'
@@ -20,8 +20,8 @@ export default function Header(props: any) {
       <div className="container px-4 mx-auto flex flex-wrap items-center justify-between mx-auto">
         <ul className="flex flex-row gap-8 items-center justify-start md:justify-around">
           <NavLink className="italic flex items-center font-medium rounded-lg text-sm text-indigo-900" to="/">
-            <img src={logo} width="40" height="40" alt="Logo" />
-            HackTheLearn
+            <img src={logo} width="60" height="60" alt="Logo" />
+            
           </NavLink>
         </ul>
 

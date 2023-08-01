@@ -49,7 +49,7 @@ export function Login() {
                 <div className="w-full max-w-md flex flex-row gap-18 justify-center ">
                     <form onSubmit={handleSubmit} className="w-full shadow-md rounded px-8 pt-8 pb-10 mb-6 bg-white">
 
-                        <h1 className="mb-10 text-2xl font-bold tracking-tight text-gray-900 ">Log-in</h1>
+                        <h1 className="mb-10 text-2xl font-bold tracking-tight text-center text-gray-900 ">Log-in</h1>
 
                         <div className="mb-4">
                             <label className="block text-gray-700 text-sm font-bold mb-2">Email </label>
@@ -73,9 +73,15 @@ export function Login() {
                             <p className="text-red-500 text-xs italic">{error}</p>
                         </div>
                         <div className="grid justify-items-center gap-6">
+                            <div className="flex justify-items-center space-x-10">
                             <NavLink className="inline-block align-baseline font-bold text-sm text-violet-500 hover:text-violet-800" to="/register">
                                 Sign up
                             </NavLink>
+                            <NavLink className="inline-block align-baseline font-bold text-sm text-fuchsia-500 hover:text-violet-800" to="/reset">
+                                Forgot Password
+                            </NavLink>
+                            </div>
+                           
                             <button className="bg-violet-500 hover:bg-violet-700 text-white font-bold py-2 px-20 rounded-full focus:outline-none focus:shadow-outline" type="submit">
                                 Log in
                             </button>
