@@ -36,7 +36,7 @@ export function Register() {
 
     return (
         <div className="grid bg-gradient-to-r from-indigo-900 via-purple-500 to-rose-500">
-            <Header />
+            <Header textColor={"text-white"}/>
             <div className="w-screen h-screen flex justify-center items-center bg-gradient-to-r from-indigo-900 via-purple-500 to-rose-500">
                 <div className="w-full max-w-md flex flex-row gap-16 justify-center ">
 

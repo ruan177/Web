@@ -23,15 +23,24 @@ const { loggedIn, changeLoggedIn } = useContext(LoginContext);
 const [search, setSearch] = useState('');
 const userUuid = localStorage.getItem('user');
 const [deleteError, setDeleteError] = useState('');
+const [page, setPage] = useState(1);
+const [pageSize, setPageSize] = useState(10);
 
 const { data, isFetching, isError, error } = useQuery<Course[]>('MyCourses', async () => {
-  const response = await axios.get(`/mycourses/${userUuid}`);
-  return response.data;
+  const response = await axios.get(`/mycourses/${userUuid}`,{
+    params: {
+      page: page,
+      pageSize: pageSize,
+    },
+  });
+  return response.data.courses;
+}, {
+  keepPreviousData: true,
 });
 
 const filteredCourses = search.length > 0
-  ? data?.filter(course => course.name.includes(search))
-  : data?.courses || [];
+  ? data?.filter(course => course.name.toLowerCase().includes(search.toLowerCase()))
+  : data || [];
 
   const deleteCourseMutation = useMutation((id: string) => axios.delete(`/courses/${id}/delete`
   ), {

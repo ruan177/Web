@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { LoginContext } from "../../../App";
-import  { axios }  from "../../../lib/axios";
+import { axios } from "../../../lib/axios";
 import '../../../styles/global.css'
 import { Link } from "react-router-dom";
 import Header from "../../headers/header";
@@ -9,22 +9,37 @@ import { useQuery } from 'react-query'
 
 
 interface Course {
-    id: string,
-    name: string,
-    description: string,
+  id: string,
+  name: string,
+  description: string,
 }
+interface CoursesResponse {
+  courses: Course[];
+  totalCount?: number; // Nova propriedade para indicar o total de cursos disponíveis
+}
+
 export function Courses() {
   const { loggedIn, changeLoggedIn } = useContext(LoginContext);
   const [search, setSearch] = useState('');
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
-  const { data, isFetching, isError, error } = useQuery<Course[]>('courses', async () => {
-    const response = await axios.get('/courses');
-    return response.data;
+  const { data, isFetching, isError, error } = useQuery<CoursesResponse>('courses', async () => {
+    const response = await axios.get('/courses', {
+      params: {
+        page: page,
+        pageSize: pageSize,
+      },
+    });
+    return response.data.courses;
+  }, {
+    keepPreviousData: true,
   });
 
+  const totalPages = Math.ceil(data?.totalCount ?? 0 / pageSize) || 0;
   const filteredCourses = search.length > 0
-    ? data?.filter(course => course.name.includes(search))
-    : data?.courses || [];
+    ? data?.filter(course => course.name.toLowerCase().includes(search.toLowerCase()))
+    : data || [];
 
   return (
     <div>
@@ -45,7 +60,7 @@ export function Courses() {
           ) : (
             <>
               {filteredCourses.length > 0 ? (
-                <ol className="grid gap-4">
+                <><ol className="grid gap-4">
                   {filteredCourses.map(course => (
                     <li
                       className="p-4 border border-gray-300 rounded shadow-md"
@@ -57,7 +72,26 @@ export function Courses() {
                       <p className="text-gray-600">{course.description}</p>
                     </li>
                   ))}
-                </ol>
+                </ol><div className="flex justify-center mt-4">
+                    <div className="flex justify-center mt-4">
+                      <button
+                        className="bg-gray-200 p-2 mr-2"
+                        disabled={page === 1}
+                        onClick={() => setPage(prev => prev - 1)}
+                      >
+                        Anterior
+                      </button>
+                      <p>{page}</p>
+                      <button
+                        className="bg-gray-200 p-2 ml-2"
+                        disabled={page === totalPages || totalPages === 0} 
+                        onClick={() => setPage(prev => prev + 1)}
+                      >
+                        Próxima
+                      </button>
+                    </div>
+                  </div>
+                </>
               ) : (
                 <>
                   {isError ? (
