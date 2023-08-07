@@ -13,37 +13,37 @@ const useAxios = () => {
     
   });
 
-  axiosInstance.interceptors.response.use(
-    (response: AxiosResponse) => {
-      return response;
-    },
-    async (error: any) => {
-      const navigate = useNavigate();
+  // axiosInstance.interceptors.response.use(
+  //   (response: AxiosResponse) => {
+  //     return response;
+  //   },
+  //   async (error: any) => {
+  //     const navigate = useNavigate();
 
-      if (error.response && error.response.status >= 400 && error.response.status < 500) {
-        try {
-          const refresh = localStorage.getItem("refresh");
-          const response = await axiosInstance.post("/refresh", {
-            data: {
-              refresh: refresh,
-            },
-          });
+  //     if (error.response && error.response.status >= 400 && error.response.status < 500) {
+  //       try {
+  //         const refresh = localStorage.getItem("refresh");
+  //         const response = await axiosInstance.post("/refresh", {
+  //           data: {
+  //             refresh: refresh,
+  //           },
+  //         });
 
-          if (response.status === 200) {
-            localStorage.access = response.data.access;
-            // Reenvia a solicitação original com os tokens atualizados
-            return axiosInstance.request(error.config);
-          } else {
-            navigate("/");
-          }
-        } catch (error) {
-          navigate("/");
-        }
-      }
+  //         if (response.status === 200) {
+  //           localStorage.access = response.data.access;
+  //           // Reenvia a solicitação original com os tokens atualizados
+  //           return axiosInstance.request(error.config);
+  //         } else {
+  //           navigate("/");
+  //         }
+  //       } catch (error) {
+  //         navigate("/");
+  //       }
+  //     }
 
-      return Promise.reject(error);
-    }
-  );
+  //     return Promise.reject(error.response?.data || error);
+  //   }
+  // );
 
   return axiosInstance;
 };

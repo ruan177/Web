@@ -72,8 +72,16 @@ const ResetPasswordForm = () => {
 
   const handleResetPassword = async () => {
     try {
-      // Adicione a lógica para redefinir a senha aqui
-      setMessage('Senha redefinida com sucesso! Redirecionando para a página de login...');
+      const response = await axios.post('/send', 
+        {email, inputCode, newPassword}
+      )
+      if(response.status === 200){
+        setMessage('Senha redefinida com sucesso! Redirecionando para a página de login...');
+        setTimeout(() => {
+          navigate('/login');
+        }, 4000);
+      }
+  
       // Adicione o redirecionamento para a página de login aqui
     } catch (error) {
       setMessage('Ocorreu um erro ao redefinir a senha.');
