@@ -6,7 +6,7 @@ const useAxios = () => {
   const accessToken = localStorage.getItem("access");
 
   const axiosInstance = Axios.create({
-    baseURL: "http://localhost:80",
+    baseURL: "http://localhost:8080",
     headers:{
       'Content-Type': 'application/json',
        Authorization: `Bearer ${accessToken}` },
