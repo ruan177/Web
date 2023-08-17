@@ -1,7 +1,7 @@
 import { FormEvent, useContext, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { LoginContext } from "../../../App";
-import { axios } from "../../../lib/axios";
+import { axios, setAuthToken } from "../../../lib/axios";
 import { Header } from "../../headers/headerForm";
 //import axios from 'axios'
 
@@ -28,6 +28,7 @@ export function Login() {
                 localStorage.setItem('access', response.data.access)
                 localStorage.setItem('refresh', response.data.refresh.id)
                 localStorage.setItem('user', response.data.refresh.user_id)
+                setAuthToken(response.data.access);
     
                 changeLoggedIn(true);
                 navigate('/')

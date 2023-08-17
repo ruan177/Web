@@ -72,7 +72,7 @@ const ResetPasswordForm = () => {
 
   const handleResetPassword = async () => {
     try {
-      const response = await axios.post('/send', 
+      const response = await axios.post('/reset', 
         {email, inputCode, newPassword}
       )
       if(response.status === 200){
