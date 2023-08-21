@@ -28,7 +28,7 @@ export function Login() {
                 localStorage.setItem('access', response.data.access)
                 localStorage.setItem('refresh', response.data.refresh.id)
                 localStorage.setItem('user', response.data.refresh.user_id)
-                setAuthToken(response.data.access);
+                req.headers.Authorization = `Bearer ${response.data.access}`;
     
                 changeLoggedIn(true);
                 navigate('/')

@@ -170,6 +170,7 @@ export const Admin = () => {
   const [isUsersEditMode, setIsUsersEditMode] = useState(false);
   const [isCoursesEditMode, setIsCoursesEditMode] = useState(false);
   const { data: usersData, isLoading: isLoadingUsers, isError: isErrorUsers } =
+
     useQuery<User[], AxiosError>('users', async () => {
       const response = await axios.get('/users');
       return response.data;
@@ -295,95 +296,112 @@ export const Admin = () => {
                       )}
                       <TableCell>{user.username}</TableCell>
                       <TableCell>{user.email}</TableCell>
-                      <TableCell>{user.isAdmin ? 'Yes' : 'No'}</TableCell>
+                      <TableCell>
+                        {isUsersEditMode ? (
+                          <select
+                            value={user.isAdmin ? 'true' : 'false'}
+                            onChange={(event) => {
+                              const updatedUsers = usersData.map((u) =>
+                                u.id === user.id ? { ...u, isAdmin: event.target.value === 'true' } : u
+                              );
+                              setUsersData(updatedUsers);
+                            }}
+                          >
+                            <option value="true">true</option>
+                            <option value="false">false</option>
+                          </select>
+                        ) : (
+                          user.isAdmin ? 'Yes' : 'No'
+                        )}
+                      </TableCell>
                     </TableRow>
                   ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            {isUsersEditMode && (
-              <div className="flex mt-2 items-center space-x-2">
-                {/* Botão de cancelar edição de cursos */}
-                <Button variant="contained" color="error" onClick={handleUsersCancel}>
-                  Cancel
-                </Button>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        {isUsersEditMode && (
+          <div className="flex mt-2 items-center space-x-2">
+            {/* Botão de cancelar edição de cursos */}
+            <Button variant="contained" color="error" onClick={handleUsersCancel}>
+              Cancel
+            </Button>
 
-                {/* Botão de salvar edição de cursos */}
-                <Button variant="contained" color="success" onClick={handleUsersSave}>
-                  Save
-                </Button>
-              </div>
-            )}
-          </>
+            {/* Botão de salvar edição de cursos */}
+            <Button variant="contained" color="success" onClick={handleUsersSave}>
+              Save
+            </Button>
+          </div>
+        )}
+      </>
         )}
 
-        {activeTab === 'courses' && (
-          <>
-            <h3 className="font-bold text-lg mb-4 flex items-center justify-between">
-              Courses
-              <div className="space-x-2">
-                {/* Botão de editar cursos */}
-                <Button variant="contained" color="primary" onClick={handleCoursesEdit}>
-                  Edit
+      {activeTab === 'courses' && (
+        <>
+          <h3 className="font-bold text-lg mb-4 flex items-center justify-between">
+            Courses
+            <div className="space-x-2">
+              {/* Botão de editar cursos */}
+              <Button variant="contained" color="primary" onClick={handleCoursesEdit}>
+                Edit
+              </Button>
+
+              {/* Botão de excluir cursos */}
+              {isCoursesEditMode && (
+                <Button variant="contained" color="secondary" onClick={handleCourseDelete}>
+                  Delete
                 </Button>
+              )}
 
-                {/* Botão de excluir cursos */}
-                {isCoursesEditMode && (
-                  <Button variant="contained" color="secondary" onClick={handleCourseDelete}>
-                    Delete
-                  </Button>
-                )}
-
-              </div>
-            </h3>
-            <TableContainer component={Paper}>
-              <Table aria-label="courses table">
-                <TableHead>
-                  <TableRow>
-                    {isCoursesEditMode && <TableCell></TableCell>} {/* Cabeçalho da checkbox */}
-                    <TableCell>Title</TableCell>
-                    <TableCell>Description</TableCell>
-                    <TableCell>Is Approved</TableCell>
+            </div>
+          </h3>
+          <TableContainer component={Paper}>
+            <Table aria-label="courses table">
+              <TableHead>
+                <TableRow>
+                  {isCoursesEditMode && <TableCell></TableCell>} {/* Cabeçalho da checkbox */}
+                  <TableCell>Title</TableCell>
+                  <TableCell>Description</TableCell>
+                  <TableCell>Is Approved</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {coursesData?.map((course) => (
+                  <TableRow key={course.id}>
+                    {isCoursesEditMode && (
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          checked={selectedCourses.includes(course.id)}
+                          onChange={() => handleCourseSelect(course.id)}
+                        />
+                      </TableCell>
+                    )}
+                    <TableCell>{course.name}</TableCell>
+                    <TableCell>{course.description}</TableCell>
+                    <TableCell>{course.isApproved ? 'Yes' : 'No'}</TableCell>
                   </TableRow>
-                </TableHead>
-                <TableBody>
-                  {coursesData?.map((course) => (
-                    <TableRow key={course.id}>
-                      {isCoursesEditMode && (
-                        <TableCell padding="checkbox">
-                          <Checkbox
-                            checked={selectedCourses.includes(course.id)}
-                            onChange={() => handleCourseSelect(course.id)}
-                          />
-                        </TableCell>
-                      )}
-                      <TableCell>{course.name}</TableCell>
-                      <TableCell>{course.description}</TableCell>
-                      <TableCell>{course.isApproved ? 'Yes' : 'No'}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            {isCoursesEditMode && (
-              <div className="flex mt-2 items-center space-x-2">
-                {/* Botão de cancelar edição de cursos */}
-                <Button variant="contained" color="secondary" onClick={handleCoursesCancel}>
-                  Cancel
-                </Button>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          {isCoursesEditMode && (
+            <div className="flex mt-2 items-center space-x-2">
+              {/* Botão de cancelar edição de cursos */}
+              <Button variant="contained" color="secondary" onClick={handleCoursesCancel}>
+                Cancel
+              </Button>
 
-                {/* Botão de salvar edição de cursos */}
-                <Button variant="contained" color="primary" onClick={handleCoursesSave}>
-                  Save
-                </Button>
-              </div>
-            )}
-          </>
-        )}
-        {/* Botão de editar */}
+              {/* Botão de salvar edição de cursos */}
+              <Button variant="contained" color="primary" onClick={handleCoursesSave}>
+                Save
+              </Button>
+            </div>
+          )}
+        </>
+      )}
+      {/* Botão de editar */}
 
-      </div>
     </div>
+    </div >
   );
 };
 
