@@ -3,7 +3,7 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { LoginContext } from "../../../App";
 import { axios, setAuthToken } from "../../../lib/axios";
 import { Header } from "../../headers/headerForm";
-//import axios from 'axios'
+import Axios from 'axios'
 
 
 
@@ -28,7 +28,9 @@ export function Login() {
                 localStorage.setItem('access', response.data.access)
                 localStorage.setItem('refresh', response.data.refresh.id)
                 localStorage.setItem('user', response.data.refresh.user_id)
-                req.headers.Authorization = `Bearer ${response.data.access}`;
+                axios.defaults.headers.common[
+                    "Authorization"
+                  ] = `Bearer ${response.data.access}`;
     
                 changeLoggedIn(true);
                 navigate('/')

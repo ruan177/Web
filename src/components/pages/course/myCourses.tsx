@@ -106,7 +106,7 @@ export function MyCourses() {
                     <p className="text-red-500">{error?.message || deleteError?.message || 'Erro ao carregar cursos.'}</p>
                   ) : (
                     <p className="text-gray-600 text-center">
-                      Nenhum curso criado. {data}
+                      Nenhum curso criado
                     </p>
                   )}
                 </>

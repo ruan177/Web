@@ -55,6 +55,9 @@ export function CreateCourse() {
     <h1 className="text-center text-2xl font-bold tracking-tight text-gray-900 mb-8">Create Course</h1>
 
     <div className="mb-4">
+    <label htmlFor="" className="block italic font-medium text-sm text-indigo-900 mb-2">
+            Title
+          </label>
       <input
         className="border border-gray-300 p-2 w-full"
         placeholder="Title"
@@ -64,6 +67,9 @@ export function CreateCourse() {
     </div>
 
     <div className="mb-4">
+    <label htmlFor="" className="block italic font-medium text-sm text-indigo-900 mb-2">
+            Description
+          </label>
       <input
         className="border border-gray-300 p-2 w-full"
         placeholder="Description"
@@ -73,6 +79,9 @@ export function CreateCourse() {
     </div>
 
     <div data-color-mode="light" className="mb-8">
+    <label htmlFor="" className="block italic font-medium text-sm text-indigo-900 mb-2">
+            Content
+          </label>
       <MDEditor
         height={400}
         value={BodyCourseContent}
