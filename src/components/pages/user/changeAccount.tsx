@@ -17,7 +17,7 @@ export const ChangeAccount = () => {
   const { loggedIn, changeLoggedIn } = useContext(LoginContext);
   const [showModal, setShowModal] = useState(false);
   const [confirmationText, setConfirmationText] = useState("");
-
+  const [profileImage, setProfileImage] = useState(null);
   const updateProfileMutation = useMutation(
     async () => {
       const response = await axios.patch(`/users/${userId}/update`, {
@@ -75,7 +75,7 @@ export const ChangeAccount = () => {
       } catch (error: any) {
 
       }
-     }else {
+    } else {
       // Caso o texto de confirmação esteja incorreto, exibir mensagem de erro
       alert("Texto de confirmação incorreto. Digite 'DELETE' para excluir a conta.");
     }

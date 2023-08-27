@@ -40,7 +40,7 @@ export function UpdateCourse() {
         body: bodyCourseContent
       })
       if (response.status === 200) {
-        toast.success("Curso enviado para aprovação",{
+        toast.success("Curso enviado para aprovação", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -48,9 +48,10 @@ export function UpdateCourse() {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "light",})
-      // Redirect or show success message
-    }
+          theme: "light",
+        })
+        // Redirect or show success message
+      }
     } catch (error: any) {
       setError(error.response.data.error)
       // Handle error
@@ -107,7 +108,7 @@ export function UpdateCourse() {
         </div>
 
         <div data-color-mode="light" className="mb-8">
-        <label htmlFor="" className="block italic font-medium text-sm text-indigo-900 mb-2">
+          <label htmlFor="" className="block italic font-medium text-sm text-indigo-900 mb-2">
             Content
           </label>
           <MDEditor
@@ -123,18 +124,18 @@ export function UpdateCourse() {
           </button>
         </div>
         <ToastContainer
-      position="bottom-center"
-      autoClose={5000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      theme="light" />
-  </div>
-      
+          position="bottom-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light" />
+      </div>
+
     </>
 
   );
