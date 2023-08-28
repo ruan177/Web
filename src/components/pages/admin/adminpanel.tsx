@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useId, useState } from 'react';
 import { useQuery, useMutation } from 'react-query';
 import { AxiosError } from 'axios';
 import { axios } from '../../../lib/axios';
@@ -38,10 +38,12 @@ export const Admin = () => {
   const [isUsersEditMode, setIsUsersEditMode] = useState(false);
   const [isCoursesEditMode, setIsCoursesEditMode] = useState(false);
   const [ usersUpdatedData, setUsersUpdatedData] = useState<User[]>();
+
   const { data: usersData, isLoading: isLoadingUsers, isError: isErrorUsers } =
 
     useQuery<User[], AxiosError>('users', async () => {
-      const response = await axios.get('/users');
+      const userId = localStorage.getItem('user')
+      const response = await axios.get(`/users/${userId}/admin`);
       return response.data;
     });
 
@@ -60,7 +62,7 @@ export const Admin = () => {
   };
   const deleteUserMutation = useMutation<void, AxiosError, number[]>(
     async (selectedUserIds) => {
-      await axios.delete('/delete-users', { data: selectedUserIds });
+      await axios.delete('/users/delete', { data: selectedUserIds });
     },
     {
       onSuccess: () => {
@@ -81,7 +83,7 @@ export const Admin = () => {
 
   const deleteCoursesMutation = useMutation<void, AxiosError, number[]>(
     async (selectedCourseIds) => {
-      await axios.delete('/courses', { data: selectedCourseIds });
+      await axios.delete('/courses/delete', { data: selectedCourseIds });
     },
     {
       // You can also provide an onSuccess callback if needed.

@@ -60,6 +60,30 @@ export function MyCourses() {
   const startIndex = (page - 1) * cardsPerPage;
   const endIndex = Math.min(startIndex + cardsPerPage, filteredCourses.length);
 
+  if (isFetching) {
+    return (
+      <div>
+        <Header />
+        <div className="flex flex-col items-center justify-center mt-8">
+          <p className="text-gray-600 text-center">Loading courses...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div>
+        <Header />
+        <div className="flex flex-col items-center justify-center mt-8">
+          <p className="text-red-500 text-center">
+            Error loading courses: {error?.message}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
       <Header />

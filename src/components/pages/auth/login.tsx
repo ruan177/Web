@@ -1,7 +1,7 @@
 import { FormEvent, useContext, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { LoginContext } from "../../../App";
-import { axios, setAuthToken } from "../../../lib/axios";
+import { axios } from "../../../lib/axios";
 import { Header } from "../../headers/headerForm";
 import Axios from 'axios'
 
