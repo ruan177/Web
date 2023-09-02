@@ -1,7 +1,7 @@
 
-import React, { useId, useState } from 'react';
+import React, { useEffect, useId, useState } from 'react';
 import { useQuery, useMutation } from 'react-query';
-import { AxiosError } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import { axios } from '../../../lib/axios';
 import { NavLink } from 'react-router-dom';
 import {
@@ -28,7 +28,7 @@ interface Course {
   id: number;
   name: string;
   description: string;
-  isApproved: boolean;
+  isAproved: boolean;
 }
 
 export const Admin = () => {
@@ -37,28 +37,102 @@ export const Admin = () => {
   const [selectedCourses, setSelectedCourses] = useState<number[]>([]);
   const [isUsersEditMode, setIsUsersEditMode] = useState(false);
   const [isCoursesEditMode, setIsCoursesEditMode] = useState(false);
-  const [ usersUpdatedData, setUsersUpdatedData] = useState<User[]>();
-
-  const { data: usersData, isLoading: isLoadingUsers, isError: isErrorUsers } =
-
+  const [usersData, setUsersData] = useState<User[]>([]); // Store the updated user data here
+  const [coursesData, setCoursesData] = useState<Course[]>([]);
+  const { data: usersDataInitial, isLoading: isLoadingUsers, isError: isErrorUsers } =
     useQuery<User[], AxiosError>('users', async () => {
-      const userId = localStorage.getItem('user')
+      const userId = localStorage.getItem('user');
       const response = await axios.get(`/users/${userId}/admin`);
       return response.data;
     });
 
-  const { data: coursesData, isLoading: isLoadingCourses, isError: isErrorCourses } =
+  // Initialize user data and set it to usersData state
+  useEffect(() => {
+    if (usersDataInitial) {
+      setUsersData(usersDataInitial);
+    }
+  }, [usersDataInitial]);
+
+  const { data: coursesDataInitial, isLoading: isLoadingCourses, isError: isErrorCourses } =
     useQuery<Course[], AxiosError>('courses', async () => {
-      const response = await axios.get('/courses');
+      const response = await axios.get('/courses/admin');
       return response.data.courses;
     });
+    useEffect(() => {
+      if (coursesDataInitial) {
+        setCoursesData(coursesDataInitial);
+      }
+    }, [coursesDataInitial]);
+  
 
+    const handleUsersSave = async () => {
+      // Add this line
+      console.log('Inside handleUsersSave');
+      const updatedUsers = usersData.filter((user) => {
+        const initialUser = usersDataInitial.find((initial) => initial.id === user.id);
+        return initialUser && initialUser.isAdmin !== user.isAdmin;
+      });
 
-  const handleUsersSave = () => {
-    // Implemente a lógica para excluir os usuários e cursos selecionados
-  };
-  const handleCoursesSave = () => {
-    // Implemente a lógica para excluir os usuários e cursos selecionados
+      if (updatedUsers.length > 0) {
+        try {
+          const response = await updateUserMutation.mutateAsync(updatedUsers);
+          console.log('Update response:', response); // Add this line
+    
+     
+            if(response.status === 200){
+              //setUsersData(updatedUsers);
+              setSelectedUsers([]);
+              setIsUsersEditMode(false);
+            }
+
+          
+        } catch (error) {
+          console.error('Update error:', error); // Add this line
+        }
+      } else {
+        setIsUsersEditMode(false);
+      }
+    };
+
+  const updateUserMutation = useMutation<void, AxiosError, User[]>(
+    async (updatedUsers) => {
+      return await axios.patch('/users/update', updatedUsers);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('users');
+      },
+    }
+  );
+  const updateCoursesMutation = useMutation<void, AxiosError, Course[]>(
+    async (updatedCourses) => {
+      return await axios.patch('/courses/update', updatedCourses);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('courses');
+        queryClient.refetchQueries('courses');
+        setIsCoursesEditMode(false);
+      },
+    }
+  );
+  const handleCoursesSave = async () => {
+    const coursesToUpdate = coursesData.map((course) =>
+      selectedCourses.includes(course.id) ? { ...course, isAproved: !course.isAproved } : course
+    );
+
+    if (coursesToUpdate.length > 0) {
+      try {
+        await updateCoursesMutation.mutateAsync(coursesToUpdate);
+        setCoursesData(coursesToUpdate);
+        setIsCoursesEditMode(false);
+        setSelectedCourses([]); // Limpar cursos selecionados
+      } catch (error) {
+        // Lidar com o erro
+      }
+    } else {
+      setIsCoursesEditMode(false);
+    }
   };
   const deleteUserMutation = useMutation<void, AxiosError, number[]>(
     async (selectedUserIds) => {
@@ -207,22 +281,24 @@ export const Admin = () => {
                       <TableCell>{user.username}</TableCell>
                       <TableCell>{user.email}</TableCell>
                       <TableCell>
-                        {isUsersEditMode ? (
+                      {isUsersEditMode ? (
+                        <TableCell>
                           <select
                             value={user.isAdmin ? 'true' : 'false'}
                             onChange={(event) => {
                               const updatedUsers = usersData.map((u) =>
                                 u.id === user.id ? { ...u, isAdmin: event.target.value === 'true' } : u
                               );
-                              setUsersUpdatedData(updatedUsers);
+                              setUsersData(updatedUsers); // Update the local state directly
                             }}
                           >
                             <option value="true">true</option>
                             <option value="false">false</option>
                           </select>
-                        ) : (
-                          user.isAdmin ? 'Yes' : 'No'
-                        )}
+                        </TableCell>
+                      ) : (
+                        <TableCell>{user.isAdmin ? 'Yes' : 'No'}</TableCell>
+                      )}
                       </TableCell>
                     </TableRow>
                   ))}
@@ -287,7 +363,26 @@ export const Admin = () => {
                     )}
                     <TableCell>{course.name}</TableCell>
                     <TableCell>{course.description}</TableCell>
-                    <TableCell>{course.isApproved ? 'Yes' : 'No'}</TableCell>
+                    <TableCell>
+                    {isCoursesEditMode ? (
+                        <TableCell>
+                          <select
+                            value={course.isApproved ? 'true' : 'false'}
+                            onChange={(event) => {
+                              const updatedCourses = coursesData.map((u) =>
+                                u.id === course.id ? { ...u, isApproved: event.target.value === 'true' } : u
+                              );
+                              setCoursesData(updatedCourses); // Update the local state directly
+                            }}
+                          >
+                            <option value="true">true</option>
+                            <option value="false">false</option>
+                          </select>
+                        </TableCell>
+                      ) : (
+                        <TableCell>{course.isAproved ? 'Yes' : 'No'}</TableCell>
+                      )}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
