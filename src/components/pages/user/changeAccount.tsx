@@ -2,10 +2,9 @@ import { useContext, useState } from "react";
 import { MdSave, MdDelete } from "react-icons/md";
 import { Header } from "../../headers/headerForm";
 import { useMutation, useQueries, useQuery } from "react-query";
-import { axios } from "../../../lib/axios";
+import { useAxios } from "../../../lib/axios";
 import { queryClient } from "../../../lib/queryClient";
-import { LoginContext } from "../../../App";
-import { redirect } from "react-router-dom";
+import { useAuth } from "../../../context/loginContext";
 
 export const ChangeAccount = () => {
   const [newpassword, setNewPassword] = useState("");
@@ -14,10 +13,12 @@ export const ChangeAccount = () => {
   const [username, setUsername] = useState("");
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const userId = localStorage.getItem('user');
-  const { loggedIn, changeLoggedIn } = useContext(LoginContext);
+  const { loggedIn, changeLoggedIn } = useAuth();
   const [showModal, setShowModal] = useState(false);
   const [confirmationText, setConfirmationText] = useState("");
   const [profileImage, setProfileImage] = useState(null);
+  const axios = useAxios();
+
   const updateProfileMutation = useMutation(
     async () => {
       const response = await axios.patch(`/users/${userId}/update`, {

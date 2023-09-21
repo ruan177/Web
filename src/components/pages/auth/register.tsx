@@ -1,7 +1,7 @@
 
 import { FormEvent, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { axios } from "../../../lib/axios";
+import { useAxios } from "../../../lib/axios";
 import { Header } from "../../headers/headerForm";
 
 export function Register() {
@@ -10,7 +10,7 @@ export function Register() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('')
-
+    const axios = useAxios();
     const navigate = useNavigate();
 
     const handleSubmit = async function (event: FormEvent) {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { axios } from "../../../lib/axios";
+import { useAxios } from "../../../lib/axios";
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { FiMail, FiCheckCircle } from 'react-icons/fi';
@@ -17,6 +17,7 @@ const ResetPasswordForm = () => {
   const [isInputDisabled, setIsInputDisabled] = useState(false);
   const [isResendButtonDisabled, setIsResendButtonDisabled] = useState(false);
   const [isCodeSent, setIsCodeSent] = useState(false);
+  const axios = useAxios();
 
   const navigate = useNavigate();
 

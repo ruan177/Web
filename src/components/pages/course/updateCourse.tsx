@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from "react"
 import ReactMarkdown from "react-markdown"
-import { axios } from '../../../lib/axios';
+import { useAxios } from '../../../lib/axios';
 import { useParams } from "react-router-dom"
 import Header from "../../headers/header";
 import '../../../styles/global.css'
@@ -22,6 +22,7 @@ export function UpdateCourse() {
   const [courseDescription, setCourseDescription] = useState('');
   const [error, setError] = useState('');
   const { uuid } = useParams();
+  const axios = useAxios();
 
   const { data, isLoading, isError } = useQuery(['course', uuid], async () => {
     const response = await axios.get(`/courses/${uuid}`);

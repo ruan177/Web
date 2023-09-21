@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useState } from 'react';
 import avatar from '../../assets/logos/avatar.jpg'
-import { NavLink, Navigate, useNavigate } from 'react-router-dom';
-import { LoginContext } from '../../App';
-import { axios } from '../../lib/axios';
+import { NavLink,  useNavigate } from 'react-router-dom';
+import { useAxios } from '../../lib/axios';
 import { useQuery } from 'react-query';
+import { useAuth } from '../../context/loginContext';
 
 interface User {
   username: string
@@ -13,10 +13,9 @@ interface User {
 const UserProfile = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  const { loggedIn, changeLoggedIn } = useContext(LoginContext);
+  const { loggedIn, changeLoggedIn } = useAuth();
   const userUuid = localStorage.getItem('user');
-
-
+  const axios = useAxios();
 
   const { data, isFetching, isError, error } = useQuery('userInfo', async () => {
     const response = await axios.get<User>(`/users/${userUuid}`);
@@ -31,7 +30,9 @@ const UserProfile = () => {
 
 
   if (isFetching) {
-    return <p>Carregando informações do usuário...</p>;
+    return <p> <svg className="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24">
+    
+  </svg>Carregando informações do usuário...</p>;
   }
 
 
@@ -49,6 +50,7 @@ const UserProfile = () => {
 
         {isOpen && (
           <ul className="absolute right-0 z-10 w-48 py-2 mt-2 bg-white rounded-md shadow-xl dropdown-menu top-10 right-4">
+            
 
             {data?.isAdmin &&<li className="px-4 py-2 hover:bg-gray-100">
               <NavLink to={`/admin`}>Admin</NavLink>

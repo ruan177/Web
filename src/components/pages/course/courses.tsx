@@ -1,11 +1,10 @@
-import { useEffect, useState, useContext } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { LoginContext } from "../../../App";
-import { axios } from "../../../lib/axios";
+import { useState} from "react";
+import { useAxios } from "../../../lib/axios";
 import '../../../styles/global.css'
 import { Link } from "react-router-dom";
 import Header from "../../headers/header";
 import { useQuery } from 'react-query'
+import { useAuth } from "../../../context/loginContext";
 
 
 interface Course {
@@ -19,10 +18,11 @@ interface CoursesResponse {
 }
 
 export function Courses() {
-  const { loggedIn, changeLoggedIn } = useContext(LoginContext);
+  const { loggedIn, changeLoggedIn } = useAuth();
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const axios = useAxios();
 
   const { data, isFetching, isError, error } = useQuery<CoursesResponse>(
     ['courses', page, pageSize], // Adicione a variável "page" como dependência

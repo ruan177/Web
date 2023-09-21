@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from "react"
-import { axios } from "../../../lib/axios";
+import { useAxios } from "../../../lib/axios";
 import Header from "../../headers/header";
 import '../../../styles/global.css'
 import { ToastContainer, toast } from "react-toastify";
@@ -12,7 +12,9 @@ export function CreateCourse() {
   const [CourseName, setCourseName] = useState('');
   const [BodyCourseContent, setBodyCourseContent] = useState('');
   const [CourseDescription, setCourseDescription] = useState('');
-  const [error, setError] = useState('');
+  const [error, setError] = useState('');  
+  const axios = useAxios();
+
 
   const handleSubmit = async function (event: FormEvent) {
     event.preventDefault();

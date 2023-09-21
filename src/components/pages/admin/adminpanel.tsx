@@ -1,9 +1,10 @@
 
-import React, { useEffect, useId, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery, useMutation } from 'react-query';
-import { AxiosError, AxiosResponse } from 'axios';
-import { axios } from '../../../lib/axios';
+import { AxiosError } from 'axios';
+import { useAxios } from '../../../lib/axios';
 import { NavLink } from 'react-router-dom';
+import {AiOutlineArrowLeft} from 'react-icons/ai'
 import {
   Table,
   TableBody,
@@ -39,6 +40,7 @@ export const Admin = () => {
   const [isCoursesEditMode, setIsCoursesEditMode] = useState(false);
   const [usersData, setUsersData] = useState<User[]>([]); // Store the updated user data here
   const [coursesData, setCoursesData] = useState<Course[]>([]);
+  const axios = useAxios();
   const { data: usersDataInitial, isLoading: isLoadingUsers, isError: isErrorUsers } =
     useQuery<User[], AxiosError>('users', async () => {
       const userId = localStorage.getItem('user');
@@ -69,13 +71,13 @@ export const Admin = () => {
       // Add this line
       console.log('Inside handleUsersSave');
       const updatedUsers = usersData.filter((user) => {
-        const initialUser = usersDataInitial.find((initial) => initial.id === user.id);
+        const initialUser = usersDataInitial?.find((initial) => initial.id === user.id);
         return initialUser && initialUser.isAdmin !== user.isAdmin;
       });
 
       if (updatedUsers.length > 0) {
         try {
-          const response = await updateUserMutation.mutateAsync(updatedUsers);
+          const response: any = await updateUserMutation.mutateAsync(updatedUsers);
           console.log('Update response:', response); // Add this line
     
      
@@ -215,7 +217,8 @@ export const Admin = () => {
     <div className="flex h-screen">
       {/* Drawer */}
       <div className="w-1/4 bg-gray-200 p-4">
-        <h2 className="font-bold text-xl mb-4">Admin</h2>
+      <NavLink className="font-bold text-xl mb-4" to="/"><AiOutlineArrowLeft /></NavLink>
+        
         <ul>
           <li
             className={`cursor-pointer py-2 border-b border-gray-300 ${activeTab === 'users' ? 'font-bold' : ''
@@ -231,9 +234,7 @@ export const Admin = () => {
           >
             Courses
           </li>
-          <li className="cursor-pointer py-2 border-b border-gray-300">
-            <NavLink to="/">Back to Home</NavLink>
-          </li>
+    
         </ul>
       </div>
 
@@ -367,10 +368,10 @@ export const Admin = () => {
                     {isCoursesEditMode ? (
                         <TableCell>
                           <select
-                            value={course.isApproved ? 'true' : 'false'}
+                            value={course.isAproved ? 'true' : 'false'}
                             onChange={(event) => {
                               const updatedCourses = coursesData.map((u) =>
-                                u.id === course.id ? { ...u, isApproved: event.target.value === 'true' } : u
+                                u.id === course.id ? { ...u, isAproved: event.target.value === 'true' } : u
                               );
                               setCoursesData(updatedCourses); // Update the local state directly
                             }}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { axios } from "../../../lib/axios";
+import {  useAxios } from "../../../lib/axios";
 import { useParams } from "react-router-dom"
 import Header from "../../headers/header";
 import MarkdownPreview from '@uiw/react-markdown-preview';
@@ -18,6 +18,8 @@ export function Course() {
   const [course, setCourse] = useState<Course>();
   const [error, setError] = useState('');
   const { uuid } = useParams();
+  const axios = useAxios();
+
 
   const { data , isFetching, isError } = useQuery<Course>(
     ['course', uuid],

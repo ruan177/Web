@@ -1,15 +1,14 @@
-import { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { LoginContext } from "../../../App";
-import { axios } from "../../../lib/axios";
+import { useState } from "react";
+import { useAxios } from "../../../lib/axios";
 import '../../../styles/global.css'
 import { Link } from "react-router-dom";
 import Header from "../../headers/header";
 import { useMutation, useQuery } from 'react-query'
 
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import { queryClient } from "../../../lib/queryClient";
+import { useAuth } from "../../../context/loginContext";
 
 interface Course {
   id: string,
@@ -18,12 +17,13 @@ interface Course {
 }
 
 export function MyCourses() {
-  const { loggedIn, changeLoggedIn } = useContext(LoginContext);
+  const { loggedIn, changeLoggedIn } = useAuth();
   const [search, setSearch] = useState('');
   const userUuid = localStorage.getItem('user');
   const [deleteError, setDeleteError] = useState('');
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const axios = useAxios();
 
   const { data, isFetching, isError, error } = useQuery<Course[]>('MyCourses', async () => {
     const response = await axios.get(`/mycourses/${userUuid}`, {

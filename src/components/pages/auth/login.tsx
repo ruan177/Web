@@ -1,18 +1,18 @@
-import { FormEvent, useContext, useState } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { LoginContext } from "../../../App";
-import { axios } from "../../../lib/axios";
+import { FormEvent,  useState } from "react";
+import { NavLink,  useNavigate } from "react-router-dom";
+import { useAxios } from "../../../lib/axios";
 import { Header } from "../../headers/headerForm";
-import Axios from 'axios'
+import { useAuth } from "../../../context/loginContext";
 
 
 
 export function Login() {
-    let { loggedIn ,changeLoggedIn } = useContext(LoginContext)
+    let { loggedIn ,changeLoggedIn } = useAuth();
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('')
+    const axios = useAxios();
 
     const handleSubmit = async function (event: FormEvent) {
         event.preventDefault();

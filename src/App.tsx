@@ -4,6 +4,7 @@ import { Login } from './components/pages/auth/login';
 import { Home } from './components/pages/home';
 import { Register } from './components/pages/auth/register';
 import { Courses } from './components/pages/course/courses';
+import { Error } from './components/pages/error';
 import '../src/styles/global.css'
 import { Course } from './components/pages/course/course';
 import { CreateCourse } from './components/pages/course/createCourse';
@@ -15,53 +16,40 @@ import { useContext } from "react";
 import { Admin } from './components/pages/admin/adminpanel';
 import { ChangeAccount } from './components/pages/user/changeAccount';
 import ResetPasswordForm from './components/pages/user/resetPassword';
+import { AuthProvider } from './context/loginContext';
+import { PrivateRoute } from './lib/privateRoute';
 
 
-export const LoginContext = createContext({ loggedIn: false, changeLoggedIn: (value: true | false) => { } });
 
 export default function App() {
 
-  const [loggedIn, changeLoggedIn] = useState<boolean>(localStorage.access ? true : false);
-
-
-
-  useEffect(() => {
-    // When the loggedIn state is updated, force a re-render to show/hide <UserProfile />
-  }, [loggedIn])
 
   return (
-    <LoginContext.Provider value={{ loggedIn, changeLoggedIn }}>
+    <AuthProvider>
 
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <Routes>
-            <Route path="/login" element={<Login />} />,
-            <Route path="/register" element={<Register />} />,
-            <Route path="/" element={<Home />} />,
-            <Route path="/courses" element={<Courses />} />,
-            <Route path="/courses/:uuid" element={<Course />} />,
-            <Route path="/course/create" element={<PrivateRoute><CreateCourse /></PrivateRoute>} />,
-            <Route path="/course/:uuid/update" element={<PrivateRoute><UpdateCourse /></PrivateRoute>} />,
-            <Route path="/mycourses/:userId" element={<PrivateRoute><MyCourses /></PrivateRoute>} />,
-            <Route path="/account/update" element={<PrivateRoute><ChangeAccount /></PrivateRoute>} />,
-            <Route path="/admin" element={<PrivateRoute><Admin /></PrivateRoute>} />,
-            <Route path="/reset" element={<ResetPasswordForm />} />,
+            <Route path="/login" element={<Login />} errorElement={<Error />}/>,
+            <Route path="/register" element={<Register />}errorElement={<Error />} />,
+            <Route path="/" element={<Home />} errorElement={<Error />}/>,
+            <Route path="/courses" element={<Courses />}errorElement={<Error />}/>,
+            <Route path="/courses/:uuid" element={<Course />}errorElement={<Error />} />,
+            <Route path="/course/create" element={<PrivateRoute><CreateCourse /></PrivateRoute>} errorElement={<Error />}/>,
+            <Route path="/course/:uuid/update" element={<PrivateRoute><UpdateCourse /></PrivateRoute>} errorElement={<Error />}/>,
+            <Route path="/mycourses/:userId" element={<PrivateRoute><MyCourses /></PrivateRoute>}errorElement={<Error />} />,
+            <Route path="/account/update" element={<PrivateRoute><ChangeAccount /></PrivateRoute>}errorElement={<Error />} />,
+            <Route path="/admin" element={<PrivateRoute><Admin /></PrivateRoute>} errorElement={<Error />}/>,
+            <Route path="/reset" element={<ResetPasswordForm />} errorElement={<Error />}/>,
+            <Route path="/error" element={<Error />}  />,
           </Routes>
         </BrowserRouter>
       </QueryClientProvider>
 
-    </LoginContext.Provider>
+    </AuthProvider>
 
   )
 }
 
-export function PrivateRoute({ children }: { children: JSX.Element }) {
-  const { loggedIn } = useContext(LoginContext);
 
-  if (!loggedIn) {
-    return <Navigate to="/login" />;
-
-  };
-  return children;
-}
 
