@@ -1,27 +1,25 @@
-import { useState} from "react";
+import React, { useState } from "react"; // Importe o React também
 import { useAxios } from "../../../lib/axios";
 import '../../../styles/global.css'
 import { Link } from "react-router-dom";
 import Header from "../../headers/header";
 import { useQuery } from 'react-query'
-import { useAuth } from "../../../context/loginContext";
+import { AxiosError } from "axios";
 
-
-interface Course {
+export interface Course {
   id: string,
   name: string,
   description: string,
 }
-interface CoursesResponse {
+export interface CoursesResponse {
   courses: Course[];
   totalCount?: number; // Nova propriedade para indicar o total de cursos disponíveis
 }
 
 export function Courses() {
-  const { loggedIn, changeLoggedIn } = useAuth();
-  const [search, setSearch] = useState('');
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [search, setSearch] = useState<string>(''); // Declare o tipo do estado como string
+  const [page, setPage] = useState<number>(1); // Declare o tipo do estado como número
+  const [pageSize, setPageSize] = useState<number>(10); // Declare o tipo do estado como número
   const axios = useAxios();
 
   const { data, isFetching, isError, error } = useQuery<CoursesResponse>(
@@ -39,43 +37,42 @@ export function Courses() {
       keepPreviousData: true,
     }
   );
-  
+
   const cardsPerPage = 7;
-  
+
   const filteredCourses = search.length > 0
-  ? data?.courses.filter(course => course.name.toLowerCase().includes(search.toLowerCase()))
-  : data?.courses || [];
+    ? data?.courses?.filter(course => course.name.toLowerCase().includes(search.toLowerCase()))
+    : data?.courses || [];
 
   const startIndex = (page - 1) * cardsPerPage;
-  
-  const endIndex = Math.min(startIndex + cardsPerPage, filteredCourses.length); // Use Math.min para evitar índices maiores do que o tamanho do array
 
-  const totalPages = Math.ceil(filteredCourses.length / cardsPerPage);
+  const endIndex = Math.min(startIndex + cardsPerPage, filteredCourses?.length || 0 ) ; // Use Math.min para evitar índices maiores do que o tamanho do array
 
-  const displayedCourses = filteredCourses.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(filteredCourses?.length || 0  / cardsPerPage);
 
+  const displayedCourses = filteredCourses?.slice(startIndex, endIndex);
 
   return (
     <div>
       <Header />
       <div className="flex flex-col items-center justify-center mt-8">
-      <div className="max-w-3xl mx-auto w-full">
-        <input
-          name="search"
-          type="text"
-          placeholder="Buscar..."
-          className="w-full p-2 mb-4 text-lg border border-gray-300 rounded"
-          onChange={e => setSearch(e.target.value)}
-          value={search}
-        />
+        <div className="max-w-3xl mx-auto w-full">
+          <input
+            name="search"
+            type="text"
+            placeholder="Buscar..."
+            className="w-full p-2 mb-4 text-lg border border-purple-900 rounded"
+            onChange={e => setSearch(e.target.value)}
+            value={search}
+          />
 
-{isFetching ? (
-        <p className="text-gray-600 text-center">Carregando cursos...</p>
-      ) : (
-        <>
-          {displayedCourses.length > 0 ? (
-            <><ol className="grid gap-4">
-                    {displayedCourses.map(course => (
+          {isFetching ? (
+            <p className="text-gray-600 text-center">Carregando cursos...</p>
+          ) : (
+            <>
+              {displayedCourses?.length ||0 > 0 ? (
+                <><ol className="grid gap-4">
+                    {displayedCourses?.map(course => (
                       <li
                         className="p-4 border border-gray-300 rounded shadow-md"
                         key={course.id}
@@ -86,30 +83,31 @@ export function Courses() {
                         <p className="text-gray-600">{course.description}</p>
                       </li>
                     ))}
-                  </ol>
-                  <div className="flex justify-center mt-4">
-                    <button
-                      className="bg-gray-200 p-2 mr-2"
-                      disabled={page === 1}
-                      onClick={() => setPage(prev => Math.max(prev - 1, 1))}
-                    >
-                      Anterior
-                    </button>
-                    
-                    <button
-                      className="bg-gray-200 p-2 ml-2"
-                      disabled={page === totalPages || totalPages === 0}
-                      onClick={() => setPage(prev => Math.min(prev + 1, totalPages))}
-                    >
-                      Próxima
-                    </button>
-                    </div>
-                    </>
-                               
-             ) : (
+                  </ol><div className="flex justify-center mt-4">
+                      <button
+                        className="bg-gray-200 p-2 mr-2"
+                        disabled={page === 1}
+                        onClick={() => setPage(prev => Math.max(prev - 1, 1))}
+                      >
+                        Anterior
+                      </button>
+
+                      <button
+                        className="bg-gray-200 p-2 ml-2"
+                        disabled={page === totalPages || totalPages === 0}
+                        onClick={() => setPage(prev => Math.min(prev + 1, totalPages))}
+                      >
+                        Próxima
+                      </button>
+                    </div></>
+              ) : (
                 <>
-                  {isError ? (
-                    <p className="text-red-500">{error?.message || 'Erro ao carregar cursos.'}</p>
+                 {isError ? (
+                    <p className="text-red-500">
+                      {error instanceof AxiosError
+                        ? error.response?.data.message || 'Erro ao carregar cursos.'
+                        : 'Erro ao carregar cursos.'}
+                    </p>
                   ) : (
                     <p className="text-gray-600 text-center">
                       Nenhum curso encontrado.
@@ -124,4 +122,3 @@ export function Courses() {
     </div>
   );
 }
-

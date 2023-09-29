@@ -25,7 +25,7 @@ export function MyCourses() {
   const [pageSize, setPageSize] = useState(10);
   const axios = useAxios();
 
-  const { data, isFetching, isError, error } = useQuery<Course[]>('MyCourses', async () => {
+  const { data, isFetching, isError, error: any } = useQuery<Course[]>('MyCourses', async () => {
     const response = await axios.get(`/mycourses/${userUuid}`, {
       params: {
         page: page,
@@ -56,9 +56,9 @@ export function MyCourses() {
     }
   }
 
-  const totalPages = Math.ceil(filteredCourses.length / cardsPerPage);
+  const totalPages = Math.ceil(filteredCourses?.length  / cardsPerPage);
   const startIndex = (page - 1) * cardsPerPage;
-  const endIndex = Math.min(startIndex + cardsPerPage, filteredCourses.length);
+  const endIndex = Math.min(startIndex + cardsPerPage, filteredCourses?.length );
 
   if (isFetching) {
     return (
@@ -109,7 +109,7 @@ export function MyCourses() {
                       className="p-4 border border-gray-300 rounded shadow-md"
                       key={course.id}
                     >
-                      <Link to={`/course/${course.id}`}>
+                      <Link to={`/courses/${course.id}`}>
                         <h3 className="text-xl font-bold">{course.name}</h3>
                       </Link>
                       <p className="text-gray-600">{course.description}</p>

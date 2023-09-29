@@ -21,13 +21,13 @@ export default function Header(props: any) {
             <img src={logo} width="60" height="60" alt="Logo" />
           </NavLink>
         </div>
-  
+
         {/* Menu Button */}
         {loggedIn ? (
           // Não renderize UserProfile aqui
           <button
             className="md:hidden text-black focus:outline-none"
-            
+
           >
             <UserProfile />
           </button>
@@ -39,28 +39,28 @@ export default function Header(props: any) {
             ☰
           </button>
         )}
-  
+
         {/* Mobile Menu */}
         <div className={`md:hidden absolute text-center top-16 right-0 bg-white p-4 ${menuOpen ? 'block' : 'hidden'}`}>
- 
-        {!loggedIn && (
-          <><NavLink className="block font-medium rounded-lg text-sm text-black mb-2" to="/courses">
-                Courses
+
+          {!loggedIn && (
+            <><NavLink className="block font-medium rounded-lg text-sm text-black mb-2" to="/courses">
+              Courses
+            </NavLink><NavLink className="block font-medium rounded-lg text-sm text-black mb-2" to="/">
+                Exercises
               </NavLink><NavLink className="block font-medium rounded-lg text-sm text-black mb-2" to="/">
-                  Exercises
-                </NavLink><NavLink className="block font-medium rounded-lg text-sm text-black mb-2" to="/">
-                  How it Works
-                </NavLink><NavLink className="block font-medium rounded-lg text-sm text-black mb-2" to="/">
-                  About Us
-                </NavLink><hr className="my-2" /><NavLink className=" block font-medium rounded-lg italic 2 text-sm text-violet-900 mb-2" to="/login">
-                  Sign-in
-                </NavLink><NavLink className="block font-medium rounded-lg italic bg-indigo-900  text-sm text-white mb-2" to="/register">
-                  Sign-up
-                </NavLink></>
+                How it Works
+              </NavLink><NavLink className="block font-medium rounded-lg text-sm text-black mb-2" to="/">
+                About Us
+              </NavLink><hr className="my-2" /><NavLink className=" block font-medium rounded-lg italic 2 text-sm text-violet-900 mb-2" to="/login">
+                Sign-in
+              </NavLink><NavLink className="block font-medium rounded-lg italic bg-indigo-900  text-sm text-white mb-2" to="/register">
+                Sign-up
+              </NavLink></>
           )}
         </div>
         {/* ... */}
-        
+
         {/* Desktop Menu */}
         <div className="hidden md:flex gap-8 items-center">
           <NavLink className="flex font-medium rounded-lg text-base text-black" to="/courses">
@@ -75,9 +75,9 @@ export default function Header(props: any) {
           <NavLink className="flex font-medium rounded-lg text-base text-black" to="/">
             Sobre Nós
           </NavLink>
-          
+
         </div>
-  
+
         {/* Avatar */}
         <div className="hidden md:flex gap-4 items-center">
           {loggedIn ? (

@@ -103,8 +103,8 @@ const ResetPasswordForm = () => {
 
   return (
     <>
-      <Header textColor={"text-black"} />
-      <div className="flex items-center justify-center h-screen">
+      <Header textColor={"text-white"} />
+      <div className="  bg-gradient-to-r from-indigo-900 via-purple-500 to-rose-500 flex items-center justify-center h-screen">
         <div className="p-8 bg-white shadow-lg rounded-lg">
           {step === 1 ? (
             <>

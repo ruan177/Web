@@ -21,6 +21,7 @@ import { PrivateRoute } from './lib/privateRoute';
 
 
 
+
 export default function App() {
 
 
@@ -42,6 +43,7 @@ export default function App() {
             <Route path="/admin" element={<PrivateRoute><Admin /></PrivateRoute>} errorElement={<Error />}/>,
             <Route path="/reset" element={<ResetPasswordForm />} errorElement={<Error />}/>,
             <Route path="/error" element={<Error />}  />,
+
           </Routes>
         </BrowserRouter>
       </QueryClientProvider>
