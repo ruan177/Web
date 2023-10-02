@@ -1,14 +1,14 @@
 import { useContext, useState } from "react";
 import { MdSave, MdDelete } from "react-icons/md";
-import { Header } from "../../headers/headerForm";
+import { Header } from "../../components/headers/headerForm";
 import { useMutation, useQueries, useQuery } from "react-query";
-import { useAxios } from "../../../lib/axios";
-import { queryClient } from "../../../lib/queryClient";
-import { useAuth } from "../../../context/loginContext";
+import { useAxios } from "../../lib/axios";
+import { queryClient } from "../../lib/queryClient";
+import { useAuth } from "../../context/loginContext";
 import { FaSave } from "react-icons/fa";
-import ProfileChangeForm from "../../forms/profileChangeForm";
-import PasswordChangeForm from "../../forms/passwordChangeForm";
-import DeleteAccountModal from "../../forms/accountDeletionForm";
+import ProfileChangeForm from "../../components/forms/profileChangeForm";
+import PasswordChangeForm from "../../components/forms/passwordChangeForm";
+import DeleteAccountModal from "../../components/forms/accountDeletionForm";
 
 
 export const ChangeAccount = () => {

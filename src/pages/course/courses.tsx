@@ -1,56 +1,24 @@
-import React, { useState } from "react"; // Importe o React também
-import { useAxios } from "../../../lib/axios";
-import '../../../styles/global.css'
+import '../../styles/global.css'
 import { Link } from "react-router-dom";
-import Header from "../../headers/header";
-import { useQuery } from 'react-query'
+import Header from "../../components/headers/header";
 import { AxiosError } from "axios";
+import { useCourses } from "../../hooks/courses/useCourses";
 
-export interface Course {
-  id: string,
-  name: string,
-  description: string,
-}
-export interface CoursesResponse {
-  courses: Course[];
-  totalCount?: number; // Nova propriedade para indicar o total de cursos disponíveis
-}
+
 
 export function Courses() {
-  const [search, setSearch] = useState<string>(''); // Declare o tipo do estado como string
-  const [page, setPage] = useState<number>(1); // Declare o tipo do estado como número
-  const [pageSize, setPageSize] = useState<number>(10); // Declare o tipo do estado como número
-  const axios = useAxios();
+  const {
+    search,
+    setSearch,
+    page,
+    setPage,
+    isFetching,
+    isError,
+    error,
+    totalPages,
+    displayedCourses
+  } =  useCourses()
 
-  const { data, isFetching, isError, error } = useQuery<CoursesResponse>(
-    ['courses', page, pageSize], // Adicione a variável "page" como dependência
-    async () => {
-      const response = await axios.get('/courses', {
-        params: {
-          page: page,
-          pageSize: pageSize,
-        },
-      });
-      return response.data; // Não é necessário acessar response.data.courses aqui
-    },
-    {
-      keepPreviousData: true,
-    }
-  );
-
-  const cardsPerPage = 7;
-
-  const filteredCourses = search.length > 0
-    ? data?.courses?.filter(course => course.name.toLowerCase().includes(search.toLowerCase()))
-    : data?.courses || [];
-
-  const startIndex = (page - 1) * cardsPerPage;
-
-  const endIndex = Math.min(startIndex + cardsPerPage, filteredCourses?.length || 0 ) ; // Use Math.min para evitar índices maiores do que o tamanho do array
-
-  const totalPages = Math.ceil(filteredCourses?.length || 0  / cardsPerPage);
-
-  const displayedCourses = filteredCourses?.slice(startIndex, endIndex);
 
   return (
     <div>

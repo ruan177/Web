@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { useAxios } from "../../../lib/axios";
+import { useAxios } from "../../lib/axios";
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { FiMail, FiCheckCircle } from 'react-icons/fi';
-import { Header } from '../../headers/headerForm';
+import { Header } from '../../components/headers/headerForm';
 
 const ResetPasswordForm = () => {
   const [email, setEmail] = useState('');

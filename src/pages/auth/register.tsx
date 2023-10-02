@@ -1,38 +1,17 @@
-
-import { FormEvent, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import { useAxios } from "../../../lib/axios";
-import { Header } from "../../headers/headerForm";
+import '../../styles/global.css'
+import { NavLink  } from "react-router-dom";
+import { Header } from "../../components/headers/headerForm";
+import { useRegistration } from "../../hooks/auth/useRegistration";
 
 export function Register() {
 
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('')
-    const axios = useAxios();
-    const navigate = useNavigate();
-
-    const handleSubmit = async function (event: FormEvent) {
-        event.preventDefault();
-
-
-        try {
-            const response = await axios.post("/register", {
-                username,
-                email,
-                password
-            })
-            if(response.status === 200){
-                navigate('/login');
-            }
-              
-
-        } catch (error: any) {
-            setError(error.response.data.error)
-        }
-    }
-    
+    const {
+        setUsername,
+        setEmail,
+        setPassword,
+        error,
+        handleSubmit,
+      } = useRegistration(); 
 
     return (
         <div className="grid bg-gradient-to-r from-indigo-900 via-purple-500 to-rose-500">

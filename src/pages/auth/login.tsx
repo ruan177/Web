@@ -1,46 +1,12 @@
-import { FormEvent,  useState } from "react";
-import { NavLink,  useNavigate } from "react-router-dom";
-import { useAxios } from "../../../lib/axios";
-import { Header } from "../../headers/headerForm";
-import { useAuth } from "../../../context/loginContext";
-
-
+import { NavLink } from "react-router-dom";
+import { Header } from "../../components/headers/headerForm";
+import { useAuthentication } from "../../hooks/auth/useAuthentication";
+import '../../styles/global.css'
 
 export function Login() {
-    let { loggedIn ,changeLoggedIn } = useAuth();
-    const navigate = useNavigate();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('')
-    const axios = useAxios();
 
-    const handleSubmit = async function (event: FormEvent) {
-        event.preventDefault();
-
-
-        try {
-           
-            const response = await axios.post("/login", {
-                email,
-                password
-            })
-            if(response.status === 200){
-                localStorage.setItem('access', response.data.access)
-                localStorage.setItem('refresh', response.data.refresh.id)
-                localStorage.setItem('user', response.data.refresh.user_id)
-                axios.defaults.headers.common[
-                    "Authorization"
-                  ] = `Bearer ${response.data.access}`;
-    
-                changeLoggedIn(true);
-                navigate('/')
-            }
-            
-
-        } catch (error: any) {
-            setError(error.response.data.error)
-        }
-    }
+    const {  setEmail, setPassword, error, handleSubmit } =
+    useAuthentication();
 
     return (
         <div className="grid bg-gradient-to-r from-indigo-900 via-purple-500 to-rose-500">

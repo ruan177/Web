@@ -1,21 +1,21 @@
 import { useState, createContext, useEffect } from 'react';
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
-import { Login } from './components/pages/auth/login';
-import { Home } from './components/pages/home';
-import { Register } from './components/pages/auth/register';
-import { Courses } from './components/pages/course/courses';
-import { Error } from './components/pages/error';
+import { Login } from './pages/auth/login';
+import { Home } from './pages/home';
+import { Register } from './pages/auth/register';
+import { Courses } from './pages/course/courses';
+import { Error } from './pages/error';
 import '../src/styles/global.css'
-import { Course } from './components/pages/course/course';
-import { CreateCourse } from './components/pages/course/createCourse';
-import { UpdateCourse } from './components/pages/course/updateCourse';
+import { Course } from './pages/course/course';
+import { CreateCourse } from './pages/course/createCourse';
+import { UpdateCourse } from './pages/course/updateCourse';
 import { queryClient } from './lib/queryClient';
 import { QueryClientProvider } from 'react-query';
-import { MyCourses } from './components/pages/course/myCourses';
+import { MyCourses } from './pages/course/myCourses';
 import { useContext } from "react";
-import { Admin } from './components/pages/admin/adminpanel';
-import { ChangeAccount } from './components/pages/user/changeAccount';
-import ResetPasswordForm from './components/pages/user/resetPassword';
+import { Admin } from './pages/admin/adminpanel';
+import { ChangeAccount } from './pages/user/changeAccount';
+import ResetPasswordForm from './pages/user/resetPassword';
 import { AuthProvider } from './context/loginContext';
 import { PrivateRoute } from './lib/privateRoute';
 

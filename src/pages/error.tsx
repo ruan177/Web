@@ -1,12 +1,8 @@
 import React from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
+import { handleBackToLogin } from '../hooks/courses/useError';
 
 export function Error() {
-  // Function to handle the navigation back to the login page
-  const handleBackToLogin = () => {
-    // Replace '/login' with the actual URL of your login page
-    window.location.href = '/login';
-  };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">

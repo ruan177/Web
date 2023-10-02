@@ -1,88 +1,26 @@
-import { useState } from "react";
-import { useAxios } from "../../../lib/axios";
-import '../../../styles/global.css'
+import '../../styles/global.css'
 import { Link } from "react-router-dom";
-import Header from "../../headers/header";
-import { useMutation, useQuery } from 'react-query'
-
+import Header from "../../components/headers/header";
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import { ToastContainer } from "react-toastify";
-import { queryClient } from "../../../lib/queryClient";
-import { useAuth } from "../../../context/loginContext";
-
-interface Course {
-  id: string,
-  name: string,
-  description: string,
-}
+import { useMyCourses } from '../../hooks/courses/useMyCourses';
 
 export function MyCourses() {
-  const { loggedIn, changeLoggedIn } = useAuth();
-  const [search, setSearch] = useState('');
-  const userUuid = localStorage.getItem('user');
-  const [deleteError, setDeleteError] = useState('');
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
-  const axios = useAxios();
-
-  const { data, isFetching, isError, error: any } = useQuery<Course[]>('MyCourses', async () => {
-    const response = await axios.get(`/mycourses/${userUuid}`, {
-      params: {
-        page: page,
-        pageSize: pageSize,
-      },
-    });
-    return response.data.courses;
-  },
-  {
-    keepPreviousData: true,
-  });
-
-  const cardsPerPage = 7;
-
-  const filteredCourses = search.length > 0
-    ? data?.filter(course => course.name.toLowerCase().includes(search.toLowerCase()))
-    : data || [];
-
-  const deleteCourseMutation = useMutation((id: string) => axios.delete(`/courses/${id}/delete`), {
-    onSuccess: () => {
-      queryClient.invalidateQueries('MyCourses');
-    },
-  });
-
-  function handleDeleteCourse(id: string): void {
-    if (window.confirm('Are you sure you want to delete this course?')) {
-      deleteCourseMutation.mutate(id);
-    }
-  }
-
-  const totalPages = Math.ceil(filteredCourses?.length  / cardsPerPage);
-  const startIndex = (page - 1) * cardsPerPage;
-  const endIndex = Math.min(startIndex + cardsPerPage, filteredCourses?.length );
-
-  if (isFetching) {
-    return (
-      <div>
-        <Header />
-        <div className="flex flex-col items-center justify-center mt-8">
-          <p className="text-gray-600 text-center">Loading courses...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (isError) {
-    return (
-      <div>
-        <Header />
-        <div className="flex flex-col items-center justify-center mt-8">
-          <p className="text-red-500 text-center">
-            Error loading courses: {error?.message}
-          </p>
-        </div>
-      </div>
-    );
-  }
+  const {
+    search,
+    setSearch,
+    deleteError,
+    isFetching,
+    isError,
+    error,
+    page,
+    setPage,
+    totalPages,
+    startIndex,
+    endIndex,
+    handleDeleteCourse,
+    filteredCourses
+  } = useMyCourses();
 
   return (
     <div>
@@ -102,7 +40,7 @@ export function MyCourses() {
             <p className="text-gray-600 text-center">Carregando cursos...</p>
           ) : (
             <>
-              {filteredCourses.length > 0 ? (
+              {filteredCourses && filteredCourses.length > 0 ? (
                 <ol className="grid gap-4">
                   {filteredCourses.slice(startIndex, endIndex).map(course => (
                     <li
@@ -127,7 +65,9 @@ export function MyCourses() {
               ) : (
                 <>
                   {isError ? (
-                    <p className="text-red-500">{error?.message || deleteError?.message || 'Erro ao carregar cursos.'}</p>
+                    <p className="text-red-500">
+                      {error instanceof Error ? error.message : 'Erro ao carregar cursos.'}
+                    </p>
                   ) : (
                     <p className="text-gray-600 text-center">
                       Nenhum curso criado
@@ -147,7 +87,7 @@ export function MyCourses() {
         >
           Anterior
         </button>
-        
+
         <button
           className="bg-gray-200 p-2 ml-2"
           disabled={page === totalPages || totalPages === 0}

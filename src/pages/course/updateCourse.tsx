@@ -1,73 +1,36 @@
-import { FormEvent, useEffect, useState } from "react"
-import ReactMarkdown from "react-markdown"
-import { useAxios } from '../../../lib/axios';
+import {  useEffect  } from "react"
 import { useParams } from "react-router-dom"
-import Header from "../../headers/header";
-import '../../../styles/global.css'
+import Header from "../../components/headers/header";
+import '../../styles/global.css'
 import MDEditor from '@uiw/react-md-editor'
-import { useQuery } from "react-query";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import { useCourse } from "../../hooks/courses/useCourse";
+import { useFormSubmit } from "../../hooks/courses/useFormSubmit";
 
-interface Course {
-  uuid: string,
-  name: string,
-  author: string,
-  body: string,
-}
 
 export function UpdateCourse() {
-  const [preview, setPreview] = useState(false);
-  const [courseName, setCourseName] = useState('');
-  const [bodyCourseContent, setBodyCourseContent] = useState('');
-  const [courseDescription, setCourseDescription] = useState('');
-  const [error, setError] = useState('');
   const { uuid } = useParams();
-  const axios = useAxios();
-
-  const { data, isLoading, isError } = useQuery(['course', uuid], async () => {
-    const response = await axios.get(`/courses/${uuid}`);
-    return response.data;
-  });
-
-  const handleSubmit = async function (event: FormEvent) {
-    event.preventDefault();
-    const userId = localStorage.getItem('user');
-
-    try {
-      const response = await axios.patch(`/courses/${uuid}/update`, {
-        name: courseName,
-        description: courseDescription,
-        author_id: userId,
-        body: bodyCourseContent
-      })
-      if (response.status === 200) {
-        toast.success("Curso enviado para aprovação", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        })
-        // Redirect or show success message
-      }
-    } catch (error: any) {
-      setError(error.response.data.error)
-      // Handle error
-    }
-  };
+  const { data, isFetching, isError, error } = useCourse(uuid);
+  const {
+    courseName,
+    setCourseName,
+    courseDescription,
+    setCourseDescription,
+    bodyCourseContent,
+    setBodyCourseContent,
+    error: formError,
+    handleSubmit,
+  } = useFormSubmit(uuid);
 
   useEffect(() => {
     if (data) {
-      setCourseName(data.course.name);
-      setCourseDescription(data.course.description);
-      setBodyCourseContent(data.course.body);
+      setCourseName(data.name);
+      setCourseDescription(data.description);
+      setBodyCourseContent(data.body);
     }
   }, [data]);
 
-  if (isLoading) {
+  if (isFetching) {
     return <p>Carregando curso...</p>;
   }
 
@@ -75,6 +38,7 @@ export function UpdateCourse() {
     return <p>Ocorreu um erro ao carregar o curso.</p>;
   }
 
+ 
   return (
     <>
       <div className="flex-grow">

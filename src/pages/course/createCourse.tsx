@@ -1,51 +1,23 @@
-import { FormEvent, useEffect, useState } from "react"
-import { useAxios } from "../../../lib/axios";
-import Header from "../../headers/header";
-import '../../../styles/global.css'
-import { ToastContainer, toast } from "react-toastify";
+import Header from "../../components/headers/header";
+import '../../styles/global.css'
+import { ToastContainer  } from "react-toastify";
 import MDEditor from "@uiw/react-md-editor";
-import { useQuery } from "react-query";
 import 'react-toastify/dist/ReactToastify.css';
+import { useCreateCourse } from "../../hooks/courses/useCreateCourses";
 
 export function CreateCourse() {
-  const [preview, setPreview] = useState(false)
-  const [CourseName, setCourseName] = useState('');
-  const [BodyCourseContent, setBodyCourseContent] = useState('');
-  const [CourseDescription, setCourseDescription] = useState('');
-  const [error, setError] = useState('');  
-  const axios = useAxios();
+  const {
+   
+    CourseName,
+    setCourseName,
+    BodyCourseContent,
+    setBodyCourseContent,
+    CourseDescription,
+    setCourseDescription,
+    error,
+    handleSubmit,
+  } = useCreateCourse();
 
-
-  const handleSubmit = async function (event: FormEvent) {
-    event.preventDefault();
-    const userId = localStorage.getItem('user')
-
-    try {
-      const response = await axios.post('/courses',
-        {
-          name: CourseName,
-          description: CourseDescription,
-          author_id: userId,
-          body: CourseDescription
-        });
-      if (response.status === 200) {
-        toast.success("Curso enviado para aprovação",{
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",}); // Exibe a snackbar de sucesso
-        // Redirect ou show success message
-      }
-      // Redirect or show success message
-    } catch (error: any) {
-      setError(error.response.data.error)
-    }
-
-  }
   return (
   
 <>
@@ -107,7 +79,8 @@ export function CreateCourse() {
       pauseOnFocusLoss
       draggable
       pauseOnHover
-      theme="light" />
+      theme="light" 
+      />
   </div>
 </>
 
