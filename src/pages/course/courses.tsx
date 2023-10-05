@@ -45,7 +45,7 @@ export function Courses() {
                         className="p-4 border border-gray-300 rounded shadow-md"
                         key={course.id}
                       >
-                        <Link to={`${course.id}`}>
+                        <Link to={`/courses/${course.id}`}>
                           <h3 className="text-xl font-bold">{course.name}</h3>
                         </Link>
                         <p className="text-gray-600">{course.description}</p>

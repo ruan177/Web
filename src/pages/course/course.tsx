@@ -18,11 +18,13 @@ export function Course() {
             <p className="text-center">Carregando curso...</p>
           ) : (
             <>
-              <h2 className="text-center">{data?.name}</h2>
+              <h2 className="text-2xl font-semibold mb-4 mt-8 text-center">{data?.name}</h2>
               <hr />
-              <div data-color-mode="light">
+              <div data-color-mode="light" className="w-full max-w-screen-xl mx-auto p-4">
+              <div style={{ maxWidth: '100%', overflowX: 'auto' }}>
                 <MarkdownPreview source={data?.body} />
               </div>
+            </div>
             </>
           )}
           {isError && (
@@ -30,9 +32,9 @@ export function Course() {
               {error instanceof Error ? error.message : 'Erro desconhecido'}
             </p>
           )}
-
         </div>
       </div>
     </div>
   );
+  
 }

@@ -14,7 +14,6 @@ export function CreateCourse() {
     setBodyCourseContent,
     CourseDescription,
     setCourseDescription,
-    error,
     handleSubmit,
   } = useCreateCourse();
 

@@ -1,89 +1,30 @@
-import { useContext, useState } from "react";
-import { MdSave, MdDelete } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 import { Header } from "../../components/headers/headerForm";
-import { useMutation, useQueries, useQuery } from "react-query";
-import { useAxios } from "../../lib/axios";
-import { queryClient } from "../../lib/queryClient";
-import { useAuth } from "../../context/loginContext";
-import { FaSave } from "react-icons/fa";
 import ProfileChangeForm from "../../components/forms/profileChangeForm";
 import PasswordChangeForm from "../../components/forms/passwordChangeForm";
 import DeleteAccountModal from "../../components/forms/accountDeletionForm";
-
+import { useChangeAccount } from "../../hooks/user/useChangeAccount";
 
 export const ChangeAccount = () => {
-  const [newpassword, setNewPassword] = useState("");
-  const [newusername, setNewUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const userId = localStorage.getItem('user');
-  const { loggedIn, changeLoggedIn } = useAuth();
-  const [showModal, setShowModal] = useState(false);
-  const [confirmationText, setConfirmationText] = useState("");
-  const axios = useAxios();
+  const {
+    newpassword,
+    setNewPassword,
+    newusername,
+    setNewUsername,
+    password,
+    setPassword,
+    username,
+    setUsername,
+    showSuccessMessage,
+    showModal,
+    setShowModal,
+    confirmationText,
+    setConfirmationText,
+    handleProfileSave,
+    handleChangePassword,
+    handleDeleteAccount,
+  } = useChangeAccount();
 
-  const updateProfileMutation = useMutation(
-    async () => {
-      const response = await axios.patch(`/users/${userId}/update`, {
-        username,
-        newusername
-      });
-      return response.data;
-    },
-    {
-      onSuccess: () => {
-        setShowSuccessMessage(true);
-        queryClient.invalidateQueries(['userInfo']);
-      }
-    }
-  );
-  const handleChangePasswordMutation = useMutation(
-    async () => {
-      const response = await axios.patch(`/users/${userId}/update`, {
-        password,
-        newpassword
-      });
-      return response.data;
-    },
-    {
-      onSuccess: () => {
-        setShowSuccessMessage(true);
-
-        changeLoggedIn(false);
-
-      }
-    }
-  );
-
-  const handleProfileSave = () => {
-    updateProfileMutation.mutate();
-
-  };
-  const handleChangePassword = () => {
-    handleChangePasswordMutation.mutate();
-  };
-
-  const handleDeleteAccount = async () => {
-    if (confirmationText === "DELETE") {
-      try {
-        const response = await axios.delete(`/users/${userId}/delete`);
-        if (response.status === 200) {
-          setShowSuccessMessage(true);
-
-          setTimeout(() => {
-            changeLoggedIn(false);
-            window.location.href = "/login"; // Redirecionar para a página de login
-          }, 3000);
-        } // Tempo em milissegundos até o redirecionamento (3 segundos no exemplo)
-      } catch (error: any) {
-
-      }
-    } else {
-      // Caso o texto de confirmação esteja incorreto, exibir mensagem de erro
-      alert("Texto de confirmação incorreto. Digite 'DELETE' para excluir a conta.");
-    }
-  };
 
   return (
     <div className="grid bg-gray-100 h-screen">

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import logo from '../../assets/logos/coffe.png';
 import { HomeButton } from '../buttons/button';
-import UserProfile from '../profile/profile';
+import UserProfile from '../dropdown/profile';
 import { useAuth } from '../../context/loginContext';
 
 export default function Header(props: any) {
