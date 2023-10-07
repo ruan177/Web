@@ -16,6 +16,8 @@ export const ChangeAccount = () => {
     username,
     setUsername,
     showSuccessMessage,
+    showSuccessProfileChangeMessage,
+    showSuccessPasswordChangeMessage,
     showModal,
     setShowModal,
     confirmationText,
@@ -40,7 +42,7 @@ export const ChangeAccount = () => {
             setNewUsername={setNewUsername}
             setUsername={setUsername}
             handleProfileSave={handleProfileSave}
-            showSuccessMessage={showSuccessMessage}
+            showSuccessProfileChangeMessage={showSuccessProfileChangeMessage}
           />
 
           <PasswordChangeForm
@@ -49,7 +51,7 @@ export const ChangeAccount = () => {
             setPassword={setPassword}
             setNewPassword={setNewPassword}
             handleChangePassword={handleChangePassword}
-            showSuccessMessage={showSuccessMessage}
+            showSuccessPasswordChangeMessage={showSuccessPasswordChangeMessage}
           />
 
           <div className="w-full shadow-md rounded bg-white p-8">

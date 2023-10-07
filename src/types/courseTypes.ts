@@ -2,6 +2,7 @@ export interface Course {
     id: string,
     name: string,
     description: string,
+    savedUsers: SavedCoursesUser[]
   }
   export interface CoursesResponse {
     courses: Course[];
@@ -13,4 +14,10 @@ export interface Course {
     author: string,
     description: string,
     body: string,
+}
+
+export interface SavedCoursesUser {
+  id: string,
+  user_id: string,
+  course_id: string
 }

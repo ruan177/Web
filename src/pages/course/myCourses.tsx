@@ -44,14 +44,14 @@ export function MyCourses() {
                 <ol className="grid gap-4">
                   {filteredCourses.slice(startIndex, endIndex).map(course => (
                     <li
-                      className="p-4 border border-gray-300 rounded shadow-md"
+                      className="p-4 border border-gray-300 rounded shadow-md relative"
                       key={course.id}
                     >
                       <Link to={`/courses/${course.id}`}>
                         <h3 className="text-xl font-bold">{course.name}</h3>
                       </Link>
                       <p className="text-gray-600">{course.description}</p>
-                      <div className="flex gap-2 mt-2">
+                      <div className="flex flex-row space-x-2 absolute top-2 right-2">
                         <Link to={`/course/${course.id}/update`}>
                           <AiOutlineEdit className="cursor-pointer text-blue-500" size={20} />
                         </Link>

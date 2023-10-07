@@ -1,5 +1,5 @@
+import axios from "axios";
 import { useState } from "react";
-import { useAxios } from "../../lib/axios";
 import { useNavigate } from 'react-router-dom';
 
 export const useResetPassword = () => {
@@ -14,13 +14,13 @@ export const useResetPassword = () => {
   const [isInputDisabled, setIsInputDisabled] = useState(false);
   const [isResendButtonDisabled, setIsResendButtonDisabled] = useState(false);
   const [isCodeSent, setIsCodeSent] = useState(false);
-  const axios = useAxios();
+
 
   const navigate = useNavigate();
 
   const handleSendCode = async () => {
     try {
-      const response = await axios.post('/send-code', { email });
+      const response = await axios.post('http://localhost:8080/send-code', { email });
       setCode(response.data.code);
       setIsCodeSent(true);
       setStep(2);

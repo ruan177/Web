@@ -1,4 +1,4 @@
-import { useState, createContext, useEffect } from 'react';
+
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import { Login } from './pages/auth/login';
 import { Home } from './pages/home';
@@ -12,7 +12,6 @@ import { UpdateCourse } from './pages/course/updateCourse';
 import { queryClient } from './lib/queryClient';
 import { QueryClientProvider } from 'react-query';
 import { MyCourses } from './pages/course/myCourses';
-import { useContext } from "react";
 import { Admin } from './pages/admin/adminpanel';
 import { ChangeAccount } from './pages/user/changeAccount';
 import ResetPasswordForm from './pages/user/resetPassword';

@@ -8,7 +8,7 @@ interface PasswordChangeFormProps {
   setPassword: (value: string) => void;
   setNewPassword: (value: string) => void;
   handleChangePassword: () => void;
-  showSuccessMessage: boolean;
+  showSuccessPasswordChangeMessage: boolean;
 }
 
 const PasswordChangeForm: React.FC<PasswordChangeFormProps> = ({
@@ -17,7 +17,7 @@ const PasswordChangeForm: React.FC<PasswordChangeFormProps> = ({
   setPassword,
   setNewPassword,
   handleChangePassword,
-  showSuccessMessage,
+  showSuccessPasswordChangeMessage,
 }) => {
   return (
     <div className="w-full shadow-md rounded bg-white p-8">
@@ -60,7 +60,7 @@ const PasswordChangeForm: React.FC<PasswordChangeFormProps> = ({
                 Save Changes
               </button>
             </div>
-            {showSuccessMessage && <p className="text-center text-green-500 mt-2">Password changed successfully!</p>}
+            {showSuccessPasswordChangeMessage && <p className="text-center text-green-500 mt-2">Password changed successfully!</p>}
           </div>
   );
 };

@@ -7,7 +7,6 @@ import { useCreateCourse } from "../../hooks/courses/useCreateCourses";
 
 export function CreateCourse() {
   const {
-   
     CourseName,
     setCourseName,
     BodyCourseContent,

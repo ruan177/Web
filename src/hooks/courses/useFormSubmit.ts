@@ -1,23 +1,26 @@
 import { FormEvent, useState } from "react";
-import { useAxios } from "../../lib/axios";
+
 import { toast } from "react-toastify";
+import axios from "axios";
+import { useAuth } from "../../context/loginContext";
 
 export function useFormSubmit(uuid: string | undefined) {
-    const axios = useAxios();
+
     const [courseName, setCourseName] = useState('');
     const [bodyCourseContent, setBodyCourseContent] = useState('');
     const [courseDescription, setCourseDescription] = useState('');
     const [error, setError] = useState('');
+    const {user} = useAuth();
   
     const handleSubmit = async function (event: FormEvent) {
       event.preventDefault();
-      const userId = localStorage.getItem('user');
+
   
       try {
-        const response = await axios.patch(`/courses/${uuid}/update`, {
+        const response = await axios.patch(`http://localhost:8080/courses/${uuid}/update`, {
           name: courseName,
           description: courseDescription,
-          author_id: userId,
+          author_id: user?.id,
           body: bodyCourseContent,
         });
         if (response.status === 200) {

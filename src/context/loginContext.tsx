@@ -1,45 +1,86 @@
+// AuthContext.tsx
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import axios, { AxiosResponse } from 'axios';
+import { AuthContextType, User } from '../types/AdminTableTypes';
 
-// Defina o tipo para o contexto
-interface AuthContextType {
-  loggedIn: boolean;
-  changeLoggedIn: (value: boolean) => void;
-}
 
-// Crie o contexto
+
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Crie um componente de provedor para encapsular a lógica de autenticação
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [loggedIn, setLoggedIn] = useState<boolean>(
-    localStorage.access ? true : false
-  );
-
-  function changeLoggedIn(value: boolean) {
-    setLoggedIn(value);
-    if (value === false) {
-      localStorage.clear();
-      window.location.href = '/login';
-    }
-  }
-
-  useEffect(() => {
-    // Quando o estado loggedIn é atualizado, você pode realizar ações específicas aqui
-    // Por exemplo, você pode realizar uma chamada de API para atualizar o estado do usuário ou fazer qualquer outra coisa que seja necessária.
-  }, [loggedIn]);
-
-  return (
-    <AuthContext.Provider value={{ loggedIn, changeLoggedIn }}>
-      {children}
-    </AuthContext.Provider>
-  );
-}
-
-// Crie um gancho personalizado para acessar o contexto em componentes filhos
-export function useAuth() {
+export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
   if (context === undefined) {
     throw new Error('useAuth deve ser usado dentro de um AuthProvider');
   }
   return context;
-}
+};
+
+
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [refreshToken, setRefreshToken] = useState<string | null>(null);
+
+
+  const login = async (email: string, password: string) => {
+    try {
+      const response: AxiosResponse<{
+        user: User;
+        accessToken: string;
+        refreshToken: string;
+      }> = await axios.post('http://localhost:8080/login', { email, password });
+      if(response.status===200){
+        setUser(response.data.user);
+        setAccessToken(response.data.accessToken);
+        setRefreshToken(response.data.refreshToken);
+        }
+    } catch (error: any) {
+      throw Error(error.response.data.error)
+    }
+  };
+
+  const logout = () => {
+    setUser(null);
+    setAccessToken(null);
+    setRefreshToken(null);
+    window.location.href = '/login';
+  };
+
+  useEffect(() => {
+    // Axios interceptor para adicionar o token de acesso em cada requisição
+    axios.interceptors.request.use((config) => {
+      if (accessToken) {
+        config.headers['Authorization'] = `Bearer ${accessToken}`;
+      }
+      return config;
+    });
+
+    // Axios interceptor para lidar com tokens expirados
+    axios.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        if (error.response && error.response.status === 401) {
+          // Token de acesso expirado, tenta renovar com o token de atualização
+          try {
+            const response: AxiosResponse<{
+              accessToken: string;
+            }> = await axios.post('http://localhost:8080/refresh', { refreshToken });
+            setAccessToken(response.data.accessToken);
+            return axios(error.config); // Repete a requisição original com o novo token de acesso
+          } catch (refreshError) {
+            console.error('Erro ao renovar token de acesso', refreshError);
+            logout(); // Desconecta o usuário se a renovação do token falhar
+          }
+        }
+        return Promise.reject(error);
+      }
+    );
+  }, [accessToken, refreshToken]);
+
+  return (
+    <AuthContext.Provider value={{ user, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};

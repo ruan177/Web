@@ -3,10 +3,10 @@ import { useAuth } from "../context/loginContext";
 
 
 export function PrivateRoute({ children }: { children: JSX.Element }) {
-    const { loggedIn } = useAuth();
+    const { user, logout } = useAuth();
   
-    if (!loggedIn) {
-      window.location.href = "/login";
+    if (!user) {
+      logout();
   
     };
     return children;

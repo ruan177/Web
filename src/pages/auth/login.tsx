@@ -1,12 +1,28 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Header } from "../../components/headers/headerForm";
-import { useAuthentication } from "../../hooks/auth/useAuthentication";
+
 import '../../styles/global.css'
+import { FormEvent, useState } from "react";
+import { useAuth } from "../../context/loginContext";
+
 
 export function Login() {
 
-    const {  setEmail, setPassword, error, handleSubmit } =
-    useAuthentication();
+    const { login } = useAuth();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState();
+    const navigate = useNavigate();
+
+    const handleSubmit = async (event: FormEvent) => {
+      event.preventDefault();
+      try {
+        await login(email, password);
+        navigate('/');
+      } catch (error: any) {
+        setError(error.message); // Defina a mensagem de erro
+      }
+    };
 
     return (
         <div className="grid bg-gradient-to-r from-indigo-900 via-purple-500 to-rose-500">

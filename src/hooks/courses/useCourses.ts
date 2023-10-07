@@ -1,14 +1,17 @@
 import { useState } from "react";
-import { useAxios } from "../../lib/axios";
-import { useQuery } from "react-query";
-import { CoursesResponse } from "../../types/courseTypes";
+
+import { useQuery, useMutation } from "react-query";
+import { CoursesResponse, SavedCoursesUser } from "../../types/courseTypes";
+import axios from "axios";
+import { queryClient } from "../../lib/queryClient";
+
 
 
 export function useCourses() {
   const [search, setSearch] = useState<string>(''); // Declare o tipo do estado como string
   const [page, setPage] = useState<number>(1); // Declare o tipo do estado como número
   const [pageSize, setPageSize] = useState<number>(10); // Declare o tipo do estado como número
-  const axios = useAxios();
+
 
   const { 
     data, 
@@ -18,7 +21,7 @@ export function useCourses() {
   } = useQuery<CoursesResponse>(
     ['courses', page, pageSize], // Adicione a variável "page" como dependência
     async () => {
-      const response = await axios.get('/courses', {
+      const response = await axios.get('http://localhost:8080/courses', {
         params: {
           page: page,
           pageSize: pageSize,
@@ -45,6 +48,53 @@ export function useCourses() {
 
   const displayedCourses = filteredCourses?.slice(startIndex, endIndex);
 
+  function isCourseSaved(savedUsers: SavedCoursesUser[], userId: string): boolean {
+    console.log("savedUsers:", savedUsers);
+    console.log("userId:", userId);
+    return savedUsers.some(user => user.user_id === userId);
+  }
+
+
+  const handleSave = useMutation(
+    async ({ courseId, userId }: { courseId: string, userId: string }) => {
+      const data = {
+        userId: userId,
+        courseId: courseId,
+      };
+      const response = await axios.post('http://localhost:8080/save', {
+        data: data,
+      });
+      return response.data;
+    },
+    {
+      onSuccess: () => {
+        // After successfully saving a course, refetch the course list
+        queryClient.refetchQueries(['courses', page, pageSize]);
+      },
+    }
+  );
+  
+  // Define a mutation for unsaving a course
+  const handleUnsave = useMutation(
+    async ({ courseId, userId }: { courseId: string, userId: string }) => {
+      const data = {
+        userId: userId,
+        courseId: courseId,
+      };
+      const response = await axios.delete('http://localhost:8080/save/delete', {
+        data: data,
+      });
+      return response.data;
+    },
+    {
+      onSuccess: () => {
+        // After successfully unsaving a course, refetch the course list
+        queryClient.refetchQueries(['courses', page, pageSize]);
+      },
+    }
+  );
+
+  
 
   return {
     search,
@@ -63,6 +113,10 @@ export function useCourses() {
     filteredCourses,
     startIndex, 
     endIndex,
-    displayedCourses
+    displayedCourses,
+    isCourseSaved,
+    handleSave,
+    handleUnsave
   };
 }
+

@@ -6,7 +6,7 @@ import UserProfile from '../dropdown/profile';
 import { useAuth } from '../../context/loginContext';
 
 export default function Header(props: any) {
-  const { loggedIn } = useAuth();
+  const { user } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleMenuToggle = () => {
@@ -23,7 +23,7 @@ export default function Header(props: any) {
         </div>
 
         {/* Menu Button */}
-        {loggedIn ? (
+        {user ? (
           // Não renderize UserProfile aqui
           <button
             className="md:hidden text-black focus:outline-none"
@@ -43,11 +43,9 @@ export default function Header(props: any) {
         {/* Mobile Menu */}
         <div className={`md:hidden absolute text-center top-16 right-0 bg-white p-4 ${menuOpen ? 'block' : 'hidden'}`}>
 
-          {!loggedIn && (
+          {!user && (
             <><NavLink className="block font-medium rounded-lg text-sm text-black mb-2" to="/courses">
               Courses
-            </NavLink><NavLink className="block font-medium rounded-lg text-sm text-black mb-2" to="/">
-                Exercises
               </NavLink><NavLink className="block font-medium rounded-lg text-sm text-black mb-2" to="/">
                 How it Works
               </NavLink><NavLink className="block font-medium rounded-lg text-sm text-black mb-2" to="/">
@@ -67,9 +65,6 @@ export default function Header(props: any) {
             Cursos
           </NavLink>
           <NavLink className="flex font-medium rounded-lg text-base text-black" to="/">
-            Exercícios
-          </NavLink>
-          <NavLink className="flex font-medium rounded-lg text-base text-black" to="/">
             Como Funciona
           </NavLink>
           <NavLink className="flex font-medium rounded-lg text-base text-black" to="/">
@@ -80,7 +75,7 @@ export default function Header(props: any) {
 
         {/* Avatar */}
         <div className="hidden md:flex gap-4 items-center">
-          {loggedIn ? (
+          {user ? (
             // Renderize UserProfile apenas uma vez aqui
             <UserProfile />
           ) : (

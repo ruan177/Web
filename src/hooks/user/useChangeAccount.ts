@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useMutation } from "react-query";
-import { useAxios } from "../../lib/axios";
 import { queryClient } from "../../lib/queryClient";
 import { useAuth } from "../../context/loginContext";
+import axios from "axios";
 
 export const useChangeAccount = () => {
   const [newpassword, setNewPassword] = useState("");
@@ -10,15 +10,17 @@ export const useChangeAccount = () => {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const userId = localStorage.getItem("user");
-  const { loggedIn, changeLoggedIn } = useAuth();
+  const [showSuccessProfileChangeMessage, setShowSuccessProfileChangeMessage] = useState(false);
+  const [showSuccessPasswordChangeMessage, setSuccessPasswordChangeMessag] = useState(false);
+  const {user, logout} = useAuth();
+
   const [showModal, setShowModal] = useState(false);
   const [confirmationText, setConfirmationText] = useState("");
-  const axios = useAxios();
+
 
   const updateProfileMutation = useMutation(
     async () => {
-      const response = await axios.patch(`/users/${userId}/update`, {
+      const response = await axios.patch(`http://localhost:8080/users/${user?.id}/update`, {
         username,
         newusername,
       });
@@ -26,7 +28,7 @@ export const useChangeAccount = () => {
     },
     {
       onSuccess: () => {
-        setShowSuccessMessage(true);
+        setShowSuccessProfileChangeMessage(true);
         queryClient.invalidateQueries(["userInfo"]);
       },
     }
@@ -34,7 +36,7 @@ export const useChangeAccount = () => {
 
   const handleChangePasswordMutation = useMutation(
     async () => {
-      const response = await axios.patch(`/users/${userId}/update`, {
+      const response = await axios.patch(`http://localhost:8080/users/${user?.id}/update`, {
         password,
         newpassword,
       });
@@ -42,8 +44,8 @@ export const useChangeAccount = () => {
     },
     {
       onSuccess: () => {
-        setShowSuccessMessage(true);
-        changeLoggedIn(false);
+        setSuccessPasswordChangeMessag(true);
+        logout();
       },
     }
   );
@@ -59,13 +61,13 @@ export const useChangeAccount = () => {
   const handleDeleteAccount = async () => {
     if (confirmationText === "DELETE") {
       try {
-        const response = await axios.delete(`/users/${userId}/delete`);
+        const response = await axios.delete(`http://localhost:8080/users/${user?.id}/delete`);
         if (response.status === 200) {
           setShowSuccessMessage(true);
 
           setTimeout(() => {
-            changeLoggedIn(false);
-            window.location.href = "/login"; // Redirect to the login page
+            logout();
+            // Redirect to the login page
           }, 3000); // Redirect delay in milliseconds (e.g., 3 seconds)
         }
       } catch (error) {
@@ -87,12 +89,13 @@ export const useChangeAccount = () => {
     username,
     setUsername,
     showSuccessMessage,
+    showSuccessProfileChangeMessage,
+    showSuccessPasswordChangeMessage,
     setShowSuccessMessage,
     showModal,
     setShowModal,
     confirmationText,
     setConfirmationText,
-    loggedIn,
     handleProfileSave,
     handleChangePassword,
     handleDeleteAccount,

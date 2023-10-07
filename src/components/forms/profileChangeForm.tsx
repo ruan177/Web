@@ -8,7 +8,7 @@ interface ProfileFormProps {
   setUsername: (value: string) => void;
   setNewUsername: (value: string) => void;
   handleProfileSave: () => void;
-  showSuccessMessage: boolean;
+  showSuccessProfileChangeMessage: boolean;
 }
 
 const ProfileChangeForm: React.FC<ProfileFormProps> = ({
@@ -17,7 +17,7 @@ const ProfileChangeForm: React.FC<ProfileFormProps> = ({
   setNewUsername,
   setUsername,
   handleProfileSave,
-  showSuccessMessage,
+  showSuccessProfileChangeMessage,
 }) => {
   return (
     <div className="w-full shadow-md rounded bg-white p-8">
@@ -59,7 +59,7 @@ const ProfileChangeForm: React.FC<ProfileFormProps> = ({
           Save Changes
         </button>
       </div>
-      {showSuccessMessage && <p className="text-center text-green-500 mt-2">Changes saved successfully!</p>}
+      {showSuccessProfileChangeMessage && <p className="text-center text-green-500 mt-2">Changes saved successfully!</p>}
     </div>
   );
 };
