@@ -4,6 +4,7 @@ import ProfileChangeForm from "../../components/forms/profileChangeForm";
 import PasswordChangeForm from "../../components/forms/passwordChangeForm";
 import DeleteAccountModal from "../../components/forms/accountDeletionForm";
 import { useChangeAccount } from "../../hooks/user/useChangeAccount";
+import ProfileImageSection from "../../components/sections/changeProfileImage";
 
 export const ChangeAccount = () => {
   const {
@@ -34,7 +35,7 @@ export const ChangeAccount = () => {
       <div className="flex flex-col justify-center items-center flex-1">
         <div className="w-full max-w-3xl flex flex-col gap-6 justify-center p-10">
           <div className="w-full shadow-md rounded bg-white p-8">
-
+          < ProfileImageSection />
           </div>
           <ProfileChangeForm
             username={username}

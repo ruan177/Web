@@ -9,7 +9,6 @@ export function MyCourses() {
   const {
     search,
     setSearch,
-    deleteError,
     isFetching,
     isError,
     error,

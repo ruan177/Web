@@ -4,6 +4,7 @@ import logo from '../../assets/logos/coffe.png';
 import { HomeButton } from '../buttons/button';
 import UserProfile from '../dropdown/profile';
 import { useAuth } from '../../context/loginContext';
+import { Link } from 'react-scroll';
 
 export default function Header(props: any) {
   const { user } = useAuth();
@@ -48,9 +49,17 @@ export default function Header(props: any) {
               Courses
               </NavLink><NavLink className="block font-medium rounded-lg text-sm text-black mb-2" to="/">
                 How it Works
-              </NavLink><NavLink className="block font-medium rounded-lg text-sm text-black mb-2" to="/">
-                About Us
-              </NavLink><hr className="my-2" /><NavLink className=" block font-medium rounded-lg italic 2 text-sm text-violet-900 mb-2" to="/login">
+              </NavLink>
+              <Link className="block font-medium rounded-lg text-sm text-black mb-2"
+              to="about"
+              spy={true}
+              smooth={true}
+              offset={-70} // Ajuste conforme necessário
+              duration={500}
+            >
+              About Us
+            </Link>
+              <hr className="my-2" /><NavLink className=" block font-medium rounded-lg italic 2 text-sm text-violet-900 mb-2" to="/login">
                 Sign-in
               </NavLink><NavLink className="block font-medium rounded-lg italic bg-indigo-900  text-sm text-white mb-2" to="/register">
                 Sign-up
@@ -67,9 +76,15 @@ export default function Header(props: any) {
           <NavLink className="flex font-medium rounded-lg text-base text-black" to="/">
             Como Funciona
           </NavLink>
-          <NavLink className="flex font-medium rounded-lg text-base text-black" to="/">
-            Sobre Nós
-          </NavLink>
+          <Link className="flex font-medium rounded-lg text-base text-black"
+              to="about"
+              spy={true}
+              smooth={true}
+              offset={-70} // Ajuste conforme necessário
+              duration={500}
+            >
+              About Us
+            </Link>
 
         </div>
 

@@ -18,9 +18,9 @@ export const useAuth = (): AuthContextType => {
 
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [accessToken, setAccessToken] = useState<string | null>(null);
-  const [refreshToken, setRefreshToken] = useState<string | null>(null);
+  const [user, setUser] =useState(()=> localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || "") : null);
+  const [accessToken, setAccessToken] = useState(()=> localStorage.getItem('acess') ? JSON.parse(localStorage.getItem('user')|| "" ) : null);
+  const [refreshToken, setRefreshToken] = useState(()=> localStorage.getItem('refresh') ? JSON.parse(localStorage.getItem('user')|| "") : null);
 
 
   const login = async (email: string, password: string) => {
@@ -34,6 +34,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUser(response.data.user);
         setAccessToken(response.data.accessToken);
         setRefreshToken(response.data.refreshToken);
+        localStorage.setItem('acess', JSON.stringify(response.data.accessToken))
+        localStorage.setItem('refresh', JSON.stringify(response.data.refreshToken))
+        localStorage.setItem('user', JSON.stringify(response.data.user))
         }
     } catch (error: any) {
       throw Error(error.response.data.error)

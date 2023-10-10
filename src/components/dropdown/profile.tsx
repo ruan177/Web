@@ -47,7 +47,7 @@ const UserProfile = () => {
               <NavLink to="/account/update">Alterar Conta</NavLink>
             </li>
             <li className="px-4 py-2 hover-bg-gray-100">
-              <NavLink to="/account/update">Cursos Salvos</NavLink>
+              <NavLink to="/saved">Cursos Salvos</NavLink>
             </li>
             <li className="px-4 py-2 hover-bg-gray-100">
               <NavLink to="/login" onClick={logout}>Deslogar</NavLink>
