@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "react-query";
 import { CoursesResponse } from "../../types/courseTypes";
-import axios from "axios";
+import useAxios from "../../lib/axios";
 import { useAuth } from "../../context/loginContext";
 
 
@@ -11,6 +11,7 @@ export function useSavedCourses() {
     const [page, setPage] = useState<number>(1); // Declare o tipo do estado como número
     const [pageSize, setPageSize] = useState<number>(10); // Declare o tipo do estado como número
     const { user } = useAuth();
+    const axios = useAxios();
 
     const {
         data,
@@ -20,7 +21,7 @@ export function useSavedCourses() {
     } = useQuery<CoursesResponse>(
         ['savedCourses', page, pageSize], // Adicione a variável "page" como dependência
         async () => {
-            const response = await axios.get(`http://localhost:8080/saved/${user?.id}`, {
+            const response = await axios.get(`/saved/${user?.id}`, {
                 params: {
                     page: page,
                     pageSize: pageSize,
@@ -32,7 +33,7 @@ export function useSavedCourses() {
             keepPreviousData: true,
         }
     );
-    console.log(data)
+  
 
     const cardsPerPage = 7;
 

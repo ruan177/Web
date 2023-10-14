@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useMutation } from "react-query";
 import { queryClient } from "../../lib/queryClient";
 import { useAuth } from "../../context/loginContext";
-import axios from "axios";
+import useAxios from "../../lib/axios";
 
 export const useChangeAccount = () => {
   const [newpassword, setNewPassword] = useState("");
@@ -13,14 +13,14 @@ export const useChangeAccount = () => {
   const [showSuccessProfileChangeMessage, setShowSuccessProfileChangeMessage] = useState(false);
   const [showSuccessPasswordChangeMessage, setSuccessPasswordChangeMessag] = useState(false);
   const {user, logout} = useAuth();
-
+  const axios = useAxios();
   const [showModal, setShowModal] = useState(false);
   const [confirmationText, setConfirmationText] = useState("");
 
 
   const updateProfileMutation = useMutation(
     async () => {
-      const response = await axios.patch(`http://localhost:8080/users/${user?.id}/update`, {
+      const response = await axios.patch(`/users/${user?.id}/update`, {
         username,
         newusername,
       });
@@ -36,7 +36,7 @@ export const useChangeAccount = () => {
 
   const handleChangePasswordMutation = useMutation(
     async () => {
-      const response = await axios.patch(`http://localhost:8080/users/${user?.id}/update`, {
+      const response = await axios.patch(`/users/${user?.id}/update`, {
         password,
         newpassword,
       });
@@ -61,7 +61,7 @@ export const useChangeAccount = () => {
   const handleDeleteAccount = async () => {
     if (confirmationText === "DELETE") {
       try {
-        const response = await axios.delete(`http://localhost:8080/users/${user?.id}/delete`);
+        const response = await axios.delete(`/users/${user?.id}/delete`);
         if (response.status === 200) {
           setShowSuccessMessage(true);
 

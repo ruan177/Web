@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { useQuery, useMutation } from "react-query";
 import { CoursesResponse, SavedCoursesUser } from "../../types/courseTypes";
-import axios from "axios";
+import useAxios from "../../lib/axios";
 import { queryClient } from "../../lib/queryClient";
 
 
@@ -11,7 +11,7 @@ export function useCourses() {
   const [search, setSearch] = useState<string>(''); // Declare o tipo do estado como string
   const [page, setPage] = useState<number>(1); // Declare o tipo do estado como número
   const [pageSize, setPageSize] = useState<number>(10); // Declare o tipo do estado como número
-
+  const axios = useAxios();
 
   const { 
     data, 
@@ -21,7 +21,7 @@ export function useCourses() {
   } = useQuery<CoursesResponse>(
     ['courses', page, pageSize], // Adicione a variável "page" como dependência
     async () => {
-      const response = await axios.get('http://localhost:8080/courses', {
+      const response = await axios.get('/courses', {
         params: {
           page: page,
           pageSize: pageSize,
@@ -49,8 +49,7 @@ export function useCourses() {
   const displayedCourses = filteredCourses?.slice(startIndex, endIndex);
 
   function isCourseSaved(savedUsers: SavedCoursesUser[], userId: string): boolean {
-    console.log("savedUsers:", savedUsers);
-    console.log("userId:", userId);
+
     return savedUsers.some(user => user.user_id === userId);
   }
 
@@ -61,7 +60,7 @@ export function useCourses() {
         userId: userId,
         courseId: courseId,
       };
-      const response = await axios.post('http://localhost:8080/save', {
+      const response = await axios.post('/save', {
         data: data,
       });
       return response.data;
@@ -81,7 +80,7 @@ export function useCourses() {
         userId: userId,
         courseId: courseId,
       };
-      const response = await axios.delete('http://localhost:8080/save/delete', {
+      const response = await axios.delete('/save/delete', {
         data: data,
       });
       return response.data;

@@ -2,7 +2,7 @@ import { FormEvent, useState } from "react";
 import '../../styles/global.css';
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import axios from "axios";
+import useAxios from "../../lib/axios";
 import { useAuth } from "../../context/loginContext";
 
 export function useCreateCourse() {
@@ -12,13 +12,14 @@ export function useCreateCourse() {
   const [CourseDescription, setCourseDescription] = useState('');
   const [error, setError] = useState('');
   const {user} = useAuth();
-
+  const axios = useAxios();
+  
   const handleSubmit = async function (event: FormEvent) {
     event.preventDefault();
 
 
     try {
-      const response = await axios.post('http://localhost:8080/courses', {
+      const response = await axios.post('/courses', {
         name: CourseName,
         description: CourseDescription,
         author_id: user?.id,

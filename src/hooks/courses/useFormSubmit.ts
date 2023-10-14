@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 
 import { toast } from "react-toastify";
-import axios from "axios";
+import useAxios from "../../lib/axios";
 import { useAuth } from "../../context/loginContext";
 
 export function useFormSubmit(uuid: string | undefined) {
@@ -11,13 +11,14 @@ export function useFormSubmit(uuid: string | undefined) {
     const [courseDescription, setCourseDescription] = useState('');
     const [error, setError] = useState('');
     const {user} = useAuth();
-  
+    const axios = useAxios();
+    
     const handleSubmit = async function (event: FormEvent) {
       event.preventDefault();
 
   
       try {
-        const response = await axios.patch(`http://localhost:8080/courses/${uuid}/update`, {
+        const response = await axios.patch(`/courses/${uuid}/update`, {
           name: courseName,
           description: courseDescription,
           author_id: user?.id,

@@ -4,8 +4,9 @@ import { useQuery, useMutation } from "react-query";
 import { User } from "../../components/tables/usersTable";
 import { Course } from "../../types/AdminTableTypes";
 import { queryClient } from "../../lib/queryClient";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { useAuth } from "../../context/loginContext";
+import useAxios from "../../lib/axios";
 
 export function useAdmin() {
     const [activeTab, setActiveTab] = useState<'users' | 'courses'>('users');
@@ -16,6 +17,7 @@ export function useAdmin() {
     const [usersData, setUsersData] = useState<User[]>([]); // Store the updated user data here
     const [coursesData, setCoursesData] = useState<Course[]>([]);
     const {user} = useAuth();
+    const axios = useAxios();
   
     const handleUsersEdit = () => { setIsCoursesEditMode(true); };
     const handleCoursesEdit = () => { setIsCoursesEditMode(true); };
@@ -24,7 +26,7 @@ export function useAdmin() {
   
     const { data: usersDataInitial, isLoading: isLoadingUsers, isError: isErrorUsers } =
     useQuery<User[], AxiosError>('users', async () => {
-      const response = await axios.get(`http://localhost:8080/users/${user?.id}/admin`);
+      const response = await axios.get(`/users/${user?.id}/admin`);
       return response.data;
     });
   useEffect(() => {
@@ -35,7 +37,7 @@ export function useAdmin() {
   
   const { data: coursesDataInitial, isLoading: isLoadingCourses, isError: isErrorCourses } =
     useQuery<Course[], AxiosError>('courses', async () => {
-      const response = await axios.get('http://localhost:8080/courses/admin');
+      const response = await axios.get('/courses/admin');
       return response.data.courses;
     });
   useEffect(() => {
@@ -46,7 +48,7 @@ export function useAdmin() {
   
     const updateUserMutation = useMutation<void, AxiosError, User[]>(
       async (updatedUsers) => {
-        return await axios.patch('http://localhost:8080/users/update', updatedUsers);
+        return await axios.patch('/users/update', updatedUsers);
       },
       {
         onSuccess: () => {
@@ -57,7 +59,7 @@ export function useAdmin() {
     
     const updateCoursesMutation = useMutation<void, AxiosError, Course[]>(
       async (updatedCourses) => {
-        return await axios.patch('http://localhost:8080/courses/update', updatedCourses);
+        return await axios.patch('/courses/update', updatedCourses);
       },
       {
         onSuccess: () => {
@@ -69,7 +71,7 @@ export function useAdmin() {
     
     const deleteUserMutation = useMutation<void, AxiosError, number[]>(
       async (selectedUserIds) => {
-        await axios.delete('http://localhost:8080/users/delete', { data: selectedUserIds });
+        await axios.delete('/users/delete', { data: selectedUserIds });
       },
       {
         onSuccess: () => {
@@ -81,7 +83,7 @@ export function useAdmin() {
     
     const deleteCoursesMutation = useMutation<void, AxiosError, number[]>(
       async (selectedCourseIds) => {
-        await axios.delete('http://localhost:8080/courses/delete', { data: selectedCourseIds });
+        await axios.delete('/courses/delete', { data: selectedCourseIds });
       },
       {
         onSuccess: () => {

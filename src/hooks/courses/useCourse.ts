@@ -1,23 +1,23 @@
 import { useQuery } from "react-query";
 import { Courses } from "../../types/courseTypes";
-import axios from "axios";
+import useAxios from "../../lib/axios";
 
 
 export function useCourse(uuid: string | undefined) {
 
-  
-    const { data, isFetching, isError, error } = useQuery<Courses>(
-      ['course', uuid],
-      async () => {
-        const response = await axios.get(`http://localhost:8080/courses/${uuid}`);
-        return response.data.course;
-      }
-    );
-  
-    return {
-      data,
-      isFetching,
-      isError,
-      error,
-    };
-  }
+  const axios = useAxios();
+  const { data, isFetching, isError, error } = useQuery<Courses>(
+    ['course', uuid],
+    async () => {
+      const response = await axios.get(`/courses/${uuid}`);
+      return response.data.course;
+    }
+  );
+
+  return {
+    data,
+    isFetching,
+    isError,
+    error,
+  };
+}

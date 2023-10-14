@@ -1,10 +1,8 @@
 import { useState } from "react";
 import { useMutation, useQuery } from 'react-query';
 import { queryClient } from "../../lib/queryClient";
-import { useAuth } from "../../context/loginContext";
-
 import { Course } from "../../types/courseTypes";
-import axios from "axios";
+import useAxios from "../../lib/axios";
 
 
 
@@ -15,10 +13,10 @@ export function useMyCourses() {
     const [deleteError, setDeleteError] = useState('');
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
-
+    const axios = useAxios();
 
     const { data, isFetching, isError, error } = useQuery<Course[]>('MyCourses', async () => {
-        const response = await axios.get(`http://localhost:8080/mycourses/${userUuid}`, {
+        const response = await axios.get(`/mycourses/${userUuid}`, {
             params: {
                 page: page,
                 pageSize: pageSize,
@@ -36,7 +34,7 @@ export function useMyCourses() {
         ? data?.filter(course => course.name.toLowerCase().includes(search.toLowerCase()))
         : data || [];
 
-    const deleteCourseMutation = useMutation((id: string) => axios.delete(`http://localhost:8080/courses/${id}/delete`), {
+    const deleteCourseMutation = useMutation((id: string) => axios.delete(`/courses/${id}/delete`), {
         onSuccess: () => {
             queryClient.invalidateQueries('MyCourses');
         },

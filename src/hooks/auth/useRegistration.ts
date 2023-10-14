@@ -1,6 +1,6 @@
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import useAxios from "../../lib/axios";
 
 export function useRegistration() {
   const [username, setUsername] = useState("");
@@ -8,12 +8,13 @@ export function useRegistration() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
+  const axios = useAxios();
+  
   const handleSubmit = async function (event: FormEvent) {
     event.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:8080/register", {
+      const response = await axios.post("/register", {
         username,
         email,
         password,

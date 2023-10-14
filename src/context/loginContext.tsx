@@ -4,8 +4,6 @@ import axios, { AxiosResponse } from 'axios';
 import { AuthContextType, User } from '../types/AdminTableTypes';
 
 
-
-
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const useAuth = (): AuthContextType => {
@@ -19,8 +17,8 @@ export const useAuth = (): AuthContextType => {
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] =useState(()=> localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || "") : null);
-  const [accessToken, setAccessToken] = useState(()=> localStorage.getItem('acess') ? JSON.parse(localStorage.getItem('user')|| "" ) : null);
-  const [refreshToken, setRefreshToken] = useState(()=> localStorage.getItem('refresh') ? JSON.parse(localStorage.getItem('user')|| "") : null);
+  const [accessToken, setAccessToken] = useState(() => localStorage.getItem('access') ? JSON.parse(localStorage.getItem('access') || "") : null);
+  const [refreshToken, setRefreshToken] = useState(() => localStorage.getItem('refresh') ? JSON.parse(localStorage.getItem('refresh') || "") : null);
 
 
   const login = async (email: string, password: string) => {
@@ -30,16 +28,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         accessToken: string;
         refreshToken: string;
       }> = await axios.post('http://localhost:8080/login', { email, password });
-      if(response.status===200){
-        setUser(response.data.user);
-        setAccessToken(response.data.accessToken);
-        setRefreshToken(response.data.refreshToken);
-        localStorage.setItem('acess', JSON.stringify(response.data.accessToken))
-        localStorage.setItem('refresh', JSON.stringify(response.data.refreshToken))
-        localStorage.setItem('user', JSON.stringify(response.data.user))
-        }
+      if(response.status === 200){
+        const { user, accessToken, refreshToken } = response.data;
+  
+        setUser(user);
+        setAccessToken(accessToken);
+        setRefreshToken(refreshToken);
+  
+        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('access', JSON.stringify(accessToken));
+        localStorage.setItem('refresh', JSON.stringify(refreshToken));
+       
+      }
     } catch (error: any) {
       throw Error(error.response.data.error)
+
     }
   };
 
@@ -47,42 +50,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setUser(null);
     setAccessToken(null);
     setRefreshToken(null);
+    localStorage.clear();
     window.location.href = '/login';
   };
 
-  useEffect(() => {
-    // Axios interceptor para adicionar o token de acesso em cada requisição
-    axios.interceptors.request.use((config) => {
-      if (accessToken) {
-        config.headers['Authorization'] = `Bearer ${accessToken}`;
-      }
-      return config;
-    });
+  const renewToken = async () => {
+    const response = await axios.post('http://localhost:8080/refresh', { refreshToken });
+    const newAccessToken = response.data.access;
+    setAccessToken(newAccessToken);
+    localStorage.setItem('access', JSON.stringify(newAccessToken));
+  };
 
-    // Axios interceptor para lidar com tokens expirados
-    axios.interceptors.response.use(
-      (response) => response,
-      async (error) => {
-        if (error.response && error.response.status === 401) {
-          // Token de acesso expirado, tenta renovar com o token de atualização
-          try {
-            const response: AxiosResponse<{
-              accessToken: string;
-            }> = await axios.post('http://localhost:8080/refresh', { refreshToken });
-            setAccessToken(response.data.accessToken);
-            return axios(error.config); // Repete a requisição original com o novo token de acesso
-          } catch (refreshError) {
-            console.error('Erro ao renovar token de acesso', refreshError);
-            logout(); // Desconecta o usuário se a renovação do token falhar
-          }
-        }
-        return Promise.reject(error);
-      }
-    );
-  }, [accessToken, refreshToken]);
-
+ 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, accessToken, renewToken
+    }}>
       {children}
     </AuthContext.Provider>
   );

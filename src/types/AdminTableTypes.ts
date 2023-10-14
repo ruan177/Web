@@ -15,4 +15,6 @@ export interface Course {
     user: User | null;
     login: (username: string, password: string) => void;
     logout: () => void;
+    accessToken: string;
+    renewToken: () => Promise<void>;
   }
