@@ -8,7 +8,7 @@ import { FaStar, FaRegStar } from 'react-icons/fa'
 
 
 export function Courses() {
-  const {user} = useAuth();
+  const { user } = useAuth();
 
   const {
     search,
@@ -65,8 +65,6 @@ export function Courses() {
                             (<FaStar onClick={() => handleUnsave.mutate({ courseId: course.id, userId: user?.id })} />) :
                             (<FaRegStar onClick={() => handleSave.mutate({ courseId: course.id, userId: user?.id })} />)
                           }
-
-
 
                         </div>)}
                     </li>

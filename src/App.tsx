@@ -17,7 +17,7 @@ import { ChangeAccount } from './pages/user/changeAccount';
 import ResetPasswordForm from './pages/user/resetPassword';
 import { AuthProvider } from './context/loginContext';
 import { PrivateRoute } from './lib/privateRoute';
-import { SavedCourses } from "./pages/course/savedCourses";
+
 
 
 
@@ -31,19 +31,19 @@ export default function App() {
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <Routes>
-            <Route path="/login" element={<Login />} errorElement={<Error />}/>,
-            <Route path="/register" element={<Register />}errorElement={<Error />} />,
-            <Route path="/" element={<Home />} errorElement={<Error />}/>,
-            <Route path="/courses" element={<Courses />}errorElement={<Error />}/>,
-            <Route path="/courses/:uuid" element={<Course />}errorElement={<Error />} />,
-            <Route path="/course/create" element={<PrivateRoute><CreateCourse /></PrivateRoute>} errorElement={<Error />}/>,
-            <Route path="/course/:uuid/update" element={<PrivateRoute><UpdateCourse /></PrivateRoute>} errorElement={<Error />}/>,
-            <Route path="/mycourses/:userId" element={<PrivateRoute><MyCourses /></PrivateRoute>}errorElement={<Error />} />,
-            <Route path="/account/update" element={<PrivateRoute><ChangeAccount /></PrivateRoute>}errorElement={<Error />} />,
-            <Route path="/admin" element={<PrivateRoute><Admin /></PrivateRoute>} errorElement={<Error />}/>,
-            <Route path="/reset" element={<ResetPasswordForm />} errorElement={<Error />}/>,
-            <Route path="/error" element={<Error />}  />,
-            <Route path="/saved" element={<SavedCourses />} />,
+            <Route path="/login" element={<Login />} errorElement={<Error />} />,
+            <Route path="/register" element={<Register />} errorElement={<Error />} />,
+            <Route path="/" element={<Home />} errorElement={<Error />} />,
+            <Route path="/courses" element={<Courses />} errorElement={<Error />} />,
+            <Route path="/courses/:uuid" element={<Course />} errorElement={<Error />} />,
+            <Route path="/course/create" element={<PrivateRoute><CreateCourse /></PrivateRoute>} errorElement={<Error />} />,
+            <Route path="/course/:uuid/update" element={<PrivateRoute><UpdateCourse /></PrivateRoute>} errorElement={<Error />} />,
+            <Route path="/mycourses/:userId" element={<PrivateRoute><MyCourses /></PrivateRoute>} errorElement={<Error />} />,
+            <Route path="/account/update" element={<PrivateRoute><ChangeAccount /></PrivateRoute>} errorElement={<Error />} />,
+            <Route path="/admin" element={<PrivateRoute><Admin /></PrivateRoute>} errorElement={<Error />} />,
+            <Route path="/reset" element={<ResetPasswordForm />} errorElement={<Error />} />,
+            <Route path="/error" element={<Error />} />,
+
           </Routes>
         </BrowserRouter>
       </QueryClientProvider>

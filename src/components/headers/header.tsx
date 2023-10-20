@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import logo from '../../assets/logos/coffe.png';
+import logo from '../../../public/icone.png';
 import { HomeButton } from '../buttons/button';
 import UserProfile from '../dropdown/profile';
 import { useAuth } from '../../context/loginContext';
