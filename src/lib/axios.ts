@@ -7,7 +7,7 @@ const useAxios = () => {
   const { accessToken, renewToken } = useAuth();
 
   const axios = Axios.create({
-    baseURL: 'http://localhost:8080/',
+    baseURL: 'https://node-api-5e35.onrender.com/',
     headers: { Authorization: `Bearer ${accessToken}` }
   });
   axios.interceptors.request.use(async (config) => {
