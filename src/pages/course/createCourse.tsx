@@ -14,6 +14,7 @@ export function CreateCourse() {
     CourseDescription,
     setCourseDescription,
     handleSubmit,
+    error
   } = useCreateCourse();
 
   return (
@@ -58,6 +59,7 @@ export function CreateCourse() {
             height={400}
             value={BodyCourseContent}
             onChange={(value) => setBodyCourseContent(value || '')}
+            
           />
         </div>
 
@@ -66,6 +68,7 @@ export function CreateCourse() {
             Criar Curso
           </button>
         </div>
+        <p>{error}</p>
 
         <ToastContainer
           position="bottom-center"

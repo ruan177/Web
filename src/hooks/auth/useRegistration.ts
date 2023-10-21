@@ -1,6 +1,7 @@
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxios from "../../lib/axios";
+import { toast } from "react-toastify";
 
 export function useRegistration() {
   const [username, setUsername] = useState("");
@@ -21,7 +22,20 @@ export function useRegistration() {
       });
 
       if (response.status === 200) {
-        navigate("/login");
+        toast.success("Usuario criado com sucesso", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        setTimeout(() => {
+          navigate("/login");
+        }, 4000);
+        
       }
     } catch (error: any) {
       setError(error.response.data.error);

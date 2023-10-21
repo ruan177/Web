@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         user: User;
         accessToken: string;
         refreshToken: string;
-      }> = await axios.post('https://node-api-5e35.onrender.com/login', { email, password });
+      }> = await axios.post('https://node-api-v91t.onrender.com/login', { email, password });
       if(response.status === 200){
         const { user, accessToken, refreshToken } = response.data;
   
@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const renewToken = async () => {
-    const response = await axios.post('https://node-api-5e35.onrender.com/refresh', { refreshToken });
+    const response = await axios.post('https://node-api-v91t.onrender.com/refresh', { refreshToken });
     const newAccessToken = response.data.access;
     setAccessToken(newAccessToken);
     localStorage.setItem('access', JSON.stringify(newAccessToken));

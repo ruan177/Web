@@ -65,7 +65,7 @@ export function MyCourses() {
                 <>
                   {isError ? (
                     <p className="text-red-500">
-                      {error instanceof Error ? error.message : 'Erro ao carregar cursos.'}
+                      {error instanceof Error ? error.message : ' Nenhum curso criado ou ocorreu um erro.'}
                     </p>
                   ) : (
                     <p className="text-gray-600 text-center">

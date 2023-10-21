@@ -11,7 +11,7 @@ export const useChangeAccount = () => {
   const [username, setUsername] = useState("");
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [showSuccessProfileChangeMessage, setShowSuccessProfileChangeMessage] = useState(false);
-  const [showSuccessPasswordChangeMessage, setSuccessPasswordChangeMessag] = useState(false);
+  const [showSuccessPasswordChangeMessage, setSuccessPasswordChangeMessage] = useState(false);
   const {user, logout} = useAuth();
   const axios = useAxios();
   const [showModal, setShowModal] = useState(false);
@@ -31,6 +31,9 @@ export const useChangeAccount = () => {
         setShowSuccessProfileChangeMessage(true);
         queryClient.invalidateQueries(["userInfo"]);
       },
+      onError: ()=>{
+       
+      }
     }
   );
 
@@ -44,7 +47,7 @@ export const useChangeAccount = () => {
     },
     {
       onSuccess: () => {
-        setSuccessPasswordChangeMessag(true);
+        setSuccessPasswordChangeMessage(true);
         logout();
       },
     }

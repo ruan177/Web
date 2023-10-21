@@ -17,6 +17,7 @@ import { ChangeAccount } from './pages/user/changeAccount';
 import ResetPasswordForm from './pages/user/resetPassword';
 import { AuthProvider } from './context/loginContext';
 import { PrivateRoute } from './lib/privateRoute';
+import { SavedCourses } from "./pages/course/savedCourses";
 
 
 
@@ -43,6 +44,7 @@ export default function App() {
             <Route path="/admin" element={<PrivateRoute><Admin /></PrivateRoute>} errorElement={<Error />} />,
             <Route path="/reset" element={<ResetPasswordForm />} errorElement={<Error />} />,
             <Route path="/error" element={<Error />} />,
+            <Route path="/saved" element={< SavedCourses/>} />,
 
           </Routes>
         </BrowserRouter>

@@ -3,20 +3,21 @@ import { useMutation, useQuery } from 'react-query';
 import { queryClient } from "../../lib/queryClient";
 import { Course } from "../../types/courseTypes";
 import useAxios from "../../lib/axios";
+import { useAuth } from "../../context/loginContext";
 
 
 
 export function useMyCourses() {
 
     const [search, setSearch] = useState('');
-    const userUuid = localStorage.getItem('user');
+    const { user } = useAuth();
     const [deleteError, setDeleteError] = useState('');
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const axios = useAxios();
 
     const { data, isFetching, isError, error } = useQuery<Course[]>('MyCourses', async () => {
-        const response = await axios.get(`/mycourses/${userUuid}`, {
+        const response = await axios.get(`/mycourses/${user?.id}`, {
             params: {
                 page: page,
                 pageSize: pageSize,
@@ -37,6 +38,7 @@ export function useMyCourses() {
     const deleteCourseMutation = useMutation((id: string) => axios.delete(`/courses/${id}/delete`), {
         onSuccess: () => {
             queryClient.invalidateQueries('MyCourses');
+            queryClient.refetchQueries(['MyCourses', page, pageSize]);
         },
     });
 
