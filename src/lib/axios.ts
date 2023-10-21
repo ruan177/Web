@@ -12,9 +12,9 @@ const useAxios = () => {
   });
   axios.interceptors.request.use(async (config) => {
     if (accessToken) {
-      const token = jwt_decode(accessToken)
+      const token = jwt_decode<{ exp: number }>(accessToken);
       const now = dayjs(); // Obtém a data/hora atual com dayjs
-      const targetDate = dayjs.unix(token.exp);
+      const targetDate = dayjs.unix(token?.exp );
       const minutesRemaining = targetDate.diff(now, 'minutes');
       if (minutesRemaining <= 5){
         await renewToken();
