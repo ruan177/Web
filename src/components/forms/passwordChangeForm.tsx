@@ -52,12 +52,12 @@ const PasswordChangeForm: React.FC<PasswordChangeFormProps> = ({
             {/* Add other fields for changing password */}
             <div className="flex justify-end">
               <button
-                className="bg-blue-500 hover:bg-green-700 text-white font-bold py-2 px-8 rounded focus:outline-none focus:shadow-outline flex items-center"
+                className="bg-blue-500 hover:bg-blue-700 rounded text-white font-bold py-2 px-8  focus:outline-none focus:shadow-outline flex items-center transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
                 
                 onClick={handleChangePassword}
               >
               <FaSave className="mr-2" />
-                Save Changes
+                Save 
               </button>
             </div>
             {showSuccessPasswordChangeMessage && <p className="text-center text-green-500 mt-2">Password changed successfully!</p>}

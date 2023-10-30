@@ -18,6 +18,8 @@ import ResetPasswordForm from './pages/user/resetPassword';
 import { AuthProvider } from './context/loginContext';
 import { PrivateRoute } from './lib/privateRoute';
 import { SavedCourses } from "./pages/course/savedCourses";
+import MarkdownEditorWithImageUploader from "./components/Editor/imageInput";
+import Test from "./components/Editor/MardowEditorWIthImageUploader";
 
 
 
@@ -45,6 +47,8 @@ export default function App() {
             <Route path="/reset" element={<ResetPasswordForm />} errorElement={<Error />} />,
             <Route path="/error" element={<Error />} />,
             <Route path="/saved" element={< SavedCourses/>} />,
+
+
 
           </Routes>
         </BrowserRouter>

@@ -4,6 +4,8 @@ import Header from "../../components/headers/header";
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import { ToastContainer } from "react-toastify";
 import { useMyCourses } from '../../hooks/courses/useMyCourses';
+import { AxiosError } from 'axios';
+import { Notification } from "../../components/notification/notification";
 
 export function MyCourses() {
   const {
@@ -65,11 +67,13 @@ export function MyCourses() {
                 <>
                   {isError ? (
                     <p className="text-red-500">
-                      {error instanceof Error ? error.message : ' Nenhum curso criado ou ocorreu um erro.'}
+                      {error instanceof AxiosError
+                        ? 'Nenhum curso criado .'
+                        : 'Nenhum curso criado.'}
                     </p>
                   ) : (
                     <p className="text-gray-600 text-center">
-                      Nenhum curso criado
+                      Nenhum curso criado.
                     </p>
                   )}
                 </>
@@ -95,17 +99,8 @@ export function MyCourses() {
           Próxima
         </button>
       </div>
-      <ToastContainer
-        position="bottom-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light" />
+      <Notification />
+   
     </div>
   );
 }

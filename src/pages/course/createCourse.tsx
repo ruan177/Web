@@ -4,6 +4,8 @@ import { ToastContainer } from "react-toastify";
 import MDEditor from "@uiw/react-md-editor";
 import 'react-toastify/dist/ReactToastify.css';
 import { useCreateCourse } from "../../hooks/courses/useCreateCourses";
+import MarkdownEditorWithImageUploader from "../../components/Editor/MardowEditorWIthImageUploader";
+import { Notification } from "../../components/notification/notification";
 
 export function CreateCourse() {
   const {
@@ -55,12 +57,9 @@ export function CreateCourse() {
           <label htmlFor="" className="block italic font-medium text-sm text-indigo-900 mb-2">
             Content
           </label>
-          <MDEditor
-            height={400}
-            value={BodyCourseContent}
-            onChange={(value) => setBodyCourseContent(value || '')}
-            
-          />
+          <MarkdownEditorWithImageUploader
+            bodyCourseContent={BodyCourseContent}
+            setBodyCourseContent={setBodyCourseContent} />
         </div>
 
         <div className="flex justify-end">
@@ -70,18 +69,7 @@ export function CreateCourse() {
         </div>
         <p>{error}</p>
 
-        <ToastContainer
-          position="bottom-center"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
+        <Notification />
       </div>
     </>
 

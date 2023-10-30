@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import logo from '../../assets/logos/icone.png';
+import logo from '../../assets/logos/coffe.png';
 import { HomeButton } from '../buttons/button';
 import UserProfile from '../dropdown/profile';
 import { useAuth } from '../../context/loginContext';
@@ -16,7 +16,7 @@ export default function Header(props: any) {
 
   return (
     <nav className="flex flex-wrap items-center justify-between px-4 py-3 bg-white border-b-2 border-slate-300">
-      <div className="container mx-auto flex items-center justify-between">
+      <div className="h-fuull w-full mx-auto flex items-center justify-between ">
         <div className="flex items-center">
           <NavLink className="italic flex items-center font-medium rounded-lg text-sm text-indigo-900" to="/">
             <img src={logo} width="60" height="60" alt="Logo" />
@@ -46,9 +46,7 @@ export default function Header(props: any) {
 
           {!user && (
             <><NavLink className="block font-medium rounded-lg text-sm text-black mb-2" to="/courses">
-              Courses
-              </NavLink><NavLink className="block font-medium rounded-lg text-sm text-black mb-2" to="/">
-                How it Works
+              Cursos
               </NavLink>
               <Link className="block font-medium rounded-lg text-sm text-black mb-2"
               to="about"
@@ -57,7 +55,7 @@ export default function Header(props: any) {
               offset={-70} // Ajuste conforme necessário
               duration={500}
             >
-              About Us
+              Sobre nos
             </Link>
               <hr className="my-2" /><NavLink className=" block font-medium rounded-lg italic 2 text-sm text-violet-900 mb-2" to="/login">
                 Sign-in

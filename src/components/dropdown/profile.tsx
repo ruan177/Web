@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import avatar from '../../assets/logos/avatar.jpg'
-import { NavLink   } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../context/loginContext';
 
 
 const UserProfile = () => {
   const [isOpen, setIsOpen] = useState(false);
-  
+
 
   const { user, logout } = useAuth();
 
@@ -27,7 +27,12 @@ const UserProfile = () => {
           className="flex items-center justify-center w-10 h-10 bg-gray-200 rounded-full focus:outline-none"
           onClick={toggleDropdown}
         >
-          <img className="w-10 h-10 rounded-full" src={avatar} alt="User Avatar" />
+          <div className="flex items-center justify-center w-10 h-10 rounded-full overflow-hidden">
+            <img src={user?.profileImageUrl ? user?.profileImageUrl : avatar
+            } className="w-full h-full object-cover">
+            </img>
+          </div>
+
         </button>
 
         {isOpen && (

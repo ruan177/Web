@@ -1,8 +1,8 @@
 import '../../styles/global.css'
-import { NavLink  } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Header } from "../../components/headers/headerForm";
 import { useRegistration } from "../../hooks/auth/useRegistration";
-import { ToastContainer } from 'react-toastify';
+import { Notification } from '../../components/notification/notification';
 
 export function Register() {
 
@@ -12,11 +12,11 @@ export function Register() {
         setPassword,
         error,
         handleSubmit,
-      } = useRegistration(); 
+    } = useRegistration();
 
     return (
         <div className="grid bg-gradient-to-r from-indigo-900 via-purple-500 to-rose-500">
-            <Header textColor={"text-white"}/>
+            <Header textColor={"text-white"} />
             <div className="w-screen h-screen flex justify-center items-center bg-gradient-to-r from-indigo-900 via-purple-500 to-rose-500">
                 <div className="w-full max-w-md flex flex-row gap-16 justify-center ">
 
@@ -61,7 +61,7 @@ export function Register() {
                             <button className="bg-violet-500 hover:bg-violet-700 text-white font-bold py-2 px-20 rounded-full focus:outline-none focus:shadow-outline" type="submit">
                                 Sign up
                             </button>
-                            
+
 
                         </div>
 
@@ -69,18 +69,7 @@ export function Register() {
 
                 </div>
             </div>
-            <ToastContainer
-          position="bottom-center"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
+            <Notification />
         </div>
 
 

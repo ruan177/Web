@@ -21,7 +21,7 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
 }) => {
   return (
     showModal? (
-      <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-opacity-50 bg-black">
+      <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-opacity-50 bg-black ">
         <div className="bg-white p-6 rounded-md shadow-md">
           <p className="mb-4 text-center text-red-500">
             Are you sure you want to delete your account? Type "DELETE" to confirm:

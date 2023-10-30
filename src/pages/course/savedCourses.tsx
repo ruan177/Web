@@ -8,7 +8,7 @@ import { useSavedCourses } from '../../hooks/courses/useSavedCourses';
 
 
 export function SavedCourses() {
- 
+
   const {
     search,
     setSearch,
@@ -36,7 +36,10 @@ export function SavedCourses() {
           />
 
           {isFetching ? (
-            <p className="text-gray-600 text-center">Carregando cursos...</p>
+            <p className="text-gray-600 text-center">
+              <svg className="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24">
+            </svg>
+              Carregando...</p>
           ) : (
             <>
               {displayedCourses?.length || 0 > 0 ? (
@@ -75,8 +78,8 @@ export function SavedCourses() {
                   {isError ? (
                     <p className="text-red-500">
                       {error instanceof AxiosError
-                        ? error.response?.data.message || 'Erro ao carregar cursos.'
-                        : 'Erro ao carregar cursos.'}
+                        ? 'Nenhum curso salvo .'
+                        : 'Nenhum curso salvo.'}
                     </p>
                   ) : (
                     <p className="text-gray-600 text-center">

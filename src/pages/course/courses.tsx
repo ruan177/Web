@@ -91,8 +91,8 @@ export function Courses() {
                   {isError ? (
                     <p className="text-red-500">
                       {error instanceof AxiosError
-                        ? error.response?.data.message || 'Nenhum curso criado ou Ocorreu um erro.'
-                        : 'Erro ao carregar cursos.'}
+                        ? 'Nenhum curso criado .'
+                        : 'Nenhum curso criado.'}
                     </p>
                   ) : (
                     <p className="text-gray-600 text-center">

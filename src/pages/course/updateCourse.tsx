@@ -6,6 +6,7 @@ import MDEditor from '@uiw/react-md-editor'
 import { ToastContainer } from "react-toastify";
 import { useCourse } from "../../hooks/courses/useCourse";
 import { useFormSubmit } from "../../hooks/courses/useFormSubmit";
+import { Notification } from "../../components/notification/notification";
 
 
 export function UpdateCourse() {
@@ -88,17 +89,7 @@ export function UpdateCourse() {
             Atualizar Curso
           </button>
         </div>
-        <ToastContainer
-          position="bottom-center"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light" />
+        <Notification />
       </div>
 
     </>
