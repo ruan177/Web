@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Checkbox, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 interface Course {
   id: number;
@@ -71,7 +72,7 @@ const CoursesTable: React.FC<CoursesTableProps> = ({
                         />
                       </TableCell>
                     )}
-                    <TableCell>{course.name}</TableCell>
+                    <TableCell ><Link to={`/courses/${course.id}`}>{course.name}</Link></TableCell>
                     <TableCell>{course.description}</TableCell>
                     <TableCell>
                       {isCoursesEditMode ? (

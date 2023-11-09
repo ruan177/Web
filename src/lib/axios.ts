@@ -10,6 +10,7 @@ const useAxios = () => {
     baseURL: 'http://localhost:8080',
     headers: { Authorization: `Bearer ${accessToken}` }
   });
+  
   axios.interceptors.request.use(async (config) => {
     if (accessToken) {
       const token = jwt_decode<{ exp: number }>(accessToken);
@@ -24,18 +25,6 @@ const useAxios = () => {
     return config;
   });
 
-
-  // axios.interceptors.request.use(async (req) => {
-  //   const token = jwt_decode(accessToken)
-  //   const isExpired = dayjs.unix(token.exp).diff(dayjs()) < 1;
-
-  //   if (!isExpired) {
-  //     return req;
-  //   }
-  //   await renewToken();
-  //   req.headers['Authorization'] = `Bearer ${accessToken}`;
-  //   return req;
-  // });
 
 
   return axios;

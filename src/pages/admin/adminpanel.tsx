@@ -4,6 +4,7 @@ import Navigation from '../../components/tables/navigation';
 import UsersTable from '../../components/tables/usersTable';
 import CoursesTable from '../../components/tables/coursesTable';
 import {useAdmin} from '../../hooks/admin/useAdmin'
+import { useAuth } from '../../context/loginContext';
 
 export const Admin = () => {
   const {
@@ -28,6 +29,7 @@ export const Admin = () => {
     handleUserSelect,
     handleCourseSelect,
   } = useAdmin();
+
 
   return (
 

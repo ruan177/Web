@@ -47,9 +47,6 @@ export default function App() {
             <Route path="/reset" element={<ResetPasswordForm />} errorElement={<Error />} />,
             <Route path="/error" element={<Error />} />,
             <Route path="/saved" element={< SavedCourses/>} />,
-
-
-
           </Routes>
         </BrowserRouter>
       </QueryClientProvider>

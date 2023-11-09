@@ -1,5 +1,5 @@
 // ProfileForm.tsx
-import React  from "react";
+import React from "react";
 import { MdSave } from "react-icons/md";
 
 interface ProfileFormProps {
@@ -20,10 +20,10 @@ const ProfileChangeForm: React.FC<ProfileFormProps> = ({
   showSuccessProfileChangeMessage,
 }) => {
   return (
-    <div className="w-full shadow-md rounded bg-white p-8">
-      <h3 className="text-xl font-bold text-gray-900 mb-6 text-center">Change username</h3>
+    <div className="w-full shadow-md rounded bg-white p-4 md:p-8">
+      <h3 className="text-xl font-bold text-gray-900 mb-4 md:mb-6 text-center">Change username</h3>
 
-      <div className="grid grid-cols-2 gap-4 mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div>
           <label htmlFor="oldUsername" className="block italic font-medium text-sm text-indigo-900 mb-2">
             Username:
@@ -50,9 +50,9 @@ const ProfileChangeForm: React.FC<ProfileFormProps> = ({
         </div>
       </div>
       {/* Add other fields for profile */}
-      <div className="flex justify-end">
+      <div className="flex justify-center md:justify-end mb-4"> {/* Centralizar o botão em dispositivos móveis */}
         <button
-          className="bg-blue-500 hover:bg-blue-700 rounded text-white font-bold py-2 px-8  focus:outline-none focus:shadow-outline flex items-center transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+          className="bg-blue-500 hover:bg-blue-700 rounded text-white font-bold py-2 px-6 md:py-2 md:px-8 focus:outline-none focus:shadow-outline flex items-center transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
           onClick={handleProfileSave}
         >
           <MdSave className="mr-2" />
@@ -61,6 +61,7 @@ const ProfileChangeForm: React.FC<ProfileFormProps> = ({
       </div>
       {showSuccessProfileChangeMessage && <p className="text-center text-green-500 mt-2">Changes saved successfully!</p>}
     </div>
+
   );
 };
 

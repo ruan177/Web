@@ -25,13 +25,15 @@ export default function Header(props: any) {
 
         {/* Menu Button */}
         {user ? (
-          // Não renderize UserProfile aqui
+            <><NavLink className="md:hidden flex font-medium rounded-lg text-base text-black" to="/courses">
+            Cursos
+          </NavLink>
           <button
             className="md:hidden text-black focus:outline-none"
 
           >
-            <UserProfile />
-          </button>
+              <UserProfile />
+            </button></>
         ) : (
           <button
             className="md:hidden text-black focus:outline-none"

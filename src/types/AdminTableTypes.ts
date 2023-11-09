@@ -12,10 +12,10 @@ export interface Course {
     description: string;
     isAproved: boolean;
   }
- export interface AuthContextType {
+  export interface AuthContextType {
     user: User | null;
     login: (username: string, password: string) => void;
     logout: () => void;
-    accessToken: string;
+    accessToken: string | null;
     renewToken: () => Promise<void>;
   }

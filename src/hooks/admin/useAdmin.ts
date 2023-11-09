@@ -16,7 +16,7 @@ export function useAdmin() {
     const [isCoursesEditMode, setIsCoursesEditMode] = useState(false);
     const [usersData, setUsersData] = useState<User[]>([]); // Store the updated user data here
     const [coursesData, setCoursesData] = useState<Course[]>([]);
-    const {user} = useAuth();
+    const {user, } = useAuth();
     const axios = useAxios();
   
     const handleUsersEdit = () => { setIsCoursesEditMode(true); };
