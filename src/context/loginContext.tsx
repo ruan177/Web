@@ -14,26 +14,15 @@ export const useAuth = (): AuthContextType => {
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(() =>
-    localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '') : null
+  sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user') || '') : null
   );
   const [accessToken, setAccessToken] = useState<string | null>(() =>
-    localStorage.getItem('access') ? JSON.parse(localStorage.getItem('access') || '') : null
+  sessionStorage.getItem('access') ? JSON.parse(sessionStorage.getItem('access') || '') : null
   );
   const [refreshToken, setRefreshToken] = useState<string | null>(() =>
-    localStorage.getItem('refresh') ? JSON.parse(localStorage.getItem('refresh') || '') : null
+  sessionStorage.getItem('refresh') ? JSON.parse(sessionStorage.getItem('refresh') || '') : null
   );
-  const [lastActivity, setLastActivity] = useState(Date.now());
-  const inactivityTimeout = 900000; // 15 minutos em milissegundos
-  let inactivityTimer: number;
 
-  const handleInactivity = () => {
-    logout(); // Desloga o usuário quando inativo
-  };
-
-  const resetInactivityTimer = () => {
-    clearTimeout(inactivityTimer);
-    inactivityTimer = setTimeout(handleInactivity, inactivityTimeout);
-  };
 
   const login = async (email: string, password: string) => {
     try {
@@ -41,7 +30,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         user: User;
         accessToken: string;
         refreshToken: string;
-      }> = await axios.post('http://localhost:8080/login', { email, password });
+      }> = await axios.post('http://192.168.15.51:8080/login', { email, password });
       if (response.status === 200) {
         const { user, accessToken, refreshToken } = response.data;
 
@@ -49,11 +38,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setAccessToken(accessToken);
         setRefreshToken(refreshToken);
 
-        localStorage.setItem('user', JSON.stringify(user));
-        localStorage.setItem('access', JSON.stringify(accessToken));
-        localStorage.setItem('refresh', JSON.stringify(refreshToken));
+        sessionStorage.setItem('user', JSON.stringify(user));
+        sessionStorage.setItem('access', JSON.stringify(accessToken));
+        sessionStorage.setItem('refresh', JSON.stringify(refreshToken));
 
-        resetInactivityTimer();
+      
       }
     } catch (error: any) {
       throw Error(error.response.data.error);
@@ -71,44 +60,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const renewToken = async () => {
     try {
       const response = await axios.post('http://localhost:8080/refresh', { refreshToken });
-      const newAccessToken = response.data.access;
-      setAccessToken(newAccessToken);
-      localStorage.setItem('access', JSON.stringify(newAccessToken));
+      setAccessToken(response.data.access);
+      sessionStorage.setItem('access', JSON.stringify(response.data.access));
     } catch (error) {
       console.error('Erro ao renovar o token:', error);
       logout(); // Desloga o usuário em caso de erro na renovação do token
     }
   };
 
-  const handleUserActivity = useCallback(() => {
-    setLastActivity(Date.now());
-    resetInactivityTimer();
-  }, []);
+  
 
-  useEffect(() => {
-    window.addEventListener('mousemove', handleUserActivity);
-    window.addEventListener('keydown', handleUserActivity);
-
-    resetInactivityTimer();
-
-    return () => {
-      window.removeEventListener('mousemove', handleUserActivity);
-      window.removeEventListener('keydown', handleUserActivity);
-    };
-  }, [handleUserActivity]);
-
-  useEffect(() => {
-    const checkInactivity = setInterval(() => {
-      const elapsedTime = Date.now() - lastActivity;
-      if (elapsedTime >= inactivityTimeout) {
-        handleInactivity();
-      }
-    }, 1000);
-
-    return () => {
-      clearInterval(checkInactivity);
-    };
-  }, [lastActivity, inactivityTimeout]);
 
   return (
     <AuthContext.Provider

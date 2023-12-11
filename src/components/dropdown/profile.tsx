@@ -36,25 +36,25 @@ const UserProfile = () => {
         </button>
 
         {isOpen && (
-          <ul className="absolute right-0 z-10 w-48 py-2 mt-2 bg-white rounded-md shadow-xl dropdown-menu top-10 right-4">
+          <ul className="justify-items-center absolute right-0 z-10 w-36 py-2 mt-2 bg-white rounded-md shadow-xl dropdown-menu top-10 right-0">
             {user?.isAdmin && (
-              <li className="px-4 py-2 hover-bg-gray-100">
+              <li className="px-4 py-2 hover-bg-gray-100 hover:bg-gray-200">
                 <NavLink to={`/admin`}>Admin</NavLink>
               </li>
             )}
-            <li className="px-4 py-2 hover-bg-gray-100">
+            <li className="px-4 py-2 hover-bg-gray-100 hover:bg-gray-200">
               <NavLink to={`/mycourses/${user?.id}`}>Cursos Criados</NavLink>
             </li>
-            <li className="px-4 py-2 hover-bg-gray-100">
+            <li className="px-4 py-2 hover-bg-gray-100 hover:bg-gray-200">
               <NavLink to="/course/create">Criar Conteudo</NavLink>
             </li>
-            <li className="px-4 py-2 hover-bg-gray-100">
+            <li className="px-4 py-2 hover-bg-gray-100 hover:bg-gray-200">
               <NavLink to="/account/update">Alterar Conta</NavLink>
             </li>
-            <li className="px-4 py-2 hover-bg-gray-100">
+            <li className="px-4 py-2 hover-bg-gray-100 hover:bg-gray-200">
               <NavLink to="/saved">Cursos Salvos</NavLink>
             </li>
-            <li className="px-4 py-2 hover-bg-gray-100">
+            <li className="px-4 py-2 hover-bg-gray-100 hover:bg-gray-200">
               <NavLink to="/login" onClick={logout}>Deslogar</NavLink>
             </li>
           </ul>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import logo from '../../assets/logos/coffe.png';
+import logo from '../../assets/logos/sparkle.png';
 import { HomeButton } from '../buttons/button';
 import UserProfile from '../dropdown/profile';
 import { useAuth } from '../../context/loginContext';
@@ -22,12 +22,11 @@ export default function Header(props: any) {
             <img src={logo} width="60" height="60" alt="Logo" />
           </NavLink>
         </div>
+        
 
         {/* Menu Button */}
         {user ? (
-            <><NavLink className="md:hidden flex font-medium rounded-lg text-base text-black" to="/courses">
-            Cursos
-          </NavLink>
+            <>
           <button
             className="md:hidden text-black focus:outline-none"
 
@@ -59,9 +58,9 @@ export default function Header(props: any) {
             >
               Sobre nos
             </Link>
-              <hr className="my-2" /><NavLink className=" block font-medium rounded-lg italic 2 text-sm text-violet-900 mb-2" to="/login">
+              <hr className="my-2" /><NavLink className=" block font-medium rounded-lg italic 2 text-sm text-black mb-2" to="/login">
                 Sign-in
-              </NavLink><NavLink className="block font-medium rounded-lg italic bg-indigo-900  text-sm text-white mb-2" to="/register">
+              </NavLink><NavLink className="block font-medium rounded-lg italic bg-black  text-sm text-white mb-2" to="/register">
                 Sign-up
               </NavLink></>
           )}
@@ -73,9 +72,7 @@ export default function Header(props: any) {
           <NavLink className="flex font-medium rounded-lg text-base text-black" to="/courses">
             Cursos
           </NavLink>
-          <NavLink className="flex font-medium rounded-lg text-base text-black" to="/">
-            Como Funciona
-          </NavLink>
+       
           <Link className="flex font-medium rounded-lg text-base text-black"
               to="about"
               spy={true}
@@ -98,12 +95,12 @@ export default function Header(props: any) {
               <HomeButton
                 name={'Entrar'}
                 route={'/login'}
-                bgColor={'text-violet-900 border border-indigo-900 hover:border-indigo-900 '}
+                bgColor={'text-black border border-black hover:border-indigo-900 '}
               />
               <HomeButton
                 name={'Registrar'}
                 route={'/register'}
-                bgColor={'text-white bg-indigo-900 hover:bg-indigo-300'}
+                bgColor={'text-white bg-black hover:bg-gray-500'}
               />
             </div>
           )}

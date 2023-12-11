@@ -38,7 +38,7 @@ export const Admin = () => {
         setActiveTab={setActiveTab}
         activeTab={activeTab}
       />
-      <div className="w-3/4 p-4">
+      <div className="w-full p-4">
         <UsersTable
           activeTab={activeTab}
           usersData={usersData}

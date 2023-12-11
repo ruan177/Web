@@ -21,7 +21,7 @@ const PasswordChangeForm: React.FC<PasswordChangeFormProps> = ({
 }) => {
   return (
     <div className="w-full shadow-md rounded bg-white p-8">
-            <h3 className="text-xl font-bold text-gray-900 mb-6 text-center">Change Password</h3>
+            <h3 className="text-xl overline font-bold text-gray-900 mb-6 text-center">Password</h3>
             <div className="grid grid-cols-2 gap-4 mb-4">
               <div>
                 <label htmlFor="oldPassword" className="block italic font-medium text-sm text-indigo-900 mb-2">
@@ -52,7 +52,7 @@ const PasswordChangeForm: React.FC<PasswordChangeFormProps> = ({
             {/* Add other fields for changing password */}
             <div className="flex justify-end">
               <button
-                className="bg-blue-500 hover:bg-blue-700 rounded text-white font-bold py-2 px-8  focus:outline-none focus:shadow-outline flex items-center transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+                className="bg-black hover:bg-blue-700 rounded text-white font-bold py-2 px-8  focus:outline-none focus:shadow-outline flex items-center transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
                 
                 onClick={handleChangePassword}
               >

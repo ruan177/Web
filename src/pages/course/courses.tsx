@@ -38,10 +38,11 @@ export function Courses() {
             name="search"
             type="text"
             placeholder="Buscar..."
-            className="w-full p-2 mb-4 text-lg border border-purple-900 rounded"
+            className="w-full appearance-none block w-full bg-gray-100 text-gray-700 border border-black rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
             onChange={e => setSearch(e.target.value)}
             value={search}
           />
+      
 
           {isFetching ? (
             <p className="text-gray-600 text-center">Carregando cursos...</p>

@@ -18,8 +18,8 @@ import ResetPasswordForm from './pages/user/resetPassword';
 import { AuthProvider } from './context/loginContext';
 import { PrivateRoute } from './lib/privateRoute';
 import { SavedCourses } from "./pages/course/savedCourses";
-import MarkdownEditorWithImageUploader from "./components/Editor/imageInput";
-import Test from "./components/Editor/MardowEditorWIthImageUploader";
+import { AdminRoute } from "./lib/AdminRoute";
+
 
 
 
@@ -43,7 +43,7 @@ export default function App() {
             <Route path="/course/:uuid/update" element={<PrivateRoute><UpdateCourse /></PrivateRoute>} errorElement={<Error />} />,
             <Route path="/mycourses/:userId" element={<PrivateRoute><MyCourses /></PrivateRoute>} errorElement={<Error />} />,
             <Route path="/account/update" element={<PrivateRoute><ChangeAccount /></PrivateRoute>} errorElement={<Error />} />,
-            <Route path="/admin" element={<PrivateRoute><Admin /></PrivateRoute>} errorElement={<Error />} />,
+            <Route path="/admin" element={<AdminRoute><Admin /></AdminRoute>} errorElement={<Error />} />,
             <Route path="/reset" element={<ResetPasswordForm />} errorElement={<Error />} />,
             <Route path="/error" element={<Error />} />,
             <Route path="/saved" element={< SavedCourses/>} />,

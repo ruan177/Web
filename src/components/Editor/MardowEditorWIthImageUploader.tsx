@@ -64,6 +64,7 @@ function MarkdownEditorWithImageUploader({
   return (
    
       <MDEditor
+      className='shadow appearance-none bg-gray-50 border border-black rounded-lg'
         height={400}
         value={bodyCourseContent}
         onChange={(value) => setBodyCourseContent(value || '')}

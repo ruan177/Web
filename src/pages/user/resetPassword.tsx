@@ -5,7 +5,7 @@ import { useResetPassword } from '../../hooks/user/useResetPassword';
 const ResetPasswordForm = () => {
   const {
     email,
-    setEmail, 
+    setEmail,
     inputCode,
     setInputCode,
     newPassword,
@@ -13,6 +13,7 @@ const ResetPasswordForm = () => {
     confirmPassword,
     setConfirmPassword,
     message,
+    setStep,
     step,
     isResendButtonDisabled,
     isCodeSent,
@@ -20,14 +21,15 @@ const ResetPasswordForm = () => {
     handleVerifyCode,
     handleResetPassword,
     handleCancelOption,
+    timeLeft
   } = useResetPassword();
 
 
   return (
     <>
       <Header textColor={"text-white"} />
-      <div className="  bg-gradient-to-r from-indigo-900 via-purple-500 to-rose-500 flex items-center justify-center h-screen">
-        <div className="p-8 bg-white shadow-lg rounded-lg">
+      <div className="  bg-[url('/src/assets/login_logo.jpg')] bg-no-repeat bg-cover flex items-center justify-center h-screen">
+        <div className="w-2/6  p-8 bg-white shadow-lg rounded-lg">
           {step === 1 ? (
             <>
               <h2 className="text-xl font-bold mb-4">Esqueceu sua senha?</h2>
@@ -68,7 +70,10 @@ const ResetPasswordForm = () => {
                     id="code"
                     className="flex-grow px-4 py-2 focus:outline-none"
                     value={inputCode}
-                    onChange={(e) => setInputCode(e.target.value)} />
+                    onChange={(e) => setInputCode(e.target.value)}
+                    disabled={timeLeft === 0}
+                  />
+                  
                   <button
                     className="px-4 py-2 bg-blue-500 text-white"
                     onClick={handleVerifyCode}
@@ -76,6 +81,7 @@ const ResetPasswordForm = () => {
                     <FiCheckCircle />
                   </button>
                 </div>
+                <p className="text-green-600">{timeLeft > 0 ? `Tempo restante: ${timeLeft}s` : `${setStep(1)} 'O tempo acabou!`}</p>
               </div>
               <p className="text-green-600">{message}</p>
             </>

@@ -20,19 +20,19 @@ const ProfileImageSection = () => {
 
 
     return (
-        <><div className="bg-gray-200 p-4 rounded-lg shadow-md">
-            <h2 className="text-2xl font-semibold mb-4">Profile</h2>
+        <><div className="bg-transparent p-4 rounded-lg ">
+            <h2 className="text-xl overline text-center font-semibold mb-4">Foto </h2>
             {selectedImage ? (
                 <div className="mb-4">
                     <img
                         src={URL.createObjectURL(selectedImage)}
                         alt="Profile photo"
-                        className="w-32 h-32 rounded-full mx-auto shadow-lg"
+                        className="w-32 h-32 border border-white rounded-full mx-auto shadow-lg"
                         defaultValue={user?.profileImageUrl} />
                 </div>
             ) : (
                 <div className="mb-4">
-                    <div className="w-32 h-32 bg-gray-300 rounded-full mx-auto"></div>
+                    <div className="w-32 h-32 bg-gray-400 rounded-full mx-auto"></div>
                 </div>
             )}
             <input
@@ -43,7 +43,7 @@ const ProfileImageSection = () => {
 
             <div className="mt-6 flex space-y-4 justify-end">
                 <button
-                    className="bg-blue-500 hover:bg-blue-700 rounded text-white font-bold py-2 px-8  focus:outline-none focus:shadow-outline flex items-center transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+                    className="bg-black border border-white hover:bg-blue-700 rounded text-white font-bold py-2 px-8  focus:outline-none focus:shadow-outline flex items-center transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
 
                     onClick={handleSaveImage}
                 >

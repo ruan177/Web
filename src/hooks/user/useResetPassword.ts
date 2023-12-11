@@ -1,5 +1,5 @@
 import useAxios from "../../lib/axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
 export const useResetPassword = () => {
@@ -14,7 +14,9 @@ export const useResetPassword = () => {
   const [isInputDisabled, setIsInputDisabled] = useState(false);
   const [isResendButtonDisabled, setIsResendButtonDisabled] = useState(false);
   const [isCodeSent, setIsCodeSent] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(0);
   const axios = useAxios();
+
 
   const navigate = useNavigate();
 
@@ -27,15 +29,12 @@ export const useResetPassword = () => {
       setAttempts(1);
       setIsInputDisabled(false);
       setIsResendButtonDisabled(true);
+      setTimeLeft(60);
       setTimeout(() => {
-        setIsInputDisabled(true);
-        setIsResendButtonDisabled(false);
-        setIsCodeSent(false);
-        setEmail('');
-        setMessage('');
+
       }, 60000);
-    } catch (error) {
-      setMessage('Ocorreu um erro ao enviar o código de redefinição de senha.');
+    } catch (error: any) {
+      setMessage('Ocorreu um erro, ou o numero de tentativas foi exedido tente novamente mais tarde');
     }
   };
 
@@ -91,6 +90,22 @@ export const useResetPassword = () => {
     setStep(step - 1);
   };
 
+  useEffect(() => {
+    if (timeLeft > 0) {
+      const timerId = setInterval(() => {
+        setTimeLeft(timeLeft - 1);
+      }, 1000);
+      return () => clearInterval(timerId);
+    } else {
+      setIsInputDisabled(true);
+      setIsResendButtonDisabled(false);
+      setIsCodeSent(false);
+      setEmail('');
+      setMessage('');
+    }
+
+  }, [timeLeft]);
+
   return {
     email,
     setEmail,
@@ -113,5 +128,6 @@ export const useResetPassword = () => {
     handleVerifyCode,
     handleResetPassword,
     handleCancelOption,
+    timeLeft
   };
 };

@@ -40,6 +40,7 @@ export function useCourses() {
     ? data?.courses?.filter(course => course.name.toLowerCase().includes(search.toLowerCase()))
     : data?.courses || [];
 
+
   const startIndex = (page - 1) * cardsPerPage;
 
   const endIndex = Math.min(startIndex + cardsPerPage, filteredCourses?.length || 0 ) ; // Use Math.min para evitar índices maiores do que o tamanho do array
@@ -47,6 +48,7 @@ export function useCourses() {
   const totalPages = Math.ceil(filteredCourses?.length || 0  / cardsPerPage);
 
   const displayedCourses = filteredCourses?.slice(startIndex, endIndex);
+
 
   function isCourseSaved(savedUsers: SavedCoursesUser[], userId: string): boolean {
 
@@ -110,9 +112,9 @@ export function useCourses() {
     totalPages,
     cardsPerPage,
     filteredCourses,
+    displayedCourses,
     startIndex, 
     endIndex,
-    displayedCourses,
     isCourseSaved,
     handleSave,
     handleUnsave

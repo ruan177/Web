@@ -34,6 +34,7 @@ export function useMyCourses() {
     const filteredCourses = search.length > 0
         ? data?.filter(course => course.name.toLowerCase().includes(search.toLowerCase()))
         : data || [];
+   
 
     const deleteCourseMutation = useMutation((id: string) => axios.delete(`/courses/${id}/delete`), {
         onSuccess: () => {
