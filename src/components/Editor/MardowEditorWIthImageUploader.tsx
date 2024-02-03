@@ -36,23 +36,26 @@ function MarkdownEditorWithImageUploader({
         fileInput.style.display = 'none';
 
         fileInput.addEventListener('change', async (event) => {
-          const file = (event.target as HTMLInputElement).files[0];
-
-          if (file) {
-            // Enviar a imagem para o backend usando FormData
-            const formData = new FormData();
-            formData.append('file', file);
-
-            // Realizar a solicitação POST para enviar a imagem para o servidor
-            const response = await axios.post('/upload', formData);
-
-            // Verifique a resposta do servidor para obter a URL da imagem carregada
-            if (response.data.imageUrl) {
-              const imageMarkdown = `![Image](${response.data.imageUrl})`;
-              api.replaceSelection(imageMarkdown);
+          const target = event.target as HTMLInputElement;
+          if (target.files && target.files.length > 0) {
+            const file = target.files[0];
+         
+            if (file) {
+              // Enviar a imagem para o backend usando FormData
+              const formData = new FormData();
+              formData.append('file', file);
+         
+              // Realizar a solicitação POST para enviar a imagem para o servidor
+              const response = await axios.post('/upload', formData);
+         
+              // Verifique a resposta do servidor para obter a URL da imagem carregada
+              if (response.data.imageUrl) {
+                const imageMarkdown = `![Image](${response.data.imageUrl})`;
+                api.replaceSelection(imageMarkdown);
+              }
             }
           }
-        });
+         });
 
         fileInput.click();
       } catch (error) {

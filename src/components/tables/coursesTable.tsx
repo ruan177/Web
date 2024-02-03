@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Checkbox, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Button, Checkbox, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 interface Course {
@@ -20,6 +20,10 @@ interface CoursesTableProps {
   handleCoursesCancel: () => void;
   handleCoursesSave: () => void;
   setCoursesData: (updatedCourses: Course[]) => void;
+  coursePage: number;
+  setCoursePage: (page: number) => void;
+  displayedCourses: Course[];
+  courseTotalPages: number;
 }
 
 const CoursesTable: React.FC<CoursesTableProps> = ({
@@ -32,7 +36,11 @@ const CoursesTable: React.FC<CoursesTableProps> = ({
   handleCourseSelect,
   handleCoursesCancel,
   handleCoursesSave,
-  setCoursesData
+  setCoursesData,
+  coursePage,
+  setCoursePage,
+  displayedCourses,
+  courseTotalPages
 }) => {
   return (
     <>
@@ -41,11 +49,19 @@ const CoursesTable: React.FC<CoursesTableProps> = ({
           <h3 className="font-bold text-lg mb-4 flex items-center justify-between">
             Courses
             <div className="space-x-2">
-              <Button variant="contained" color="primary" onClick={handleCoursesEdit}>
+              <Button
+                style={{ backgroundColor: 'white', color: 'black', border: '1px solid black' }}
+                onClick={handleCoursesEdit}
+              >
                 Edit
               </Button>
               {isCoursesEditMode && (
-                <Button variant="contained" color="secondary" onClick={handleCourseDelete}>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={handleCourseDelete}
+                  style={{ backgroundColor: 'black', color: 'white' }}
+                >
                   Delete
                 </Button>
               )}
@@ -62,7 +78,7 @@ const CoursesTable: React.FC<CoursesTableProps> = ({
                 </TableRow>
               </TableHead>
               <TableBody>
-                {coursesData?.map((course) => (
+                {displayedCourses?.map((course) => (
                   <TableRow key={course.id}>
                     {isCoursesEditMode && (
                       <TableCell padding="checkbox">
@@ -80,7 +96,7 @@ const CoursesTable: React.FC<CoursesTableProps> = ({
                           <select
                             value={course.isAproved ? 'true' : 'false'}
                             onChange={(event) => {
-                              const updatedCourses = coursesData.map((u) =>
+                              const updatedCourses = displayedCourses.map((u) =>
                                 u.id === course.id ? { ...u, isAproved: event.target.value === 'true' } : u
                               );
                               setCoursesData(updatedCourses); // Update the local state directly
@@ -99,19 +115,30 @@ const CoursesTable: React.FC<CoursesTableProps> = ({
               </TableBody>
             </Table>
           </TableContainer>
+          <Pagination count={courseTotalPages} page={coursePage} onChange={(event, value) => setCoursePage(value)} />
+
+
           {isCoursesEditMode && (
             <div className="flex mt-2 items-center space-x-2">
-              <Button variant="contained" color="secondary" onClick={handleCoursesCancel}>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleCoursesCancel}
+                style={{ backgroundColor: 'white', color: 'black', border: '1px solid black' }}>
                 Cancel
               </Button>
-              <Button variant="contained" color="primary" onClick={handleCoursesSave}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleCoursesSave}
+                style={{ backgroundColor: 'black', color: 'white' }}>
                 Save
               </Button>
             </div>
           )}
         </>
       )}
-  </>
+    </>
   );
 };
 

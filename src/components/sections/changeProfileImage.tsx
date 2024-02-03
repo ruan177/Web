@@ -11,7 +11,7 @@ const ProfileImageSection = () => {
 
     const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
-        setSelectedImage(file);
+        setSelectedImage(file || null);
     };
 
     const handleSaveImage = async () => {

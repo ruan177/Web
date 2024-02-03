@@ -31,6 +31,7 @@ export function useCourses() {
     },
     {
       keepPreviousData: true,
+      staleTime: 30*(60*1000),
     }
   );
 
@@ -71,6 +72,7 @@ export function useCourses() {
       onSuccess: () => {
         // After successfully saving a course, refetch the course list
         queryClient.refetchQueries(['courses', page, pageSize]);
+        queryClient.refetchQueries(['savedCourses', page, pageSize]);
       },
     }
   );
@@ -91,6 +93,7 @@ export function useCourses() {
       onSuccess: () => {
         // After successfully unsaving a course, refetch the course list
         queryClient.refetchQueries(['courses', page, pageSize]);
+        queryClient.refetchQueries(['savedCourses', page, pageSize]);
       },
     }
   );

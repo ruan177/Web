@@ -1,6 +1,6 @@
 // Navigation.tsx
 import React, { useState } from 'react';
-import { AiOutlineArrowLeft, AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
+import { AiOutlineArrowLeft, AiOutlineClose } from 'react-icons/ai';
 import { FiChevronRight } from 'react-icons/fi';
 import { NavLink } from 'react-router-dom';
 
@@ -19,6 +19,11 @@ const Navigation: React.FC<NavigationProps> = ({ setActiveTab, activeTab }) => {
     setIsDrawerOpen(false);
   };
 
+  const handleTabClick = (tab: 'users' | 'courses') => {
+    setActiveTab(tab);
+    setIsDrawerOpen(false);
+  };
+
  
 
   return (
@@ -30,7 +35,7 @@ const Navigation: React.FC<NavigationProps> = ({ setActiveTab, activeTab }) => {
     )}
 
     {isDrawerOpen && (
-    <div className={`w-1/4 bg-gray-200 p-4 `}>
+    <div className={`w-1/12 h-full bg-gray-200 p-4 `}>
       <div className="flex justify-between items-center mb-4">
         <div className="font-bold text-xl">
           <NavLink to="/">
@@ -47,19 +52,15 @@ const Navigation: React.FC<NavigationProps> = ({ setActiveTab, activeTab }) => {
       <ul>
         <li
           className={`cursor-pointer py-2 border-b border-gray-300 ${activeTab === 'users' ? 'font-bold' : ''}`}
-          onClick={() => {
-            setActiveTab('users');
-            setIsDrawerOpen(false); // Fechar o drawer ao clicar em uma opção
-          }}
+          onClick={() => handleTabClick('users')}
+
         >
           Users
         </li>
         <li
           className={`cursor-pointer py-2 border-b border-gray-300 ${activeTab === 'courses' ? 'font-bold' : ''}`}
-          onClick={() => {
-            setActiveTab('courses');
-            setIsDrawerOpen(false); // Fechar o drawer ao clicar em uma opção
-          }}
+          onClick={() => handleTabClick('courses')}
+
         >
           Courses
         </li>

@@ -31,6 +31,7 @@ export function useSavedCourses() {
         },
         {
             keepPreviousData: true,
+            staleTime: 30*(60*1000),
         }
     );
   

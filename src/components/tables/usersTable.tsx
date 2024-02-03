@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Checkbox, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Button, Checkbox, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
 export interface User {
   id: number;
@@ -19,6 +19,10 @@ interface UsersTableProps {
   handleUsersCancel: () => void;
   handleUsersSave: () => void;
   setUsersData: (updatedUsers: User[]) => void;
+  userPage: number;
+  setUserPage: (page: number) => void;
+  displayedUsers: User[];
+  userTotalPages: number;
 }
 
 const UsersTable: React.FC<UsersTableProps> = ({
@@ -31,7 +35,11 @@ const UsersTable: React.FC<UsersTableProps> = ({
   handleUserSelect,
   handleUsersCancel,
   handleUsersSave,
-  setUsersData
+  setUsersData,
+  userPage,
+  setUserPage,
+  displayedUsers,
+  userTotalPages
 }) => {
   return (
     <>
@@ -40,11 +48,19 @@ const UsersTable: React.FC<UsersTableProps> = ({
           <h3 className="font-bold text-lg mb-4 flex items-center justify-between">
             Users
             <div className="space-x-2">
-              <Button variant="contained" color="primary" onClick={handleUsersEdit}>
+              <Button
+                style={{ backgroundColor: 'white', color: 'black', border: '1px solid black' }}
+                onClick={handleUsersEdit}
+              >
                 Edit
               </Button>
               {isUsersEditMode && (
-                <Button variant="contained" color="secondary" onClick={handleUserDelete}>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={handleUserDelete}
+                  style={{ backgroundColor: 'black', color: 'white' }}
+                >
                   Delete
                 </Button>
               )}
@@ -61,7 +77,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
                 </TableRow>
               </TableHead>
               <TableBody>
-                {usersData?.map((user) => (
+                {displayedUsers?.map((user) => (
                   <TableRow key={user.id}>
                     {isUsersEditMode && (
                       <TableCell padding="checkbox">
@@ -79,7 +95,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
                           <select
                             value={user.isAdmin ? 'true' : 'false'}
                             onChange={(event) => {
-                              const updatedUsers = usersData.map((u) =>
+                              const updatedUsers = displayedUsers.map((u) =>
                                 u.id === user.id ? { ...u, isAdmin: event.target.value === 'true' } : u
                               );
                               setUsersData(updatedUsers);
@@ -98,12 +114,25 @@ const UsersTable: React.FC<UsersTableProps> = ({
               </TableBody>
             </Table>
           </TableContainer>
+          <Pagination count={userTotalPages} page={userPage} onChange={(event, value) => setUserPage(value)} />
+
+
           {isUsersEditMode && (
             <div className="flex mt-2 items-center space-x-2">
-              <Button variant="contained" color="error" onClick={handleUsersCancel}>
+              <Button
+                variant="contained"
+                color="error"
+                onClick={handleUsersCancel}
+                style={{ backgroundColor: 'white', color: 'black', border: '1px solid black' }}
+              >
                 Cancel
               </Button>
-              <Button variant="contained" color="success" onClick={handleUsersSave}>
+              <Button
+                variant="contained"
+                color="success"
+                onClick={handleUsersSave}
+                style={{ backgroundColor: 'black', color: 'white' }}
+              >
                 Save
               </Button>
             </div>

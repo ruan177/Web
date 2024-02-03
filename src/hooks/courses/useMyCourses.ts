@@ -27,6 +27,7 @@ export function useMyCourses() {
     },
         {
             keepPreviousData: true,
+            staleTime: 30*(60*1000),
         });
 
     const cardsPerPage = 7;
@@ -35,9 +36,10 @@ export function useMyCourses() {
         ? data?.filter(course => course.name.toLowerCase().includes(search.toLowerCase()))
         : data || [];
    
-
+        
     const deleteCourseMutation = useMutation((id: string) => axios.delete(`/courses/${id}/delete`), {
         onSuccess: () => {
+            queryClient.setQueriesData
             queryClient.invalidateQueries('MyCourses');
             queryClient.refetchQueries(['MyCourses', page, pageSize]);
         },

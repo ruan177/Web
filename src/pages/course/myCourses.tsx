@@ -6,7 +6,7 @@ import { ToastContainer } from "react-toastify";
 import { useMyCourses } from '../../hooks/courses/useMyCourses';
 import { AxiosError } from 'axios';
 import { Notification } from "../../components/notification/notification";
-import logo from '../../assets/logos/coffe.png';
+import logo from '../../assets/logos/course.jpg';
 export function MyCourses() {
   const {
     search,
@@ -93,26 +93,22 @@ export function MyCourses() {
                     </p>
                   ) : (
                     <>
-                      <div className="px-10 space-y-5 lg:py-6">
+                      <div className="px-10 space-y-5 lg:py-6 text-center">
                         <h1 className="text-6xl md:text-7xl max-w-xl font-serif w-11/12 sm:w-9/12">
                           <span className="underline decoration-black decoration-4">
-                            MarkedLearn
+                          THERE'S NOTE IN HERE!
                           </span>{" "}
 
                         </h1>
                         <h2 className="w-9/12 font-normal">
                         Oops! It looks like you haven't created any courses yet. How about starting to create one now?                        </h2>
                         <Link to="/course/create">
-                          <button className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                          <button className="mt-4 items-center bg-black hover:bg-grey-700 text-white font-bold py-2 px-4 rounded">
                             Create your first course
                           </button>
                         </Link>
                       </div>
-                      <img
-                        className="hidden sm:inline-flex h-40 lg:h-80 xl:h-full"
-                        src={logo}
-                        alt=""
-                      />
+                     
                     </>
 
 

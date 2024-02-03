@@ -96,9 +96,17 @@ export function Courses() {
                         : 'Nenhum curso criado.'}
                     </p>
                   ) : (
-                    <p className="text-gray-600 text-center">
-                      Nenhum curso criado.
-                    </p>
+                    <div className="px-10 space-y-5 lg:py-6 text-center">
+                    <h1 className="text-6xl md:text-7xl max-w-xl font-serif w-11/12 sm:w-9/12">
+                      <span className="underline decoration-black decoration-4">
+                      THERE'S NOTE IN HERE!
+                      </span>{" "}
+
+                    </h1>
+                    <h2 className="w-9/12 font-normal">
+                    Oops! There are no courses available!                       </h2>
+                    
+                  </div>
                   )}
                 </>
               )}

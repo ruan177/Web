@@ -28,6 +28,14 @@ export const Admin = () => {
     handleCourseDelete,
     handleUserSelect,
     handleCourseSelect,
+    userPage,
+    setUserPage,
+    courseTotalPages,
+    coursePage,
+    displayedCourses,
+    setCoursePage,
+    displayedUsers,
+    userTotalPages
   } = useAdmin();
 
 
@@ -38,7 +46,7 @@ export const Admin = () => {
         setActiveTab={setActiveTab}
         activeTab={activeTab}
       />
-      <div className="w-full p-4">
+      <div className=" w-full p-4 ml-10 mr-10">
         <UsersTable
           activeTab={activeTab}
           usersData={usersData}
@@ -49,7 +57,12 @@ export const Admin = () => {
           handleUserSelect={handleUserSelect}
           handleUsersCancel={handleUsersCancel}
           handleUsersSave={handleUsersSave}
-          setUsersData={setUsersData} />
+          setUsersData={setUsersData} 
+          userPage={userPage}
+          setUserPage={setUserPage}
+          displayedUsers={displayedUsers || []}
+          userTotalPages={userTotalPages}
+          />
 
         <CoursesTable
           activeTab={activeTab}
@@ -62,6 +75,10 @@ export const Admin = () => {
           handleCoursesCancel={handleCoursesCancel}
           handleCoursesSave={handleCoursesSave}
           setCoursesData={setCoursesData}
+          coursePage={coursePage}
+          setCoursePage={setCoursePage}
+          displayedCourses={displayedCourses}
+          courseTotalPages={courseTotalPages}
         />
       </div>
     </div>

@@ -82,9 +82,25 @@ export function SavedCourses() {
                         : 'Nenhum curso salvo.'}
                     </p>
                   ) : (
-                    <p className="text-gray-600 text-center">
-                      Nenhum curso salvo.
-                    </p>
+                    <>
+                    <div className="px-10 space-y-5 lg:py-6">
+                            <h1 className="text-6xl md:text-7xl max-w-xl font-serif w-11/12 sm:w-9/12">
+                              <span className="underline decoration-black decoration-4">
+                              THERE'S NOTE IN HERE!
+                              </span>{" "}
+
+                            </h1>
+                            <h2 className="w-9/12 font-normal">
+                              Oops! It looks like you haven't saved any courses yet. How about starting to saved one now?                        </h2>
+                            <Link to="/courses">
+                              <button className="mt-4 bg-black hover:bg-grey-700 text-white font-bold py-2 px-4 rounded">
+                                Save Courses
+                              </button>
+                            </Link>
+                          </div>
+                          
+                        
+                              </>
                   )}
                 </>
               )}

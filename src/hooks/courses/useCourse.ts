@@ -11,6 +11,8 @@ export function useCourse(uuid: string | undefined) {
     async () => {
       const response = await axios.get(`/courses/${uuid}`);
       return response.data.course;
+    }, {
+      staleTime: 30*(60*1000),
     }
   );
 
