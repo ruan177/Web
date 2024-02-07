@@ -1,6 +1,7 @@
 // Navigation.tsx
 import React, { useState } from 'react';
 import { AiOutlineArrowLeft, AiOutlineClose } from 'react-icons/ai';
+import { FaHome } from 'react-icons/fa';
 import { FiChevronRight } from 'react-icons/fi';
 import { NavLink } from 'react-router-dom';
 
@@ -37,11 +38,7 @@ const Navigation: React.FC<NavigationProps> = ({ setActiveTab, activeTab }) => {
     {isDrawerOpen && (
     <div className={`w-1/12 h-full bg-gray-200 p-4 `}>
       <div className="flex justify-between items-center mb-4">
-        <div className="font-bold text-xl">
-          <NavLink to="/">
-            <AiOutlineArrowLeft />
-          </NavLink>
-        </div>
+        
         <div className="cursor-pointer text-black">
          
             <AiOutlineClose  onClick={closeDrawer} />
@@ -65,6 +62,17 @@ const Navigation: React.FC<NavigationProps> = ({ setActiveTab, activeTab }) => {
           Courses
         </li>
       </ul>
+        <div className="absolute bottom-4 left-4">
+        <div className=" text-base">
+          <NavLink to="/">
+          <FaHome />
+            
+          </NavLink>
+          <p>
+          back to home
+          </p>
+        </div>
+        </div>
     </div>
     )}
     </>

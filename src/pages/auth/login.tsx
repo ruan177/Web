@@ -13,15 +13,19 @@ export function Login() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState();
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (event: FormEvent) => {
-      event.preventDefault();
-      try {
-        await login(email, password);
-        navigate('/');
-      } catch (error: any) {
-        setError(error.message); // Defina a mensagem de erro
-      }
+        event.preventDefault();
+        setLoading(true); // Inicia o carregamento
+        try {
+            await login(email, password);
+            navigate('/');
+        } catch (error: any) {
+            setError(error.message); // Defina a mensagem de erro
+        } finally {
+            setLoading(false); // Finaliza o carregamento
+        }
     };
 
     return (
@@ -31,9 +35,9 @@ export function Login() {
                 <div className="flex justify-center items-center bg-white md:w-70 w-full">
                     <form className="h-4/4 w-full   px-8 pt-8 pb-10 mb-6 justify-center bg-white text-left">
                         <div className="flex justify-center items-center">
-                        <NavLink className="italic flex items-center font-medium rounded-lg text-sm text-indigo-900" to="/">
-            <img src={logo} width="150" height="150" alt="Logo" />
-          </NavLink>
+                            <NavLink className="italic flex items-center font-medium rounded-lg text-sm text-indigo-900" to="/">
+                                <img src={logo} width="150" height="150" alt="Logo" />
+                            </NavLink>
                         </div>
                         <div className="mb-6 px-8 ">
                             <label className="font-serif block text-gray-700 text-xl  mb-2">Email:</label>
@@ -44,6 +48,7 @@ export function Login() {
                                 placeholder="Digite seu email"
                                 onChange={event => setEmail(event.target.value)}
                                 required
+                                autoComplete="email"
                             />
                         </div>
 
@@ -69,11 +74,23 @@ export function Login() {
 
                         <div className="grid justify-items-center gap-10">
                             <button
-                                className=" font-serif bg-black bg-center bg-cover border-2 border-white text-white text-2xl  rounded-full py-2 px-20 focus:outline-none focus:shadow-outline"
-                                style={{ borderRadius: '31px' }}
+                                className="flex font-serif bg-black bg-center bg-cover border-2 border-white text-white text-2xl rounded-full py-2 px-20 focus:outline-none focus:shadow-outline"
+                                style={{ borderRadius: '31px', position: 'relative' }}
+                                disabled={loading}
                                 onClick={handleSubmit}
                             >
-                                Logar
+
+                                {loading ? (
+                                    <>
+                                        <svg className="animate-spin h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0  0  24  24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4  12a8  8  0  018-8V0C5.373  0  0  5.373  0  12h4zm2  5.291A7.962  7.962  0  014  12H0c0  3.042  1.135  5.824  3  7.938l3-2.647z"></path>
+                                        </svg>
+                                        Entrando...
+                                    </>
+                                ) : (
+                                    'Logar'
+                                )}
                             </button>
                             <div className="mt-6">
                                 <a className="font-serif text-xl">Don't have a Account? </a>
@@ -85,7 +102,7 @@ export function Login() {
                     </form>
                 </div>
 
-                
+
             </div>
         </div>
 

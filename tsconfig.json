@@ -5,6 +5,8 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": false,
     "skipLibCheck": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "strict": true,
@@ -16,6 +18,7 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src"],
+  "include": ["src/**/*"],
+  "exclude":["node_modules", "**/*.spec.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
