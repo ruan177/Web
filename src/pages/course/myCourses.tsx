@@ -22,7 +22,7 @@ export function MyCourses() {
     handleDeleteCourse,
     filteredCourses
   } = useMyCourses();
-
+ 
   return (
     <div>
       <Header />

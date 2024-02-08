@@ -76,7 +76,7 @@ export function Register() {
                             </button>
                             <div className="mt-6">
                                 <a className="font-serif text-xl">Already have an account? </a>
-                                <a href="/login" className=" font-serif text-blue-500  text-xl underline underline-offset-1">Log in</a>
+                                <a href="/login" className=" font-serif text-blue-500  text-xl underline underline-offset-1">Registrar</a>
                             </div>
                         </div>
 

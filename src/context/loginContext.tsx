@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         user: User;
         accessToken: string;
         refreshToken: string;
-      }> = await axios.post('https://backend-markedlearn.onrender.com/login', { email, password });
+      }> = await axios.post('http://18.228.195.113:8080/login', { email, password });
       if (response.status === 200) {
         const { user, accessToken, refreshToken } = response.data;
 
@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const renewToken = async () => {
     try {
-      const response = await axios.post('https://backend-markedlearn.onrender.com/refresh', { refreshToken });
+      const response = await axios.post('http://18.228.195.113:8080/refresh', { refreshToken });
       setAccessToken(response.data.access);
       sessionStorage.setItem('access', JSON.stringify(response.data.access));
     } catch (error) {

@@ -11,7 +11,7 @@ interface NavigationProps {
 }
 
 const Navigation: React.FC<NavigationProps> = ({ setActiveTab, activeTab }) => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(true);
   const openDrawer = () => {
     setIsDrawerOpen(true);
   };
@@ -22,7 +22,7 @@ const Navigation: React.FC<NavigationProps> = ({ setActiveTab, activeTab }) => {
 
   const handleTabClick = (tab: 'users' | 'courses') => {
     setActiveTab(tab);
-    setIsDrawerOpen(false);
+    setIsDrawerOpen(true);
   };
 
  
@@ -69,7 +69,7 @@ const Navigation: React.FC<NavigationProps> = ({ setActiveTab, activeTab }) => {
             
           </NavLink>
           <p>
-          back to home
+          back 
           </p>
         </div>
         </div>
