@@ -68,7 +68,13 @@ export function Register() {
                         </div>
 
                         <div className="grid justify-items-center gap-10">
-                        {loading ? (
+                            <button
+                                className="flex font-serif bg-black bg-center bg-cover border-2 border-white text-white text-2xl rounded-full py-2 px-20 focus:outline-none focus:shadow-outline"
+                                style={{ borderRadius: '31px', position: 'relative' }}
+                                disabled={loading}
+                                onClick={handleSubmit}
+                            >
+                                {loading ? (
                                     <>
                                         <svg className="animate-spin h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0  0  24  24">
                                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -79,6 +85,7 @@ export function Register() {
                                 ) : (
                                     'Registrar'
                                 )}
+                            </button>
                             <div className="mt-6">
                                 <a className="font-serif text-xl">Already have an account? </a>
                                 <a href="/login" className=" font-serif text-blue-500  text-xl underline underline-offset-1">Registrar</a>
