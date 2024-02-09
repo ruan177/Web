@@ -7,7 +7,7 @@ const useAxios = () => {
   const { accessToken, renewToken } = useAuth();
 
   const axios = Axios.create({
-    baseURL: 'http://18.228.195.113:8080',
+    baseURL: 'https://backend-markedlearn.onrender.com',
     headers: { Authorization: `Bearer ${accessToken}` }
   });
   

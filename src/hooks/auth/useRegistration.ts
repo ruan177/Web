@@ -10,10 +10,12 @@ export function useRegistration() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const axios = useAxios();
-  
+  const [loading, setLoading] = useState(false);
+
   const handleSubmit = async function (event: FormEvent) {
     event.preventDefault();
 
+    setLoading(true);
     try {
       const response = await axios.post("/register", {
         username,
@@ -39,7 +41,9 @@ export function useRegistration() {
       }
     } catch (error: any) {
       setError(error.response.data.error);
-    }
+    } finally {
+    setLoading(false); // Finaliza o carregamento
+  }
   };
 
   return {
@@ -50,6 +54,7 @@ export function useRegistration() {
     password,
     setPassword,
     error,
+    loading, // Adicione esta linha
     handleSubmit,
   };
 }
