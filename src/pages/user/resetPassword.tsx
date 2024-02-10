@@ -26,10 +26,7 @@ const ResetPasswordForm = () => {
     setMessage
   } = useResetPassword();
 
-  if (!email.includes('@')) {
-    setMessage('Por favor, insira um email válido.');
-    return;
-  }
+ 
 
   return (
     <>
