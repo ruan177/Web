@@ -21,9 +21,15 @@ const ResetPasswordForm = () => {
     handleVerifyCode,
     handleResetPassword,
     handleCancelOption,
-    timeLeft
+    timeLeft, 
+    isLoading,
+    setMessage
   } = useResetPassword();
 
+  if (!email.includes('@')) {
+    setMessage('Por favor, insira um email válido.');
+    return;
+  }
 
   return (
     <>
@@ -49,9 +55,13 @@ const ResetPasswordForm = () => {
                   <button
                     className="px-4 py-2 bg-blue-500 text-white"
                     onClick={handleSendCode}
-                    disabled={isCodeSent || isResendButtonDisabled} // Desabilita o botão de envio quando o código já foi enviado ou após 1 minuto
+                    disabled={isCodeSent || isResendButtonDisabled || isLoading} // Adiciona a condição isLoading
                   >
-                    <FiMail />
+                    {isLoading ? (
+                      <span className="animate-spin">⚙️</span> // Substitua por um ícone de carregamento real se preferir
+                    ) : (
+                      <FiMail />
+                    )}
                   </button>
                 </div>
               </div>
@@ -73,7 +83,7 @@ const ResetPasswordForm = () => {
                     onChange={(e) => setInputCode(e.target.value)}
                     disabled={timeLeft === 0}
                   />
-                  
+
                   <button
                     className="px-4 py-2 bg-blue-500 text-white"
                     onClick={handleVerifyCode}

@@ -7,7 +7,7 @@ const useAxios = () => {
   const { accessToken, renewToken } = useAuth();
 
   const axios = Axios.create({
-    baseURL: 'https://backend-markedlearn.onrender.com',
+    baseURL: 'https://markedapi-b89c1e24f33a.herokuapp.com',
     headers: { Authorization: `Bearer ${accessToken}` }
   });
   

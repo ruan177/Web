@@ -39,7 +39,7 @@ export function useMyCourses() {
         
     const deleteCourseMutation = useMutation((id: string) => axios.delete(`/courses/${id}/delete`), {
         onSuccess: () => {
-            queryClient.setQueriesData
+           
             queryClient.invalidateQueries('MyCourses');
             queryClient.refetchQueries(['MyCourses', page, pageSize]);
         },

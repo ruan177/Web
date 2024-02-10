@@ -50,7 +50,7 @@ export function Register() {
 
                         <div className="mb-16 px-8 ">
                             <div className="flex justify-between items-center">
-                                <label className="font-serif block text-gray-700 text-xl  mb-2">Password</label>
+                                <label className="font-serif block text-gray-700 text-xl  mb-2">Senha</label>
 
                             </div>
 
@@ -88,7 +88,7 @@ export function Register() {
                             </button>
                             <div className="mt-6">
                                 <a className="font-serif text-xl">Already have an account? </a>
-                                <a href="/login" className=" font-serif text-blue-500  text-xl underline underline-offset-1">Registrar</a>
+                                <a href="/login" className=" font-serif text-blue-500  text-xl underline underline-offset-1">Entrar</a>
                             </div>
                         </div>
 

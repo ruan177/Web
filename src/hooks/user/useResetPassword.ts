@@ -15,12 +15,14 @@ export const useResetPassword = () => {
   const [isResendButtonDisabled, setIsResendButtonDisabled] = useState(false);
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const axios = useAxios();
 
 
   const navigate = useNavigate();
 
   const handleSendCode = async () => {
+    setIsLoading(true);
     try {
       const response = await axios.post('/send-code', { email });
       setCode(response.data.code);
@@ -33,8 +35,10 @@ export const useResetPassword = () => {
       setTimeout(() => {
 
       }, 60000);
+      setIsLoading(false);
     } catch (error: any) {
       setMessage('Ocorreu um erro, ou o numero de tentativas foi exedido tente novamente mais tarde');
+      setIsLoading(false);
     }
   };
 
@@ -128,6 +132,8 @@ export const useResetPassword = () => {
     handleVerifyCode,
     handleResetPassword,
     handleCancelOption,
-    timeLeft
-  };
+    timeLeft,
+    isLoading,
+    
 };
+}

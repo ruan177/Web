@@ -3,6 +3,7 @@ import { FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 import useAxios from "../../lib/axios";
 import { useAuth } from "../../context/loginContext";
+import { queryClient } from "../../lib/queryClient";
 
 export function useFormSubmit(uuid: string | undefined) {
 
@@ -10,12 +11,13 @@ export function useFormSubmit(uuid: string | undefined) {
     const [bodyCourseContent, setBodyCourseContent] = useState('');
     const [courseDescription, setCourseDescription] = useState('');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const {user} = useAuth();
     const axios = useAxios();
     
     const handleSubmit = async function (event: FormEvent) {
       event.preventDefault();
-
+      setLoading(true)
   
       try {
         const response = await axios.patch(`/courses/${uuid}/update`, {
@@ -35,11 +37,14 @@ export function useFormSubmit(uuid: string | undefined) {
             progress: undefined,
             theme: "light",
           });
-          // Redirect or show success message
+          queryClient.invalidateQueries(['course', uuid ])
+          queryClient.refetchQueries(['course', uuid ])
         }
       } catch (error: any) {
         setError(error.response.data.error);
         // Handle error
+      } finally{
+        setLoading(false)
       }
     };
   
@@ -52,5 +57,6 @@ export function useFormSubmit(uuid: string | undefined) {
       setBodyCourseContent,
       error,
       handleSubmit,
+      loading
     };
   }

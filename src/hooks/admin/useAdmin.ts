@@ -32,10 +32,10 @@ export function useAdmin() {
     useQuery<User[], AxiosError>(['users', userPage], async () => {
       const response = await axios.get(`/users/${user?.id}/admin?page=${userPage}&limit=${userItemsPerPage}`);
       return response.data;
-    }, {staleTime: 30*(60*1000)});
+    }, { staleTime: 30 * (60 * 1000) });
   useEffect(() => {
     if (usersDataInitial) {
-      
+
       setUsersData(usersDataInitial);
     }
   }, [usersDataInitial]);
@@ -47,7 +47,7 @@ export function useAdmin() {
     });
   useEffect(() => {
     if (coursesDataInitial) {
-    
+
       setCoursesData(coursesDataInitial);
     }
   }, [coursesDataInitial]);
@@ -90,15 +90,15 @@ export function useAdmin() {
 
   const deleteCoursesMutation = useMutation<void, AxiosError, number[]>(
     async (selectedCourseIds) => {
-       await axios.delete('/courses/delete', { data: selectedCourseIds });
+      await axios.delete('/courses/delete', { data: selectedCourseIds });
     },
     {
-       onSuccess: () => {
+      onSuccess: () => {
         queryClient.invalidateQueries('courses');
         queryClient.refetchQueries('courses');
-       },
+      },
     }
-   );
+  );
 
 
   const handleUsersSave = async () => {

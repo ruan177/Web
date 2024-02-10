@@ -4,19 +4,20 @@ import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import useAxios from "../../lib/axios";
 import { useAuth } from "../../context/loginContext";
-
+import { queryClient } from "../../lib/queryClient";
 export function useCreateCourse() {
 
   const [CourseName, setCourseName] = useState('');
   const [BodyCourseContent, setBodyCourseContent] = useState('');
   const [CourseDescription, setCourseDescription] = useState('');
   const [error, setError] = useState('');
-  const {user} = useAuth();
+  const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
   const axios = useAxios();
-  
+
   const handleSubmit = async function (event: FormEvent) {
     event.preventDefault();
-
+    setLoading(true);
 
     try {
       const response = await axios.post('/courses', {
@@ -36,11 +37,14 @@ export function useCreateCourse() {
           progress: undefined,
           theme: "light",
         });
-        // Redirect or show success message
-      }
+        queryClient.invalidateQueries('MyCourses');
+        queryClient.refetchQueries(['MyCourses']);
+   }
       // Redirect or show success message
     } catch (error: any) {
       setError(error.response.data.error);
+    } finally {
+      setLoading(false); // Finaliza o carregamento
     }
   };
 
@@ -53,5 +57,6 @@ export function useCreateCourse() {
     setCourseDescription,
     error,
     handleSubmit,
+    loading
   };
 }
