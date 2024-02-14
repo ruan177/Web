@@ -49,7 +49,7 @@ const UserProfile = () => {
           </button>
 
           {isOpen && (
-            <ul className="justify-items-center absolute right-0 z-10 w-36 py-2 mt-2 bg-white rounded-md shadow-xl dropdown-menu top-10 right-0">
+            <ul className="grid grid-cols-1 justify-items-center absolute right-0 z-10 w-36 py-2 mt-2 bg-white rounded-md shadow-xl dropdown-menu top-10 right-0">
               {updatedUser?.isAdmin && (
                 <li className="px-4 py-2 hover-bg-gray-100 hover:bg-gray-200">
                   <NavLink to={`/admin`}>Admin</NavLink>

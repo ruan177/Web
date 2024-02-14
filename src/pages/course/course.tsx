@@ -1,14 +1,19 @@
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import Header from "../../components/headers/header";
 import MarkdownPreview from '@uiw/react-markdown-preview';
 import '../../styles/global.css'
 import { useCourse } from "../../hooks/courses/useCourse";
 
 
+
+
 export function Course() {
   const { uuid } = useParams();
+  const navigate = useNavigate();
   const { data, isFetching, isError, error } = useCourse(uuid);
-  
+  const goBack = () => {
+    navigate(-1); // Navigates back by one entry in the history stack
+  };
   return (
     <div>
       <Header />
@@ -42,6 +47,7 @@ export function Course() {
               {error instanceof Error ? error.message : 'Erro desconhecido'}
             </p>
           )}
+          <button onClick={goBack} className="mt-4">Voltar</button>
         </div>
       </div>
     </div>
