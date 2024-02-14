@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { AuthContextType, User } from '../types/AdminTableTypes';
+import { useQueryClient } from 'react-query';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -22,6 +23,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [refreshToken, setRefreshToken] = useState<string | null>(() =>
   sessionStorage.getItem('refresh') ? JSON.parse(sessionStorage.getItem('refresh') || '') : null
   );
+  // const queryClient = useQueryClient();
 
 
   const login = async (email: string, password: string) => {
@@ -30,7 +32,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         user: User;
         accessToken: string;
         refreshToken: string;
-      }> = await axios.post('https://markedapi-b89c1e24f33a.herokuapp.com/login', { email, password });
+      // }> = await axios.post('https://markedapi-b89c1e24f33a.herokuapp.com/login', { email, password });
+      }> = await axios.post('http://localhost:8080/login', { email, password });
       if (response.status === 200) {
         const { user, accessToken, refreshToken } = response.data;
 
@@ -41,7 +44,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         sessionStorage.setItem('user', JSON.stringify(user));
         sessionStorage.setItem('access', JSON.stringify(accessToken));
         sessionStorage.setItem('refresh', JSON.stringify(refreshToken));
-
+        
+        
+        // queryClient.setQueryData(['userInfo', user.id], user);
       
       }
     } catch (error: any) {
@@ -59,7 +64,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const renewToken = async () => {
     try {
-      const response = await axios.post('https://markedapi-b89c1e24f33a.herokuapp.com/refresh', { refreshToken });
+      // const response = await axios.post('https://markedapi-b89c1e24f33a.herokuapp.com/refresh', { refreshToken });
+      const response = await axios.post('http://localhost:8080/refresh', { refreshToken });
+      
       setAccessToken(response.data.access);
       sessionStorage.setItem('access', JSON.stringify(response.data.access));
     } catch (error) {
@@ -68,6 +75,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+ 
   
 
 

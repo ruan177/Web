@@ -6,6 +6,7 @@ import useAxios from '../../lib/axios';
 import { toast } from 'react-toastify';
 import { queryClient } from '../../lib/queryClient';
 
+
 const useProfileImageUpload = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -23,14 +24,14 @@ const useProfileImageUpload = () => {
     formData.append('file', selectedImage);
 
     try {
-      // Substitua '/upload-profile-image' pelo endpoint correto no seu backend
-      const response = await axios.post(`/profile/${user?.id}`, formData, {
+    
+      const response = await axios.patch(`/profile/${user?.id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
       if (response.status === 200) {
-
+       console.log("tud ok")
         toast.success("Sucess", {
           position: "top-right",
           autoClose: 5000,
@@ -41,7 +42,10 @@ const useProfileImageUpload = () => {
           progress: undefined,
           theme: "light",
         });
-        queryClient.invalidateQueries(["userInfo"]);
+        queryClient.invalidateQueries(['userInfo', user?.id]);
+        queryClient.refetchQueries(['userInfo', user?.id]);
+        
+        
       }
 
       // Você pode adicionar lógica adicional aqui para atualizar o estado do usuário

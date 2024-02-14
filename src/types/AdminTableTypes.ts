@@ -18,4 +18,5 @@ export interface Course {
     logout: () => void;
     accessToken: string | null;
     renewToken: () => Promise<void>;
+
   }
