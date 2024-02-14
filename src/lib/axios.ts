@@ -7,8 +7,8 @@ const useAxios = () => {
   const { accessToken, renewToken } = useAuth();
 
   const axios = Axios.create({
-    // baseURL: 'https://markedapi-b89c1e24f33a.herokuapp.com',
-    baseURL: 'http://localhost:8080',
+    baseURL: 'https://markedapi-b89c1e24f33a.herokuapp.com',
+    // baseURL: 'http://localhost:8080',
     headers: { Authorization: `Bearer ${accessToken}` }
   });
   
