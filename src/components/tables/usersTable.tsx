@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Checkbox, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { useAdminUsers } from '../../hooks/admin/useAdminUsers';
 
 export interface User {
   id: number;
@@ -10,37 +11,23 @@ export interface User {
 
 interface UsersTableProps {
   activeTab: string;
-  usersData: User[] | undefined;
-  isUsersEditMode: boolean;
-  selectedUsers: number[];
-  handleUsersEdit: () => void;
-  handleUserDelete: () => void;
-  handleUserSelect: (userId: number) => void;
-  handleUsersCancel: () => void;
-  handleUsersSave: () => void;
-  setUsersData: (updatedUsers: User[]) => void;
-  userPage: number;
-  setUserPage: (page: number) => void;
-  displayedUsers: User[];
-  userTotalPages: number;
 }
 
-const UsersTable: React.FC<UsersTableProps> = ({
-  activeTab,
-  usersData,
-  isUsersEditMode,
-  selectedUsers,
-  handleUsersEdit,
-  handleUserDelete,
-  handleUserSelect,
-  handleUsersCancel,
-  handleUsersSave,
-  setUsersData,
-  userPage,
-  setUserPage,
-  displayedUsers,
-  userTotalPages
-}) => {
+const UsersTable: React.FC<UsersTableProps> = ({activeTab}) => {
+  const {
+    usersData,
+    isUsersEditMode,
+    selectedUsers,
+    handleUsersEdit,
+    handleUserDelete,
+    handleUserSelect,
+    handleUsersCancel,
+    handleUsersSave,
+    setUsersData,
+    userPage,
+    setUserPage,
+    displayedUsers,
+    userTotalPages } = useAdminUsers();
   return (
     <>
       {activeTab === 'users' && (

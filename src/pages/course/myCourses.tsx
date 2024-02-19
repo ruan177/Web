@@ -1,5 +1,5 @@
 import '../../styles/global.css'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "../../components/headers/header";
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import { ToastContainer } from "react-toastify";
@@ -22,7 +22,11 @@ export function MyCourses() {
     handleDeleteCourse,
     filteredCourses
   } = useMyCourses();
- 
+  const navigate = useNavigate();
+
+  const goBack = () => {
+    navigate(-1); // Navigates back by one entry in the history stack
+  };
   return (
     <div>
       <Header />
@@ -31,19 +35,19 @@ export function MyCourses() {
 
 
           {isFetching ? (
-                <div className="animate-pulse flex space-x-4">
-                <div className="rounded-full bg-slate-700 h-10 w-10"></div>
-                <div className="flex-1 space-y-6 py-1">
-                  <div className="h-2 bg-slate-700 rounded"></div>
-                  <div className="space-y-3">
-                    <div className="grid grid-cols-3 gap-4">
-                      <div className="h-2 bg-slate-700 rounded col-span-2"></div>
-                      <div className="h-2 bg-slate-700 rounded col-span-1"></div>
-                    </div>
-                    <div className="h-2 bg-slate-700 rounded"></div>
+            <div className="animate-pulse flex space-x-4">
+              <div className="rounded-full bg-slate-700 h-10 w-10"></div>
+              <div className="flex-1 space-y-6 py-1">
+                <div className="h-2 bg-slate-700 rounded"></div>
+                <div className="space-y-3">
+                  <div className="grid grid-cols-3 gap-4">
+                    <div className="h-2 bg-slate-700 rounded col-span-2"></div>
+                    <div className="h-2 bg-slate-700 rounded col-span-1"></div>
                   </div>
+                  <div className="h-2 bg-slate-700 rounded"></div>
                 </div>
               </div>
+            </div>
           ) : (
             <>
               {filteredCourses && filteredCourses.length > 0 ? (
@@ -66,12 +70,17 @@ export function MyCourses() {
                           <h3 className="text-xl font-bold">{course.name}</h3>
                         </Link>
                         <p className="text-gray-600">{course.description}</p>
-                        <div className="flex flex-row space-x-2 absolute top-2 right-2">
+
+                        <div className="flex flex-row space-x-1 absolute top-2 right-2">
                           <Link to={`/course/${course.id}/update`}>
-                            <AiOutlineEdit className="cursor-pointer text-blue-500" size={20} />
+                            <button className="bg-black hover:bg-gray-700 text-white font-bold py-1 px-2 rounded inline-flex items-center">
+                              <AiOutlineEdit className="mr-2" size={16} />
+                              Editar
+                            </button>
                           </Link>
-                          <button onClick={() => handleDeleteCourse(course.id)}>
-                            <AiOutlineDelete className="cursor-pointer text-red-500" size={20} />
+                          <button onClick={() => handleDeleteCourse(course.id)} className="bg-white hover:bg-red-700 text-black font-bold py-1 px-2 rounded inline-flex items-center border boreder-black">
+                            <AiOutlineDelete className="mr-2" size={12} />
+                            Excluir
                           </button>
                         </div>
                       </li>
@@ -87,7 +96,7 @@ export function MyCourses() {
                     </button>
                     <button
                       className="bg-gray-200 p-2 ml-2"
-                      disabled={page === totalPages || totalPages === 0}
+                      disabled={page === totalPages || totalPages === 0 || (filteredCourses?.length ?? 0) === endIndex}
                       onClick={() => setPage(prev => Math.min(prev + 1, totalPages))}
                     >
                       Próxima
@@ -108,19 +117,20 @@ export function MyCourses() {
                       <div className="px-10 space-y-5 lg:py-6 text-center">
                         <h1 className="text-6xl md:text-7xl max-w-xl font-serif w-11/12 sm:w-9/12">
                           <span className="underline decoration-black decoration-4">
-                          THERE'S NOTE IN HERE!
+                            THERE'S NOTE IN HERE!
                           </span>{" "}
 
                         </h1>
                         <h2 className="w-9/12 font-normal">
-                        Oops! It looks like you haven't created any courses yet. How about starting to create one now?                        </h2>
+                          Oops! It looks like you haven't created any courses yet. How about starting to create one now?                        </h2>
                         <Link to="/course/create">
                           <button className="mt-4 items-center bg-black hover:bg-grey-700 text-white font-bold py-2 px-4 rounded">
                             Create your first course
                           </button>
                         </Link>
                       </div>
-                     
+                      <button onClick={goBack} className="mt-4">Voltar</button>
+
                     </>
 
 
@@ -132,7 +142,7 @@ export function MyCourses() {
           )}
         </div>
       </div>
- 
+
     </div >
   );
 }

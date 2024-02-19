@@ -1,5 +1,5 @@
 import '../../styles/global.css'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "../../components/headers/header";
 import { AxiosError } from "axios";
 import { useCourses } from "../../hooks/courses/useCourses";
@@ -18,15 +18,21 @@ export function Courses() {
     isFetching,
     isError,
     error,
+    filteredCourses,
     totalPages,
-    displayedCourses,
+    startIndex,
+    endIndex,
     isCourseSaved,
     handleSave,
     handleUnsave,
+    cardsPerPage
   } = useCourses()
 
- 
+  const navigate = useNavigate();
 
+  const goBack = () => {
+    navigate(-1); // Navigates back by one entry in the history stack
+  };
 
 
 
@@ -43,27 +49,29 @@ export function Courses() {
             onChange={e => setSearch(e.target.value)}
             value={search}
           />
-      
+
 
           {isFetching ? (
             <div className="animate-pulse flex space-x-4">
-            <div className="rounded-full bg-slate-700 h-10 w-10"></div>
-            <div className="flex-1 space-y-6 py-1">
-              <div className="h-2 bg-slate-700 rounded"></div>
-              <div className="space-y-3">
-                <div className="grid grid-cols-3 gap-4">
-                  <div className="h-2 bg-slate-700 rounded col-span-2"></div>
-                  <div className="h-2 bg-slate-700 rounded col-span-1"></div>
-                </div>
+              <div className="rounded-full bg-slate-700 h-10 w-10"></div>
+              <div className="flex-1 space-y-6 py-1">
                 <div className="h-2 bg-slate-700 rounded"></div>
+                <div className="space-y-3">
+                  <div className="grid grid-cols-3 gap-4">
+                    <div className="h-2 bg-slate-700 rounded col-span-2"></div>
+                    <div className="h-2 bg-slate-700 rounded col-span-1"></div>
+                  </div>
+                  <div className="h-2 bg-slate-700 rounded"></div>
+                </div>
               </div>
             </div>
-          </div>
           ) : (
             <>
-              {displayedCourses?.length || 0 > 0 ? (
+              {filteredCourses && filteredCourses.length > 0 ? (
+
                 <><ol className="grid gap-4">
-                  {displayedCourses?.map(course => (
+                {filteredCourses.slice(startIndex, endIndex).map(course => (
+
                     <li
                       className="p-4 border border-gray-300 rounded shadow-md relative"
                       key={course.id}
@@ -91,10 +99,9 @@ export function Courses() {
                     >
                       Anterior
                     </button>
-
                     <button
                       className="bg-gray-200 p-2 ml-2"
-                      disabled={page === totalPages || totalPages === 0}
+                      disabled={page === totalPages || totalPages ===  0 || (filteredCourses?.length ??  0) === endIndex}
                       onClick={() => setPage(prev => Math.min(prev + 1, totalPages))}
                     >
                       Próxima
@@ -109,17 +116,17 @@ export function Courses() {
                         : 'Nenhum curso criado.'}
                     </p>
                   ) : (
-                    <div className="px-10 space-y-5 lg:py-6 text-center">
-                    <h1 className="text-6xl md:text-7xl max-w-xl font-serif w-11/12 sm:w-9/12">
-                      <span className="underline decoration-black decoration-4">
-                      THERE'S NOTE IN HERE!
-                      </span>{" "}
+                    <><div className="px-10 space-y-5 lg:py-6 text-center">
+                            <h1 className="text-6xl md:text-7xl max-w-xl font-serif w-11/12 sm:w-9/12">
+                              <span className="underline decoration-black decoration-4">
+                                THERE'S NOTE IN HERE!
+                              </span>{" "}
 
-                    </h1>
-                    <h2 className="w-9/12 font-normal">
-                    Oops! There are no courses available!                       </h2>
-                    
-                  </div>
+                            </h1>
+                            <h2 className="w-9/12 font-normal">
+                              Oops! There are no courses available!                       </h2>
+
+                          </div><button onClick={goBack} className="mt-4">Voltar</button></>
                   )}
                 </>
               )}

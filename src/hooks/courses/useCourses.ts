@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useQuery, useMutation } from "react-query";
 import { CoursesResponse, SavedCoursesUser } from "../../types/courseTypes";
@@ -32,6 +32,7 @@ export function useCourses() {
     {
       keepPreviousData: true,
       staleTime: 30*(60*1000),
+     
     }
   );
 
@@ -48,7 +49,7 @@ export function useCourses() {
 
   const totalPages = Math.ceil(filteredCourses?.length || 0  / cardsPerPage);
 
-  const displayedCourses = filteredCourses?.slice(startIndex, endIndex);
+ 
 
 
   function isCourseSaved(savedUsers: SavedCoursesUser[], userId: string): boolean {
@@ -98,7 +99,7 @@ export function useCourses() {
     }
   );
 
-  
+
 
   return {
     search,
@@ -115,12 +116,12 @@ export function useCourses() {
     totalPages,
     cardsPerPage,
     filteredCourses,
-    displayedCourses,
-    startIndex, 
+        startIndex, 
     endIndex,
     isCourseSaved,
     handleSave,
-    handleUnsave
+    handleUnsave, 
+    
   };
 }
 

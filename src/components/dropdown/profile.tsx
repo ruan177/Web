@@ -7,7 +7,7 @@ import {  useUser } from '../../hooks/user/useUpdateUser';
 
 const UserProfile = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, accessToken, logout } = useAuth();
+  const { logout } = useAuth();
   const { updatedUser, isFetching, isError } = useUser(); // Use o hook personalizado
 
   const toggleDropdown = () => {

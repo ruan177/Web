@@ -5,11 +5,13 @@ import { useAuth } from '../../context/loginContext';
 import useAxios from '../../lib/axios';
 import { toast } from 'react-toastify';
 import { queryClient } from '../../lib/queryClient';
+import { useNavigate } from 'react-router-dom';
 
 
 const useProfileImageUpload = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate()
   const { user } = useAuth()
   const axios = useAxios();
   const uploadProfileImage = async (selectedImage: File | null) => {
@@ -44,7 +46,7 @@ const useProfileImageUpload = () => {
         });
         queryClient.invalidateQueries(['userInfo', user?.id]);
         queryClient.refetchQueries(['userInfo', user?.id]);
-        
+        navigate("/")
         
       }
 

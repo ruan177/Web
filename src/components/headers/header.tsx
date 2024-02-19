@@ -22,15 +22,15 @@ export default function Header(props: any) {
             <img src={logo} width="60" height="60" alt="Logo" />
           </NavLink>
         </div>
-        
+
 
         {/* Menu Button */}
         {user ? (
-            <>
-          <button
-            className="md:hidden text-black focus:outline-none"
+          <>
+            <button
+              className="md:hidden text-black focus:outline-none"
 
-          >
+            >
               <UserProfile />
             </button></>
         ) : (
@@ -48,16 +48,13 @@ export default function Header(props: any) {
           {!user && (
             <><NavLink className="block font-medium rounded-lg text-sm text-black mb-2" to="/courses">
               Cursos
+            </NavLink>
+              <NavLink className="block font-medium rounded-lg text-sm text-black mb-2"
+                to="/docs"
+
+              >
+                Como usar?
               </NavLink>
-              <Link className="block font-medium rounded-lg text-sm text-black mb-2"
-              to="about"
-              spy={true}
-              smooth={true}
-              offset={-70} // Ajuste conforme necessário
-              duration={500}
-            >
-              Sobre nos
-            </Link>
               <hr className="my-2" /><NavLink className=" block font-medium rounded-lg italic 2 text-sm text-black mb-2" to="/login">
                 Sign-in
               </NavLink><NavLink className="block font-medium rounded-lg italic bg-black  text-sm text-white mb-2" to="/register">
@@ -72,17 +69,9 @@ export default function Header(props: any) {
           <NavLink className="flex font-medium rounded-lg text-base text-black" to="/courses">
             Cursos
           </NavLink>
-       
-          <Link className="flex font-medium rounded-lg text-base text-black"
-              to="about"
-              spy={true}
-              smooth={true}
-              offset={-70} // Ajuste conforme necessário
-              duration={500}
-            >
-              About Us
-            </Link>
-
+          <NavLink className="block font-medium rounded-lg text-base text-black " to="/docs" >
+            Como usar?
+          </NavLink>
         </div>
 
         {/* Avatar */}

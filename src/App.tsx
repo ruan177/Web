@@ -19,6 +19,7 @@ import { AuthProvider } from './context/loginContext';
 import { PrivateRoute } from './lib/privateRoute';
 import { SavedCourses } from "./pages/course/savedCourses";
 import { AdminRoute } from "./lib/AdminRoute";
+import MarkdownTutorialPage from "./pages/docs";
 
 
 
@@ -47,6 +48,7 @@ export default function App() {
             <Route path="/reset" element={<ResetPasswordForm />} errorElement={<Error />} />,
             <Route path="/error" element={<Error />} />,
             <Route path="/saved" element={< SavedCourses/>} />,
+            <Route path="/docs" element={<MarkdownTutorialPage />} />
           </Routes>
         </BrowserRouter>
       </QueryClientProvider>

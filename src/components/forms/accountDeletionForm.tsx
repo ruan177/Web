@@ -19,8 +19,8 @@ import { useDeleteAccount } from "../../hooks/user/useDeleteAccount";
   return (
     <>
       <div className="w-full max-w-screen-md mx-auto shadow-md p-4 md:p-8">
-        <h3 className="text-xl font-bold text-gray-900 mb-4 md:mb-6 text-center">Account Deletion</h3>
-        <p className="mb-2 md:mb-4 text-center text-red-500">WARNING: This action cannot be undone!</p>
+        <h3 className="text-xl font-bold text-gray-900 mb-4 md:mb-6 text-center">Deletar Conta</h3>
+        <p className="mb-2 md:mb-4 text-center text-red-500">Cuidado: Esta ação não pode ser desfeita!</p>
         <div className="flex justify-center md:justify-end">
           <button
             className="bg-red-500 hover:bg-red-700 rounded text-black font-bold py-2 px-6 md:py-2 md:px-8 focus:outline-none focus:shadow-outline flex items-center transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"

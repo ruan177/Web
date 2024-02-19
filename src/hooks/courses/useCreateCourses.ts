@@ -5,12 +5,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import useAxios from "../../lib/axios";
 import { useAuth } from "../../context/loginContext";
 import { queryClient } from "../../lib/queryClient";
+import { useNavigate } from "react-router-dom";
 export function useCreateCourse() {
 
   const [CourseName, setCourseName] = useState('');
   const [BodyCourseContent, setBodyCourseContent] = useState('');
   const [CourseDescription, setCourseDescription] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
   const axios = useAxios();
@@ -39,6 +41,7 @@ export function useCreateCourse() {
         });
         queryClient.invalidateQueries('MyCourses');
         queryClient.refetchQueries(['MyCourses']);
+        navigate(`/mycourses/${user?.id}`);
    }
       // Redirect or show success message
     } catch (error: any) {

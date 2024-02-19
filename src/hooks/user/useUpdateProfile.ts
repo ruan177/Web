@@ -4,10 +4,12 @@ import { useMutation } from "react-query";
 import { queryClient } from "../../lib/queryClient";
 import { useAuth } from "../../context/loginContext";
 import useAxios from "../../lib/axios";
+import { useNavigate } from "react-router-dom";
 
 export const useUpdateProfile = () => {
   const [newUsername, setNewUsername] = useState("");
   const [username, setUsername] = useState("");
+  const navigate = useNavigate()
   const [showSuccessProfileChangeMessage, setShowSuccessProfileChangeMessage] = useState(false);
   const { user } = useAuth();
   const axios = useAxios();
@@ -23,6 +25,7 @@ export const useUpdateProfile = () => {
       setShowSuccessProfileChangeMessage(true);
       queryClient.invalidateQueries(['userInfo', user?.id]);
       queryClient.refetchQueries(['userInfo', user?.id]);
+
     },
   });
 

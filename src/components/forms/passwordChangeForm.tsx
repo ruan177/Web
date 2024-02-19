@@ -16,6 +16,8 @@ const PasswordChangeForm = () => {
     isLoading
   } = useUpdatePassword();
 
+
+
   return (
     <div className="w-full shadow-md rounded bg-white p-8">
       <h3 className="text-xl overline font-bold text-gray-900 mb-6 text-center">Password</h3>

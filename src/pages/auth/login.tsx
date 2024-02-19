@@ -54,8 +54,8 @@ export function Login() {
 
                         <div className="mb-16 px-8 ">
                             <div className="flex justify-between items-center">
-                                <label className="font-serif block text-gray-700 text-xl  mb-2">Password</label>
-                                <a href="/reset" className=" font-serif text-blue-500 italic text-lg underline underline-offset-1">Forgot Password?</a>
+                                <label className="font-serif block text-gray-700 text-xl  mb-2">Senha: </label>
+                                <a href="/reset" className=" font-serif text-blue-500 italic text-lg underline underline-offset-1">Esqueceu a Senha?</a>
                             </div>
 
 
@@ -89,12 +89,12 @@ export function Login() {
                                         Entrando...
                                     </>
                                 ) : (
-                                    'Logar'
+                                    'Entrar'
                                 )}
                             </button>
                             <div className="mt-6">
-                                <a className="font-serif text-xl">Don't have a Account? </a>
-                                <a href="/register" className=" font-serif text-blue-500  text-xl underline underline-offset-1">Create Account</a>
+                                <a className="font-serif text-xl">Não possui uma conta? </a>
+                                <a href="/register" className=" font-serif text-blue-500  text-xl underline underline-offset-1">Criar Conta</a>
                             </div>
                         </div>
 

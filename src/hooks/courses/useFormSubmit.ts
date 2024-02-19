@@ -4,12 +4,14 @@ import { toast } from "react-toastify";
 import useAxios from "../../lib/axios";
 import { useAuth } from "../../context/loginContext";
 import { queryClient } from "../../lib/queryClient";
+import { useNavigate } from "react-router-dom";
 
 export function useFormSubmit(uuid: string | undefined) {
 
     const [courseName, setCourseName] = useState('');
     const [bodyCourseContent, setBodyCourseContent] = useState('');
     const [courseDescription, setCourseDescription] = useState('');
+    const navigate = useNavigate();
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const {user} = useAuth();
@@ -39,6 +41,7 @@ export function useFormSubmit(uuid: string | undefined) {
           });
           queryClient.invalidateQueries(['course', uuid ])
           queryClient.refetchQueries(['course', uuid ])
+          navigate(`/mycourses/${user?.id}`);
         }
       } catch (error: any) {
         setError(error.response.data.error);

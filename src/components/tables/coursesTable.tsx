@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Checkbox, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useAdminCourses } from '../../hooks/admin/useAdminCourses';
 
 interface Course {
   id: number;
@@ -11,37 +12,24 @@ interface Course {
 
 interface CoursesTableProps {
   activeTab: string;
-  coursesData: Course[] | undefined;
-  isCoursesEditMode: boolean;
-  selectedCourses: number[];
-  handleCoursesEdit: () => void;
-  handleCourseDelete: () => void;
-  handleCourseSelect: (courseId: number) => void;
-  handleCoursesCancel: () => void;
-  handleCoursesSave: () => void;
-  setCoursesData: (updatedCourses: Course[]) => void;
-  coursePage: number;
-  setCoursePage: (page: number) => void;
-  displayedCourses: Course[];
-  courseTotalPages: number;
+
 }
 
-const CoursesTable: React.FC<CoursesTableProps> = ({
-  activeTab,
-  coursesData,
-  isCoursesEditMode,
-  selectedCourses,
-  handleCoursesEdit,
-  handleCourseDelete,
-  handleCourseSelect,
-  handleCoursesCancel,
-  handleCoursesSave,
-  setCoursesData,
-  coursePage,
-  setCoursePage,
-  displayedCourses,
-  courseTotalPages
-}) => {
+const CoursesTable: React.FC<CoursesTableProps> = ({activeTab}) => {
+  const {
+    coursesData,
+    isCoursesEditMode,
+    selectedCourses,
+    handleCoursesEdit,
+    handleCourseDelete,
+    handleCourseSelect,
+    handleCoursesCancel,
+    handleCoursesSave,
+    setCoursesData,
+    coursePage,
+    setCoursePage,
+    displayedCourses,
+    courseTotalPages } = useAdminCourses();
   return (
     <>
       {activeTab === 'courses' && (

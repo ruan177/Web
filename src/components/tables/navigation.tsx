@@ -2,8 +2,8 @@
 import React, { useState } from 'react';
 import { AiOutlineArrowLeft, AiOutlineClose } from 'react-icons/ai';
 import { FaHome } from 'react-icons/fa';
-import { FiChevronRight } from 'react-icons/fi';
-import { NavLink } from 'react-router-dom';
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 interface NavigationProps {
   setActiveTab: (tab: 'users' | 'courses') => void;
@@ -24,59 +24,67 @@ const Navigation: React.FC<NavigationProps> = ({ setActiveTab, activeTab }) => {
     setActiveTab(tab);
     setIsDrawerOpen(true);
   };
+  const navigate = useNavigate();
 
- 
+  const goBack = () => {
+    navigate(-1); // Navigates back by one entry in the history stack
+  };
+
+
 
   return (
     <>
-    {!isDrawerOpen && (
-      <button onClick={openDrawer}>
-        <FiChevronRight className="text-black" />
-      </button>
-    )}
+      {!isDrawerOpen && (
+        <button onClick={openDrawer}>
+          <FiChevronRight className="text-black" />
+        </button>
+      )}
 
-    {isDrawerOpen && (
-    <div className={`w-1/12 h-full bg-gray-200 p-4 `}>
-      <div className="flex justify-between items-center mb-4">
-        
-        <div className="cursor-pointer text-black">
-         
-            <AiOutlineClose  onClick={closeDrawer} />
-         
+      {isDrawerOpen && (
+        <><div className={`w-1/12 h-full bg-gray-200 p-4 `}>
+          <div className="flex justify-between items-center mb-4">
+
+            <div className="cursor-pointer text-black">
+
+              <AiOutlineClose onClick={goBack} />
+
+            </div>
+          </div>
+
+          <ul>
+            <li
+              className={`cursor-pointer py-2 border-b border-gray-300 ${activeTab === 'users' ? 'font-bold' : ''}`}
+              onClick={() => handleTabClick('users')}
+
+            >
+              Users
+            </li>
+            <li
+              className={`cursor-pointer py-2 border-b border-gray-300 ${activeTab === 'courses' ? 'font-bold' : ''}`}
+              onClick={() => handleTabClick('courses')}
+
+            >
+              Courses
+            </li>
+          </ul>
+          <div className="absolute bottom-4 left-4">
+            <div className=" text-base">
+              <NavLink to="/">
+                <FaHome />
+                back
+              </NavLink>
+              <p>
+
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
-
-      <ul>
-        <li
-          className={`cursor-pointer py-2 border-b border-gray-300 ${activeTab === 'users' ? 'font-bold' : ''}`}
-          onClick={() => handleTabClick('users')}
-
-        >
-          Users
-        </li>
-        <li
-          className={`cursor-pointer py-2 border-b border-gray-300 ${activeTab === 'courses' ? 'font-bold' : ''}`}
-          onClick={() => handleTabClick('courses')}
-
-        >
-          Courses
-        </li>
-      </ul>
-        <div className="absolute bottom-4 left-4">
-        <div className=" text-base">
-          <NavLink to="/">
-          <FaHome />
-            
-          </NavLink>
-          <p>
-          back 
-          </p>
-        </div>
-        </div>
-    </div>
-    )}
+          <button onClick={closeDrawer}>
+            <FiChevronLeft className="text-black" />
+          </button></>
+      )}
     </>
-  
+
   );
 };
 
