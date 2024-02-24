@@ -41,6 +41,10 @@ export function useFormSubmit(uuid: string | undefined) {
           });
           queryClient.invalidateQueries(['course', uuid ])
           queryClient.refetchQueries(['course', uuid ])
+          queryClient.invalidateQueries('MyCourses');
+          queryClient.refetchQueries('MyCourses');
+          queryClient.invalidateQueries('courses');
+          queryClient.refetchQueries('courses');
           navigate(`/mycourses/${user?.id}`);
         }
       } catch (error: any) {
