@@ -30,11 +30,11 @@ export function Courses() {
   } = useCourses()
 
 
-
+  const navigate = useNavigate();
   const [showTooltip, setShowTooltip] = useState(false);
   const [hoveredCourseId, setHoveredCourseId] = useState(null);
 
-  const handleMouseEnter = (courseId) => {
+  const handleMouseEnter = (courseId: any) => {
     setShowTooltip(true);
     setHoveredCourseId(courseId);
   };
