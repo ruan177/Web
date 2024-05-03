@@ -44,11 +44,10 @@ const Navigation: React.FC<NavigationProps> = ({ setActiveTab, activeTab }) => {
         <><div className={`w-1/12 h-full bg-gray-200 p-4 `}>
           <div className="flex justify-between items-center mb-4">
 
-            <div className="cursor-pointer text-black">
-
-              <AiOutlineClose onClick={goBack} />
-
-            </div>
+          <div className="cursor-pointer text-black flex items-center justify-between w-full">
+ <span>Admin</span>
+ <AiOutlineClose onClick={goBack} />
+</div>
           </div>
 
           <ul>

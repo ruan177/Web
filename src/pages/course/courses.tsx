@@ -40,7 +40,8 @@ export function Courses() {
     <div>
       <Header />
       <div className="flex flex-col items-center justify-center mt-8">
-        <div className="max-w-3xl mx-auto w-full">
+        <h3 className="font-serif block text-gray-700 text-3xl mt-2">Cursos</h3>
+        <div className="max-w-3xl mx-auto w-full mt-2">
           <input
             name="search"
             type="text"

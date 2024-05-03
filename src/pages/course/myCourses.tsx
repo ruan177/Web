@@ -30,8 +30,9 @@ export function MyCourses() {
   return (
     <div>
       <Header />
-      <div className="flex flex-col items-center justify-center mt-8">
-        <div className="max-w-3xl mx-auto w-full">
+      <div className="flex flex-col items-center justify-center mt-4">
+      <h3 className="font-serif block text-gray-700 text-3xl ">Meus Cursos</h3>
+        <div className="max-w-3xl mx-auto w-full mt-2">
 
 
           {isFetching ? (

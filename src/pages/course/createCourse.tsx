@@ -33,7 +33,7 @@ export function CreateCourse() {
       <div className="container mx-auto px-4 py-16 max-w-4xl">
         {/* Page Title */}
         <h1 className="text-center text-4xl font-bold tracking-tight text-gray-900 mb-8">
-          CREATE CONTENT
+          CRIAR CONTEUDO
         </h1>
 
         {/* Course Title Input */}

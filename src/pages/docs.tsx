@@ -6,9 +6,9 @@ import Header from '../components/headers/header';
 
 const MarkdownTutorialPage = () => {
   const [markdown, setMarkdown] = useState(`
-# Título da Página
+  # DOCS
 
-## Sintaxe Básica do Markdown
+
 
 Markdown é uma linguagem de marcação leve que você pode usar para adicionar formatação a texto simples. Aqui estão alguns exemplos de como usar o Markdown:
 
@@ -113,6 +113,7 @@ function helloWorld() {
   return (
     <div className="markdown-tutorial-page">
       <Header />
+      
       <div data-color-mode="light" className="w-full max-w-screen-xl mx-auto p-4">
         <div style={{ maxWidth: '100%', overflowX: 'auto' }}>
           <MarkdownPreview source={markdown} />
