@@ -4,11 +4,21 @@ import Header from "../../components/headers/header";
 import { AxiosError } from "axios";
 
 import { useSavedCourses } from '../../hooks/courses/useSavedCourses';
+import { useState } from 'react';
+import { useAuth } from '../../context/loginContext';
+import { useCourses } from '../../hooks/courses/useCourses';
+import { FaRegStar, FaStar } from 'react-icons/fa';
 
 
 
 export function SavedCourses() {
+  const { user } = useAuth();
+  const {
+    isCourseSaved,
+    handleSave,
+    handleUnsave,
 
+  } = useCourses()
   const {
     search,
     setSearch,
@@ -20,12 +30,23 @@ export function SavedCourses() {
     totalPages,
     displayedCourses,
   } = useSavedCourses()
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [hoveredCourseId, setHoveredCourseId] = useState(null);
 
+  const handleMouseEnter = (courseId) => {
+    setShowTooltip(true);
+    setHoveredCourseId(courseId);
+  };
+
+  const handleMouseLeave = () => {
+    setShowTooltip(false);
+    setHoveredCourseId(null);
+  };
   return (
     <div>
       <Header />
       <div className="flex flex-col items-center justify-center mt-8">
-      <h3 className="font-serif block text-gray-700 text-3xl ">Cursos Salvos</h3>
+        <h3 className="font-serif block text-gray-700 text-3xl ">Cursos Salvos</h3>
         <div className="max-w-3xl mx-auto w-full mt-2">
           <input
             name="search"
@@ -63,7 +84,29 @@ export function SavedCourses() {
                         <h3 className="text-xl font-bold">{course.name}</h3>
                       </Link>
                       <p className="text-gray-600">{course.description}</p>
-
+                      {user && (
+                        <div className="absolute top-2 right-2">
+                          {isCourseSaved(course.savedUsers, user?.id) ? (
+                            <div
+                              onMouseEnter={() => handleMouseEnter(course.id)}
+                              onMouseLeave={handleMouseLeave}
+                            >
+                              <FaStar onClick={() => handleUnsave.mutate({ courseId: course.id, userId: user?.id })} />
+                              {showTooltip && hoveredCourseId === course.id && <div className="absolute bg-gray-800 text-white text-center p-1 rounded-md font-medium bottom-full left-1/2 transform -translate-x-1/2 z-10">
+                                Desfavoritar</div>}
+                            </div>
+                          ) : (
+                            <div
+                              onMouseEnter={() => handleMouseEnter(course.id)}
+                              onMouseLeave={handleMouseLeave}
+                            >
+                              <FaRegStar onClick={() => handleSave.mutate({ courseId: course.id, userId: user?.id })} />
+                              {showTooltip && hoveredCourseId === course.id && <div className="absolute bg-gray-800 text-white text-center p-1 rounded-md font-medium bottom-full left-1/2 transform -translate-x-1/2 z-10">
+                                Favoritar</div>}
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </li>
                   ))}
                 </ol><div className="flex justify-center mt-4">
