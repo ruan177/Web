@@ -68,9 +68,7 @@ export default function Header(props: any) {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex gap-8 items-center">
-        <NavLink className="block font-medium rounded-lg text-base text-black" to="/course/create">
-              Criar
-            </NavLink>
+
           <NavLink className="flex font-medium rounded-lg text-base text-black" to="/courses">
             Cursos
           </NavLink>
