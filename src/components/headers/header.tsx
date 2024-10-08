@@ -46,7 +46,9 @@ export default function Header(props: any) {
         <div className={`md:hidden absolute text-center top-16 right-0 bg-white p-4 ${menuOpen ? 'block' : 'hidden'}`}>
 
           {!user && (
-            <><NavLink className="block font-medium rounded-lg text-sm text-black mb-2" to="/courses">
+            <>
+
+            <NavLink className="block font-medium rounded-lg text-sm text-black mb-2" to="/courses">
               Cursos
             </NavLink>
               <NavLink className="block font-medium rounded-lg text-sm text-black mb-2"
@@ -66,6 +68,9 @@ export default function Header(props: any) {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex gap-8 items-center">
+        <NavLink className="block font-medium rounded-lg text-base text-black" to="/course/create">
+              Criar
+            </NavLink>
           <NavLink className="flex font-medium rounded-lg text-base text-black" to="/courses">
             Cursos
           </NavLink>
@@ -98,3 +103,5 @@ export default function Header(props: any) {
     </nav>
   );
 }
+
+
