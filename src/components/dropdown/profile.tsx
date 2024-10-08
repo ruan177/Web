@@ -4,6 +4,8 @@ import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../context/loginContext';
 import { useUser } from '../../hooks/user/useUpdateUser';
 import { FaUser, FaCog, FaSave, FaSignOutAlt } from 'react-icons/fa';
+import { GrAdd } from "react-icons/gr";
+import { HiAcademicCap } from "react-icons/hi2";
 
 const UserProfile = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -57,11 +59,11 @@ const UserProfile = () => {
       </li>
    )}
    <li className="px-4 py-2 hover-bg-gray-100 hover:bg-gray-200 flex items-center min-w-[200px] whitespace-nowrap overflow-hidden text-overflow-ellipsis">
-      <FaCog className="mr-2" />
+      <HiAcademicCap  className="mr-2" />
       <NavLink to={`/mycourses/${updatedUser?.id}`}>Meus Cursos</NavLink>
    </li>
    <li className="px-4 py-2 hover-bg-gray-100 hover:bg-gray-200 flex items-center min-w-[200px] whitespace-nowrap overflow-hidden text-overflow-ellipsis">
-      <FaCog className="mr-2" />
+      <GrAdd className="mr-2" />
       <NavLink to="/course/create">Criar</NavLink>
    </li>
    <li className="px-4 py-2 hover-bg-gray-100 hover:bg-gray-200 flex items-center min-w-[200px] whitespace-nowrap overflow-hidden text-overflow-ellipsis">
