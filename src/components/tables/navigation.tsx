@@ -66,7 +66,7 @@ const Navigation: React.FC<NavigationProps> = ({ setActiveTab, activeTab }) => {
               Courses
             </li>
           </ul>
-          <div className="absolute bottom-4 left-4">
+          <div className="absolute bottom-4 left-4 md:block hidden">
             <div className=" text-base">
               <NavLink to="/">
                 <FaHome />
