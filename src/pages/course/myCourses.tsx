@@ -29,9 +29,9 @@ export function MyCourses() {
   };
   return (
     <div>
-      <Header />
+<Header />
       <div className="flex flex-col items-center justify-center mt-4">
-      <h3 className="font-serif block text-gray-700 text-3xl ">Meus Cursos</h3>
+        <h3 className="font-serif block text-gray-700 text-3xl ">Meus Cursos</h3>
         <div className="max-w-3xl mx-auto w-full mt-2">
 
 
@@ -61,32 +61,32 @@ export function MyCourses() {
                     onChange={e => setSearch(e.target.value)}
                     value={search}
                   />
-                  <ol className="grid gap-4">
-                    {filteredCourses.slice(startIndex, endIndex).map(course => (
-                      <li
-                        className="p-4 border border-gray-300 rounded shadow-md relative"
-                        key={course.id}
-                      >
-                        <Link to={`/courses/${course.id}`}>
-                          <h3 className="text-xl font-bold">{course.name}</h3>
-                        </Link>
-                        <p className="text-gray-600">{course.description}</p>
+  <ol className="grid gap-4">
+                {filteredCourses.slice(startIndex, endIndex).map(course => (
+                  <li
+                    className="p-4 border border-gray-300 rounded shadow-md relative sm:relative flex flex-col"
+                    key={course.id}
+                  >
+                    <Link to={`/courses/${course.id}`}>
+                      <h3 className="text-xl font-bold">{course.name}</h3>
+                    </Link>
+                    <p className="text-gray-600">{course.description}</p>
 
-                        <div className="flex flex-row space-x-1 absolute top-2 right-2">
-                          <Link to={`/course/${course.id}/update`}>
-                            <button className="bg-black hover:bg-gray-700 text-white font-bold py-1 px-2 rounded inline-flex items-center">
-                              <AiOutlineEdit className="mr-2" size={16} />
-                              Editar
-                            </button>
-                          </Link>
-                          <button onClick={() => handleDeleteCourse(course.id)} className="bg-white hover:bg-red-700 text-black font-bold py-1 px-2 rounded inline-flex items-center border boreder-black">
-                            <AiOutlineDelete className="mr-2" size={12} />
-                            Excluir
-                          </button>
-                        </div>
-                      </li>
-                    ))}
-                  </ol>
+                    <div className="flex flex-row space-x-1 mt-4 sm:absolute sm:top-2 sm:right-2">
+                      <Link to={`/course/${course.id}/update`}>
+                        <button className="bg-black hover:bg-gray-700 text-white font-bold py-1 px-2 rounded inline-flex items-center">
+                          <AiOutlineEdit className="mr-2" size={16} />
+                          Editar
+                        </button>
+                      </Link>
+                      <button onClick={() => handleDeleteCourse(course.id)} className="bg-white hover:bg-red-700 text-black font-bold py-1 px-2 rounded inline-flex items-center border border-black">
+                        <AiOutlineDelete className="mr-2" size={12} />
+                        Excluir
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ol>
                   <div className="flex justify-center mt-4">
                     <button
                       className="bg-gray-200 p-2 mr-2"
