@@ -41,7 +41,7 @@ const Navigation: React.FC<NavigationProps> = ({ setActiveTab, activeTab }) => {
       )}
 
       {isDrawerOpen && (
-        <><div className={`w-1/12 h-full bg-gray-200 p-4 `}>
+        <> <div className={`w-full md:w-1/12 h-full bg-gray-200 p-4 md:p-4`}>
           <div className="flex justify-between items-center mb-4">
 
           <div className="cursor-pointer text-black flex items-center justify-between w-full">
