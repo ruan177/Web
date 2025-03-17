@@ -9,15 +9,15 @@ export const Admin = () => {
   const [activeTab, setActiveTab] = useState<'users' | 'courses'>('users');
     
   return (
-
-    <div className="flex h-screen">
+    <div className="flex flex-col h-screen md:flex-row">
       <Navigation
-         activeTab={activeTab}
-         setActiveTab={setActiveTab}/>
-      <div className=" w-full p-4 ml-10 mr-10">
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+      />
+      <div className="w-full p-4 md:ml-10 md:mr-10">
         <UsersTable
           activeTab={activeTab}
-          />
+        />
         <CoursesTable
           activeTab={activeTab}
         />
